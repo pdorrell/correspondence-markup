@@ -1,3 +1,5 @@
+require 'rspec/core/rake_task'
+
 begin
   require "bundler"
   Bundler.setup
@@ -29,4 +31,10 @@ task :clean do
   FileUtils.rm_rf "pkg"
 end
 
-task :default => :build
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.pattern = 'spec/**/*spec.rb'
+end
+
+task :default => :spec
+
+
