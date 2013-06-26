@@ -1,6 +1,8 @@
+require 'correspondence-ml'
+
 describe "something" do
   it "does something" do
-    puts "Hello from rspec"
+    CorrespondenceML.sayHello.should == "hello"
   end
 end
 
