@@ -1,0 +1,5 @@
+grammar CorrespondenceMarkupLanguage
+  rule number
+    [0-9]+
+  end
+end
