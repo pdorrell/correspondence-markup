@@ -3,7 +3,7 @@ require 'treetop'
 
 require 'correspondence-ml/grammar'
 
-module CorrespondenceML
+module CorrespondenceMarkupLanguage
   
   def self.sayHello
     "hello"
