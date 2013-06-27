@@ -28,8 +28,19 @@ module CorrespondenceMarkup
       parse("[[1 an item] in between stuff [2 a second item]]", :structure).value.should == 
         Structure.new([Item.new(1, "an item"), NonItem.new(" in between stuff "), 
                        Item.new(2, "a second item")])
-      
     end
+    
+    it "compiles structure group" do
+      parse("[ [[1 Hello] in between stuff [2 world]] [[1 Hola]  [2 mundo]] ]", 
+            :structure_group).value.should == 
+        StructureGroup.new([
+                            Structure.new([Item.new(1, "Hello"), NonItem.new(" in between stuff "), 
+                                           Item.new(2, "world")]), 
+                            Structure.new([Item.new(1, "Hola"), NonItem.new("  "), 
+                                           Item.new(2, "mundo")])
+                            ]);
+    end
+    
     
   end
 
