@@ -1,4 +1,8 @@
+require "correspondence-ml/types"
+
 grammar CorrespondenceMarkupLanguage
+
+  include CorrespondenceMarkup
 
   rule structure_group
     "[" [\s]* (structure [\s]*)* "]"
@@ -17,7 +21,12 @@ grammar CorrespondenceMarkupLanguage
   end
 
   rule item
-    "[" number [\s]+ (![\]] .)* "]"
+    "[" number [\s]+ text:(![\]] .)* "]"
+    { 
+      def value
+        CorrespondenceMarkup::Item.new(number.value, text.text_value)
+      end
+    }
   end
 
   rule number
