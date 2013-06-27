@@ -31,14 +31,20 @@ module CorrespondenceMarkup
     end
     
     it "compiles structure group" do
-      parse("[ [[1 Hello] in between stuff [2 world]] [[1 Hola]  [2 mundo]] ]", 
-            :structure_group).value.should == 
+      expectedStructureGroup = 
         StructureGroup.new([
                             Structure.new([Item.new(1, "Hello"), NonItem.new(" in between stuff "), 
                                            Item.new(2, "world")]), 
                             Structure.new([Item.new(1, "Hola"), NonItem.new("  "), 
                                            Item.new(2, "mundo")])
                             ]);
+      parse("[ [[1 Hello] in between stuff [2 world]] [[1 Hola]  [2 mundo]] ]", 
+            :structure_group).value.should == expectedStructureGroup
+      parse("[ [[1 Hello] in between stuff [2 world]][[1 Hola]  [2 mundo]] ]", 
+            :structure_group).value.should == expectedStructureGroup
+      parse("[[[1 Hello] in between stuff [2 world]][[1 Hola]  [2 mundo]]]",
+            :structure_group).value.should == expectedStructureGroup
+        
     end
     
     
