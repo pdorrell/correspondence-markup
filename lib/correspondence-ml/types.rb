@@ -47,5 +47,9 @@ module CorrespondenceMarkup
     def initialize(structures)
       @structures = structures
     end
+
+    def ==(otherStructureGroup)
+      otherStructureGroup.class == StructureGroup && otherStructureGroup.structures == @structures
+    end
   end
 end

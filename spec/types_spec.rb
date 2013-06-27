@@ -61,6 +61,22 @@ module CorrespondenceMarkup
         structureGroup.structures[1].should == 
           Structure.new([Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])
       end
+      
+      it "structure groups are equal if their content is equal" do
+        structureGroup = 
+          StructureGroup.new([Structure.new([Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
+                              Structure.new([Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
+        identicalGroup = 
+          StructureGroup.new([Structure.new([Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
+                              Structure.new([Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
+        notQuiteTheSameGroup = 
+          StructureGroup.new([Structure.new([Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
+                              Structure.new([Item.new(1, "Holla"), NonItem.new(" "), Item.new(2, "mundo")])])
+        structureGroup.should == structureGroup
+        structureGroup.should == identicalGroup
+        structureGroup.should_not == "something else"
+        structureGroup.should_not == notQuiteTheSameGroup
+      end
     end
     
   end
