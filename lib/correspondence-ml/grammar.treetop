@@ -1,5 +1,17 @@
 grammar CorrespondenceMarkupLanguage
 
+  rule structure
+    "[" item_or_non_item* "]"
+  end
+
+  rule item_or_non_item
+    item / non_item
+  end
+
+  rule non_item
+    (![\[\]] .)+
+  end
+
   rule item
     "[" number [\s]+ (![\]] .)* "]"
   end
