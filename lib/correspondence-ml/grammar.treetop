@@ -9,11 +9,13 @@ grammar CorrespondenceMarkupLanguage
   end
 
   rule structure
-    "[" item_or_non_item* "]"
-  end
-
-  rule item_or_non_item
-    item / non_item
+    "[" components:(item / non_item)* "]"
+    { 
+      def value
+        CorrespondenceMarkup::Structure.new(components.elements.map &:value)
+      end
+    }
+    
   end
 
   rule non_item

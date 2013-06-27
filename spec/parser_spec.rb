@@ -53,12 +53,6 @@ describe "markup language grammar" do
     should_partly_parse(:non_item, [[" [", " "]])
   end
   
-  it "parses item_or_non_item" do
-    should_parse(:item_or_non_item, ["anything", "[1 jim]"])
-    should_partly_parse(:item_or_non_item, [["anything [1 jim]", "anything "], 
-                                            ["[1 jim] anything", "[1 jim]"]])
-  end
-  
   it "parses structure from [ text & items ...]" do
     should_parse(:structure, ["[]", 
                               "[[1 Hello]]", 
