@@ -20,6 +20,10 @@ module CorrespondenceMarkup
       parse("[31 text]", :item).value.should == Item.new(31, "text")
     end
     
+    it "compiles non-item" do
+      parse("anything at all", :non_item).value.should == NonItem.new("anything at all")
+    end
+    
   end
 
 end

@@ -17,7 +17,12 @@ grammar CorrespondenceMarkupLanguage
   end
 
   rule non_item
-    (![\[\]] .)+
+    text:(![\[\]] .)+
+    { 
+      def value
+        CorrespondenceMarkup::NonItem.new(text.text_value)
+      end
+    }
   end
 
   rule item

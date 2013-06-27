@@ -22,5 +22,9 @@ module CorrespondenceMarkup
     def initialize(text)
       @text = text
     end
+    
+    def ==(otherNonItem)
+      otherNonItem.class == NonItem && otherNonItem.text == @text
+    end
   end
 end

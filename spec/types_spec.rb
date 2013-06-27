@@ -11,11 +11,13 @@ module CorrespondenceMarkup
       end
       
       it "items with same number and text are equal" do
-        Item.new(34, "text").should == Item.new(34, "text")
-        Item.new(34, "text").should_not == "something else"
-        Item.new(34, "text").should_not == Item.new(35, "text")
-        Item.new(34, "text").should_not == Item.new(34, "different text")
-        Item.new(34, "text").should_not == Item.new(35, "different text")
+        item = Item.new(34, "text")
+        item.should == item
+        item.should == Item.new(34, "text")
+        item.should_not == "something else"
+        item.should_not == Item.new(35, "text")
+        item.should_not == Item.new(34, "different text")
+        item.should_not == Item.new(35, "different text")
       end
     end
     
@@ -24,6 +26,15 @@ module CorrespondenceMarkup
         nonItem = NonItem.new("the text")
         nonItem.text.should == "the text"
       end
+      
+      it "non-items with same text are equal" do
+        nonItem = NonItem.new("the text")
+        nonItem.should == nonItem
+        nonItem.should == NonItem.new("the text")
+        nonItem.should_not == "something else"
+        nonItem.should_not == NonItem.new("different text")
+      end
+        
     end
     
   end
