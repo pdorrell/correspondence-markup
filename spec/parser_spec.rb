@@ -27,4 +27,15 @@ describe "markup language grammar" do
     should_not_parse(:number, ["", "-45", "6 7", "jim"])
   end
   
+  it "parses item as [<number><whitespace><whatever>]" do
+    should_parse(:item, ["[34 item text]", "[56 99]"])
+    should_not_parse(:item, ["34 item text]", 
+                             "[item text]", 
+                             "[34 item", 
+                             "[34 item]]", 
+                             "[34 item] more", 
+                             "[34]", 
+                            ])
+  end
+  
 end
