@@ -42,6 +42,15 @@ module CorrespondenceMarkup
         structure = Structure.new([Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
         structure.content.should == [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]
       end
+      
+      it "structure is equal to a structure with the same content" do
+        structure = Structure.new([Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
+        structure.should_not == "something else"
+        structure.should == Structure.new([Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
+        structure.should_not == Structure.new([Item.new(1, "hello"), NonItem.new("space"), Item.new(2, "world")])        
+        structure.should_not == Structure.new([Item.new(1, "hello"), NonItem.new(" ")])        
+        structure.should_not == Structure.new([Item.new(1, "hello"), NonItem.new(" "), Item.new(3, "world")])
+      end
     end
     
   end

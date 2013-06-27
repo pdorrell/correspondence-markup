@@ -35,5 +35,9 @@ module CorrespondenceMarkup
     def initialize(content)
       @content = content
     end
+
+    def ==(otherStructure)
+      otherStructure.class == Structure && otherStructure.content == @content
+    end
   end
 end
