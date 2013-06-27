@@ -1,5 +1,9 @@
 grammar CorrespondenceMarkupLanguage
 
+  rule structure_group
+    "[" [\s]* (structure [\s]*)* "]"
+  end
+
   rule structure
     "[" item_or_non_item* "]"
   end
