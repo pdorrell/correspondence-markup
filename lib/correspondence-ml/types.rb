@@ -27,4 +27,13 @@ module CorrespondenceMarkup
       otherNonItem.class == NonItem && otherNonItem.text == @text
     end
   end
+  
+  # A structure, containing a sequence of items and non-items
+  class Structure
+    attr_reader :content
+    
+    def initialize(content)
+      @content = content
+    end
+  end
 end

@@ -37,5 +37,12 @@ module CorrespondenceMarkup
         
     end
     
+    describe "Structure type" do
+      it "structure has content attribute" do
+        structure = Structure.new([Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
+        structure.content.should == [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]
+      end
+    end
+    
   end
 end
