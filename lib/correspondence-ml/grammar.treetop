@@ -21,10 +21,10 @@ grammar CorrespondenceMarkupLanguage
   end
 
   rule item
-    "[" number [\s]+ text:(![\]] .)* "]"
+    "[" id:number [\s]+ text:(![\]] .)* "]"
     { 
       def value
-        CorrespondenceMarkup::Item.new(number.value, text.text_value)
+        CorrespondenceMarkup::Item.new(id.value, text.text_value)
       end
     }
   end
