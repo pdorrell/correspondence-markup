@@ -53,5 +53,15 @@ module CorrespondenceMarkup
       end
     end
     
+    describe "StructureGroup type" do
+      it "structure group has structures attribute" do
+        structureGroup = 
+          StructureGroup.new([Structure.new([Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
+                              Structure.new([Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
+        structureGroup.structures[1].should == 
+          Structure.new([Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])
+      end
+    end
+    
   end
 end

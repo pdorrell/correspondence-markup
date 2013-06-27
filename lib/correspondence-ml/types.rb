@@ -40,4 +40,12 @@ module CorrespondenceMarkup
       otherStructure.class == Structure && otherStructure.content == @content
     end
   end
+  
+  class StructureGroup
+    attr_reader :structures
+    
+    def initialize(structures)
+      @structures = structures
+    end
+  end
 end
