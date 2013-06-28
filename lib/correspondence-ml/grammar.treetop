@@ -4,8 +4,17 @@ grammar CorrespondenceMarkupLanguage
 
   include CorrespondenceMarkup
 
+  rule structure_groups
+    s groups:("[" structure_group "]" s)*
+    {
+      def value
+        groups.elements.map {|e| e.structure_group.value}
+      end
+    }
+  end
+
   rule structure_group
-    [\s]* structures:("[" structure "]" [\s]*)*
+    s structures:("[" structure "]" s)*
     { 
       def value
         structureObjects = structures.elements.map {|e| e.structure.value}
@@ -33,7 +42,7 @@ grammar CorrespondenceMarkupLanguage
   end
 
   rule item
-    "[" id:number [\s]+ text:(![\]] .)* "]"
+    "[" id:number S text:(![\]] .)* "]"
     { 
       def value
         CorrespondenceMarkup::Item.new(id.value, text.text_value)
@@ -48,6 +57,14 @@ grammar CorrespondenceMarkupLanguage
         text_value.to_i
       end
     }
+  end
+
+  rule s
+    [\s\n\r\t]*
+  end
+
+  rule S
+    [\s\n\r\t]+
   end
 
 end
