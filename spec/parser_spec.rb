@@ -1,18 +1,24 @@
 require 'correspondence-ml'
 
+require 'spec_helper'
+
 describe "markup language grammar" do
-  
+
   def should_parse(root, strings)
     parser = CorrespondenceMarkupLanguageParser.new
     for string in strings
-      parser.parse(string, root: root).should_not be_nil
+      process("parsing #{string.inspect}") do
+        parser.parse(string, root: root).should_not be_nil
+      end
     end
   end
   
   def should_not_parse(root, strings)
     parser = CorrespondenceMarkupLanguageParser.new
     for string in strings
-      parser.parse(string, root: root).should be_nil
+      process("parsing #{string.inspect}") do
+        parser.parse(string, root: root).should be_nil
+      end
     end
   end
   
@@ -22,8 +28,10 @@ describe "markup language grammar" do
     for string_and_expected in strings_and_expected do
       string = string_and_expected[0]
       expected = string_and_expected[1]
-      result = parser.parse(string, root: root)
-      result.text_value.should == expected
+      process("parsing #{string.inspect} and expecting #{expected.inspect}") do
+        result = parser.parse(string, root: root)
+        result.text_value.should == expected
+      end
     end
   end
   
@@ -53,7 +61,7 @@ describe "markup language grammar" do
     should_partly_parse(:non_item, [[" [", " "]])
   end
   
-  it "parses structure from [ text & items ...]" do
+  it "parses structure from text & items ..." do
     should_parse(:structure, ["", 
                               "[1 Hello]", 
                               "[1 Hello][2 world]", 
@@ -63,6 +71,7 @@ describe "markup language grammar" do
                               "non-item [1 item 1] [2 item 2] the end"])
     should_not_parse(:structure, ["[", 
                                   "]", 
+                                  "[]", 
                                   "1 Hello] [2 world", 
                                   "[1 Hello", 
                                   "[1 Hello]]", 
@@ -70,13 +79,15 @@ describe "markup language grammar" do
                                   ])
   end
   
-  it "parses structure group from from [ structure ...]" do
-    should_parse(:structure_group, ["[]", 
-                                    "[[[1 Hello] [2 world]]]", 
-                                    "[[[1 Hello] [2 world]][[1 Hola] [2 Mundo]]]", 
-                                    "[[[1 Hello] [2 world]] [[1 Hola] [2 Mundo]]]", 
-                                    "[ [[1 Hello] [2 world]] [[1 Hola] [2 Mundo]] ]"
+  it "parses structure group from from structure ..." do
+    should_parse(:structure_group, ["", "[]", "[[1 x]]", 
+                                    "[[1 Hello] [2 world]]", 
+                                    "[[1 Hello] [2 world]][[1 Hola] [2 Mundo]]", 
+                                    "[[1 Hello] [2 world]] [[1 Hola] [2 Mundo]]", 
+                                    " [[1 Hello] [2 world]] [[1 Hola] [2 Mundo]] "
                                    ])
+    should_not_parse(:structure_group, ["[", "[[]", "[[]][[", "[[]]]", "[[]]"])
+                                        
   end
   
 end

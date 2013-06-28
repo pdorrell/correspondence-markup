@@ -5,7 +5,7 @@ grammar CorrespondenceMarkupLanguage
   include CorrespondenceMarkup
 
   rule structure_group
-    "[" [\s]* structures:("[" structure "]" [\s]*)* "]"
+    [\s]* structures:("[" structure "]" [\s]*)*
     { 
       def value
         structureObjects = structures.elements.map {|e| e.structure.value}

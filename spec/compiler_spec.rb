@@ -38,11 +38,11 @@ module CorrespondenceMarkup
                             Structure.new([Item.new(1, "Hola"), NonItem.new("  "), 
                                            Item.new(2, "mundo")])
                             ]);
-      parse("[ [[1 Hello] in between stuff [2 world]] [[1 Hola]  [2 mundo]] ]", 
+      parse(" [[1 Hello] in between stuff [2 world]] [[1 Hola]  [2 mundo]] ", 
             :structure_group).value.should == expectedStructureGroup
-      parse("[ [[1 Hello] in between stuff [2 world]][[1 Hola]  [2 mundo]] ]", 
+      parse(" [[1 Hello] in between stuff [2 world]][[1 Hola]  [2 mundo]] ", 
             :structure_group).value.should == expectedStructureGroup
-      parse("[[[1 Hello] in between stuff [2 world]][[1 Hola]  [2 mundo]]]",
+      parse("[[1 Hello] in between stuff [2 world]][[1 Hola]  [2 mundo]]",
             :structure_group).value.should == expectedStructureGroup
         
     end
