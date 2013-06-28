@@ -25,7 +25,7 @@ module CorrespondenceMarkup
     end
     
     it "compiles structure" do
-      parse("[[1 an item] in between stuff [2 a second item]]", :structure).value.should == 
+      parse("[1 an item] in between stuff [2 a second item]", :structure).value.should == 
         Structure.new([Item.new(1, "an item"), NonItem.new(" in between stuff "), 
                        Item.new(2, "a second item")])
     end

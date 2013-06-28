@@ -54,23 +54,20 @@ describe "markup language grammar" do
   end
   
   it "parses structure from [ text & items ...]" do
-    should_parse(:structure, ["[]", 
-                              "[[1 Hello]]", 
-                              "[[1 Hello][2 world]]", 
-                              "[ [1 Hello]]", 
-                              "[non-item text]", 
-                              "[[1 Hello] [2 World].]", 
-                              "[non-item [1 item 1] [2 item 2] the end]"])
-    should_not_parse(:structure, ["", 
-                                  "[", 
+    should_parse(:structure, ["", 
+                              "[1 Hello]", 
+                              "[1 Hello][2 world]", 
+                              " [1 Hello]", 
+                              "non-item text", 
+                              "[1 Hello] [2 World].", 
+                              "non-item [1 item 1] [2 item 2] the end"])
+    should_not_parse(:structure, ["[", 
                                   "]", 
-                                  "[[1 Hello]", 
-                                  "[[1 Hello]]]", 
+                                  "1 Hello] [2 world", 
+                                  "[1 Hello", 
+                                  "[1 Hello]]", 
+                                  "[1 Hello]  [2 world", 
                                   ])
-    should_partly_parse(:structure, [["[] more", "[]"], 
-                                     ["[non-item] more", "[non-item]"], 
-                                     ["[[1 item]] more", "[[1 item]]"], 
-                                     ["[[1 item]] [[2 item in 2nd structure]]", "[[1 item]]"]])
   end
   
   it "parses structure group from from [ structure ...]" do

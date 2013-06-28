@@ -5,7 +5,7 @@ grammar CorrespondenceMarkupLanguage
   include CorrespondenceMarkup
 
   rule structure_group
-    "[" [\s]* structures:(structure [\s]*)* "]"
+    "[" [\s]* structures:("[" structure "]" [\s]*)* "]"
     { 
       def value
         structureObjects = structures.elements.map {|e| e.structure.value}
@@ -15,7 +15,7 @@ grammar CorrespondenceMarkupLanguage
   end
 
   rule structure
-    "[" components:(item / non_item)* "]"
+    components:(item / non_item)*
     { 
       def value
         CorrespondenceMarkup::Structure.new(components.elements.map &:value)
