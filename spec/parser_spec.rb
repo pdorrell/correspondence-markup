@@ -76,7 +76,9 @@ describe "markup language grammar" do
   it "parses structure group from from [ structure ...]" do
     should_parse(:structure_group, ["[]", 
                                     "[[[1 Hello] [2 world]]]", 
-                                    "[[[1 Hello] [2 world]] [[1 Hola] [2 Mundo]]]"
+                                    "[[[1 Hello] [2 world]][[1 Hola] [2 Mundo]]]", 
+                                    "[[[1 Hello] [2 world]] [[1 Hola] [2 Mundo]]]", 
+                                    "[ [[1 Hello] [2 world]] [[1 Hola] [2 Mundo]] ]"
                                    ])
   end
   
