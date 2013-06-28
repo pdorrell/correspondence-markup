@@ -3,7 +3,7 @@ require 'correspondence-ml'
 require 'spec_helper'
 
 describe "markup language grammar" do
-
+  
   def should_parse(root, strings)
     parser = CorrespondenceMarkupLanguageParser.new
     for string in strings
@@ -34,6 +34,20 @@ describe "markup language grammar" do
       end
     end
   end
+  
+  it "parses optional space" do
+    should_parse(:s, ["", " ", "\r\n\t", "    \n\n"])
+    should_not_parse(:s, ["x", "     .   \n"])
+    should_partly_parse(:s, [["\n\n    x  \n", "\n\n    "], 
+                             ["hello  ", ""]])
+  end
+  
+  it "parses non-optional space" do
+    should_parse(:S, [" ", "\r\n\t", "    \n\n"])
+    should_not_parse(:S, ["", "x", "     .   \n"])
+    should_partly_parse(:S, [["\n\n    x  \n", "\n\n    "], 
+                             [" hello  ", " "]])
+  end    
   
   it "parses number with one or more decimal digits only" do
     should_parse(:number, ["45", "5", "6677", "99999988"])
