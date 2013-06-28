@@ -57,8 +57,7 @@ describe "markup language grammar" do
   it "parses non_item anything not '['" do
     should_parse(:non_item, ["anything"])
     should_not_parse(:non_item, ["[", "anything ["])
-    should_partly_parse(:non_item, [["anything[", "anything"]])
-    should_partly_parse(:non_item, [[" [", " "]])
+    should_partly_parse(:non_item, [["anything[", "anything"], [" [", " "]])
   end
   
   it "parses structure from text & items ..." do
