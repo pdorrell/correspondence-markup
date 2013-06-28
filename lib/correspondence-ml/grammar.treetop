@@ -5,10 +5,11 @@ grammar CorrespondenceMarkupLanguage
   include CorrespondenceMarkup
 
   rule structure_group
-    "[" [\s]* structures:(structure / ([\s]+ {def value; nil; end}))* "]"
+    "[" [\s]* structures:(structure [\s]*)* "]"
     { 
       def value
-        CorrespondenceMarkup::StructureGroup.new(structures.elements.map(&:value).compact)
+        structureObjects = structures.elements.map {|e| e.structure.value}
+        CorrespondenceMarkup::StructureGroup.new(structureObjects)
       end
     }
   end
