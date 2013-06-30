@@ -59,7 +59,7 @@ module CorrespondenceMarkup
     end
     
     def to_html
-      "<div class=\"structure\">" + @content.map{|e| "  #{e.to_html}\n"}.join("") + "</div>\n"
+      "<div class=\"structure\">\n  " + @content.map(&:to_html).join("") + "\n</div>\n"
     end
     
   end
