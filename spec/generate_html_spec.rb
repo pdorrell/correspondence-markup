@@ -1,12 +1,13 @@
 require 'correspondence-markup'
 require 'erb'
+require 'cgi'
 
 module CorrespondenceMarkup
 
   describe "generating HMTL" do
     
-    before(:all) do
-      @parser = CorrespondenceMarkupLanguageParser.new
+    def h(text)
+      CGI.escape_html(text)
     end
     
     def test_template(base_filename)
@@ -26,7 +27,7 @@ module CorrespondenceMarkup
 
     it "outputs HTML for an item" do
       item_template = test_template("item.html.erb")
-      item = Item.new(21, "the text")
+      item = Item.new(21, "the text with &lt;")
       output_html(binding, item_template).should == test_output_from_file("item.output.html")
     end
     
