@@ -7,25 +7,9 @@ module CorrespondenceMarkup
 
   describe "generating HMTL" do
     
-    def h(text)
-      CGI.escape_html(text)
-    end
-    
-    def test_template(base_filename)
-      template_filename = File.join(File.dirname(__FILE__), "templates", base_filename)
-      File.read(template_filename)
-    end
-
     def output_file_contents(base_filename)
       output_filename = File.join(File.dirname(__FILE__), "output", base_filename)
       File.read(output_filename)
-    end
-
-    def output_html(template_binding, template_text)
-      template = ERB.new(template_text, nil, "-")
-      html = template.result(template_binding)
-      puts "output HTML #{html.inspect}"
-      html
     end
 
     it "generates HTML for an item" do
@@ -44,6 +28,17 @@ module CorrespondenceMarkup
                                  NonItem.new(", "), 
                                  Item.new(2, "World")])
       structure.to_html.should == output_file_contents("structure.generated.html")
+    end
+    
+    it "generates HTML for a structure group" do
+      structure1 = Structure.new([Item.new(1, "Hello"), 
+                                 NonItem.new(", "), 
+                                 Item.new(2, "World")])
+      structure2 = Structure.new([Item.new(1, "Hola"), 
+                                 NonItem.new(", "), 
+                                 Item.new(2, "Mundo")])
+      structureGroup = StructureGroup.new([structure1, structure2])
+      structureGroup.to_html.should == output_file_contents("structureGroup.generated.html")
     end
     
   end

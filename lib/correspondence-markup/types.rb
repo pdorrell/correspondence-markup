@@ -74,5 +74,11 @@ module CorrespondenceMarkup
     def ==(otherStructureGroup)
       otherStructureGroup.class == StructureGroup && otherStructureGroup.structures == @structures
     end
+
+    def to_html
+      "<div class=\"structure-group\">\n  " + 
+        @structures.map(&:to_html).join("").chomp("\n").gsub("\n", "\n  ") + 
+        "\n</div>\n"
+    end
   end
 end
