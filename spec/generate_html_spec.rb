@@ -1,4 +1,5 @@
 require 'correspondence-markup'
+require 'spec_helper'
 require 'erb'
 require 'cgi'
 
@@ -15,7 +16,7 @@ module CorrespondenceMarkup
       File.read(template_filename)
     end
 
-    def test_output_from_file(base_filename)
+    def output_file_contents(base_filename)
       output_filename = File.join(File.dirname(__FILE__), "output", base_filename)
       File.read(output_filename)
     end
@@ -28,7 +29,7 @@ module CorrespondenceMarkup
     it "outputs HTML for an item" do
       item_template = test_template("item.html.erb")
       item = Item.new(21, "the text with &lt;")
-      output_html(binding, item_template).should == test_output_from_file("item.output.html")
+      output_html(binding, item_template).should match_as_html output_file_contents("item.output.html")
     end
 
     it "outputs HTML for a structure" do
@@ -36,7 +37,7 @@ module CorrespondenceMarkup
       structure = Structure.new([Item.new(1, "Hello"), 
                                  NonItem.new(", "), 
                                  Item.new(2, "World")])
-      output_html(binding, structure_template).should == test_output_from_file("structure.output.html")
+      output_html(binding, structure_template).should match_as_html output_file_contents("structure.output.html")
     end
     
   end
