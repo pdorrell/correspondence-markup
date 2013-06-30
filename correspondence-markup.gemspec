@@ -1,10 +1,10 @@
 Gem::Specification.new do |spec|
-  spec.name              = "correspondence-ml"
+  spec.name              = "correspondence-markup"
   spec.version           = "0.0.1"
   spec.platform          = Gem::Platform::RUBY
   spec.authors           = ["Philip Dorrell"]
   spec.email             = ["http://thinkinghard.com/email.html"]
-  spec.homepage          = "https://github.com/pdorrell/correspondence-ml"
+  spec.homepage          = "https://github.com/pdorrell/correspondence-markup"
   spec.summary           = "A markup language to generate 'Correspondence' HTML"
   spec.description       = "Use to generate HTML pages containing structure groups, structures and items as used by correspondence.js."
   spec.rubyforge_project = spec.name

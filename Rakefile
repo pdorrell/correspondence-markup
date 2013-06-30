@@ -7,7 +7,7 @@ rescue LoadError
   $stderr.puts "You need to have Bundler installed to be able build this gem."
 end
 
-gemspec = eval(File.read("correspondence-ml.gemspec"))
+gemspec = eval(File.read("correspondence-markup.gemspec"))
 
 desc "Validate the gemspec"
 task :gemspec do
