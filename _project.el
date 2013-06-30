@@ -4,6 +4,6 @@
     (:run-project-command (ruby-run-file ,(concat (project-base-directory) "correspondence-markup.rb")))
     (:build-function project-compile-with-command)
     (:compile-command "rake")
-    (:run-project-command (rspec-file ,(concat (project-base-directory) "spec/generate_html_spec.rb")))
+    (:run-project-command (rspec-file ,(concat (project-base-directory) "spec/compile_and_generate_spec.rb")))
     (:ruby-args (,(concat "-I" (project-base-directory) "lib")))
     ) )

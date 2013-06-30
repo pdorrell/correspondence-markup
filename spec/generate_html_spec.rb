@@ -7,10 +7,6 @@ module CorrespondenceMarkup
 
   describe "generating HMTL" do
     
-    def output_file_contents(base_filename)
-      output_filename = File.join(File.dirname(__FILE__), "output", base_filename)
-      File.read(output_filename)
-    end
 
     it "generates HTML for an item" do
       item = Item.new(21, "the text with &lt;")
