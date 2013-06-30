@@ -1,4 +1,6 @@
 
+require 'cgi'
+
 module CorrespondenceMarkup
   
   # An item is text in a structure with an associated id
@@ -17,6 +19,10 @@ module CorrespondenceMarkup
     def ==(otherItem)
       otherItem.class == Item && otherItem.id == @id && otherItem.text == @text
     end
+    
+    def to_html
+      "<span data-id=\"#{@id}\">#{CGI.escape_html(@text)}</span>"
+    end
   end
   
   # A non-item is text in a structure that is not an item - it is just text
@@ -34,6 +40,10 @@ module CorrespondenceMarkup
     def ==(otherNonItem)
       otherNonItem.class == NonItem && otherNonItem.text == @text
     end
+    
+    def to_html
+      CGI.escape_html(@text)
+    end
   end
   
   # A structure, containing a sequence of items and non-items
@@ -47,6 +57,11 @@ module CorrespondenceMarkup
     def ==(otherStructure)
       otherStructure.class == Structure && otherStructure.content == @content
     end
+    
+    def to_html
+      "<div class=\"structure\">" + @content.map{|e| "  #{e.to_html}\n"}.join("") + "</div>\n"
+    end
+    
   end
   
   class StructureGroup

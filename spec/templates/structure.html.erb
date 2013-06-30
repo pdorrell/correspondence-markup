@@ -1,9 +1,9 @@
 <div class="structure">
-  <% for element in structure.content do %>
-    <% if element.item? %>
-      <span data-id="<%=element.id%>"><%=h(element.text)%></span>
-    <% else %>
-      <%=h(element.text)%>
-    <% end %>
-  <% end %>
+  <% for element in structure.content do -%>
+    <% if element.item? -%>
+      <span data-id="<%=element.id%>"><%=h(element.text)%></span><%-""-%>
+    <%- else -%>
+      <%=h(element.text)-%>
+    <% end -%>
+  <% end -%>
 </div>
