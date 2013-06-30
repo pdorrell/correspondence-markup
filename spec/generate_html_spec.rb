@@ -15,9 +15,11 @@ module CorrespondenceMarkup
     end
 
     it "outputs HTML for an item" do
-      item_template = %{<span data-id="<%=item.id%>"><%=item.text%></span>}
+      item_template_filename = File.join(File.dirname(__FILE__), "templates", "item.html.erb")
+      item_template = File.read(item_template_filename)
       item = Item.new(21, "the text")
       output_html(binding, item_template).should == %{<span data-id="21">the text</span>}
     end
+    
   end
 end
