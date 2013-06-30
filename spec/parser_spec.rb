@@ -1,4 +1,4 @@
-require 'correspondence-ml'
+require 'correspondence-markup'
 
 require 'spec_helper'
 

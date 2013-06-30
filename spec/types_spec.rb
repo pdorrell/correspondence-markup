@@ -1,4 +1,4 @@
-require 'correspondence-ml/types'
+require 'correspondence-markup/types'
 
 module CorrespondenceMarkup
   describe 'corresondence markup types' do

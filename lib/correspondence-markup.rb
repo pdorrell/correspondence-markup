@@ -1,7 +1,7 @@
 require 'polyglot'
 require 'treetop'
 
-require 'correspondence-ml/grammar'
+require 'correspondence-markup/grammar'
 
 module CorrespondenceMarkupLanguage
   
