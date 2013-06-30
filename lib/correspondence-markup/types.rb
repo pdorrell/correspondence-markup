@@ -10,6 +10,10 @@ module CorrespondenceMarkup
       @text = text
     end
     
+    def item?
+      true
+    end
+    
     def ==(otherItem)
       otherItem.class == Item && otherItem.id == @id && otherItem.text == @text
     end
@@ -21,6 +25,10 @@ module CorrespondenceMarkup
     
     def initialize(text)
       @text = text
+    end
+    
+    def item?
+      false
     end
     
     def ==(otherNonItem)

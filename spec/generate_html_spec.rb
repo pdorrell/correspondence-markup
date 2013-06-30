@@ -21,7 +21,7 @@ module CorrespondenceMarkup
     end
 
     def output_html(template_binding, template_text)
-      template = ERB.new(template_text, nil, nil)
+      template = ERB.new(template_text, nil, ">")
       template.result(template_binding)
     end
 
@@ -29,6 +29,14 @@ module CorrespondenceMarkup
       item_template = test_template("item.html.erb")
       item = Item.new(21, "the text with &lt;")
       output_html(binding, item_template).should == test_output_from_file("item.output.html")
+    end
+
+    it "outputs HTML for a structure" do
+      structure_template = test_template("structure.html.erb")
+      structure = Structure.new([Item.new(1, "Hello"), 
+                                 NonItem.new(", "), 
+                                 Item.new(2, "World")])
+      output_html(binding, structure_template).should == test_output_from_file("structure.output.html")
     end
     
   end
