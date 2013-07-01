@@ -1,7 +1,7 @@
 require 'polyglot'
 require 'treetop'
 
-require 'correspondence-markup/grammar'
+require 'correspondence-markup/bracketed-grammar'
 
 module CorrespondenceMarkup
   
