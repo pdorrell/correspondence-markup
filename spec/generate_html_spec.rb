@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 require 'correspondence-markup'
 require 'spec_helper'
 require 'erb'
@@ -29,10 +31,13 @@ module CorrespondenceMarkup
     it "generates HTML for a structure group" do
       structure1 = Structure.new([Item.new(1, "Hello"), 
                                  NonItem.new(", "), 
-                                 Item.new(2, "World")])
-      structure2 = Structure.new([Item.new(1, "Hola"), 
-                                 NonItem.new(", "), 
-                                 Item.new(2, "Mundo")])
+                                 Item.new(2, "World"), 
+                                 NonItem.new("!")])
+      structure2 = Structure.new([NonItem.new("¡"), 
+                                  Item.new(1, "Hola"), 
+                                  NonItem.new(", "), 
+                                  Item.new(2, "Mundo"), 
+                                  NonItem.new("!")])
       structureGroup = StructureGroup.new([structure1, structure2])
       structureGroup.to_html.should == output_file_contents("structureGroup.generated.html")
     end
