@@ -18,7 +18,9 @@ Gem::Specification.new do |spec|
   # spec.add_development_dependency "another", "= 0.9"
 
   # The list of files to be contained in the gem
-  spec.files = Dir['lib/**/*.rb']
+  spec.files = Dir['lib/*.rb']
+  spec.files += Dir['lib/**/*.rb']
+  spec.files += Dir['lib/**/*.treetop']
   spec.files += ["LICENSE.txt", "Rakefile"]
 
   spec.executables   = []
