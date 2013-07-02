@@ -13,6 +13,10 @@ module CorrespondenceMarkup
       @parser.parse(string, root: root)
     end
     
+    it "compiles text" do
+      parse("some text", :text).value.should == "some text"
+    end
+    
     it "compiles number" do
       parse("234", :number).value.should == 234
     end
@@ -24,6 +28,10 @@ module CorrespondenceMarkup
     it "compiles non-item" do
       parse("anything at all", :non_item).value.should == NonItem.new("anything at all")
     end
+    
+    it "compiles with backslash quoting" do
+      parse("a\\[23\\] = b \\\\ c", :text).value.should == "a[23] = b \\ c"
+    end  
     
     it "compiles structure" do
       parse("[1 an item] in between stuff [2 a second item]", :structure).value.should == 

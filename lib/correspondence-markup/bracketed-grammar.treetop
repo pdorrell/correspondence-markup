@@ -32,15 +32,6 @@ grammar CorrespondenceMarkupLanguage
     }
   end
   
-  rule text
-    (("\\" .) / (![\[\]\\] .))+
-    { 
-      def value
-        text_value
-      end
-    }
-  end
-
   rule non_item
     text:text
     { 
@@ -55,6 +46,15 @@ grammar CorrespondenceMarkupLanguage
     { 
       def value
         CorrespondenceMarkup::Item.new(id.value, text.value)
+      end
+    }
+  end
+
+  rule text
+    (("\\" .) / (![\[\]\\] .))+
+    { 
+      def value
+        text_value.gsub(/\\(.)/, '\1')
       end
     }
   end
