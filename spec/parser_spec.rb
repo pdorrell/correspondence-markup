@@ -74,6 +74,10 @@ describe "markup language grammar" do
     should_partly_parse(:non_item, [["anything[", "anything"], [" [", " "]])
   end
   
+  it "parses backslash-quoted characters" do
+    should_parse(:non_item, ["\\[ \\\\ \\]"])
+  end
+  
   it "parses structure from text & items ..." do
     should_parse(:structure, ["", 
                               "[1 Hello]", 

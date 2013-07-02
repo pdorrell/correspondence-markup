@@ -31,21 +31,30 @@ grammar CorrespondenceMarkupLanguage
       end
     }
   end
-
-  rule non_item
-    text:(![\[\]] .)+
+  
+  rule text
+    (("\\" .) / (![\[\]\\] .))+
     { 
       def value
-        CorrespondenceMarkup::NonItem.new(text.text_value)
+        text_value
+      end
+    }
+  end
+
+  rule non_item
+    text:text
+    { 
+      def value
+        CorrespondenceMarkup::NonItem.new(text.value)
       end
     }
   end
 
   rule item
-    "[" id:number S text:(![\]] .)* "]"
+    "[" id:number S text:text "]"
     { 
       def value
-        CorrespondenceMarkup::Item.new(id.value, text.text_value)
+        CorrespondenceMarkup::Item.new(id.value, text.value)
       end
     }
   end
