@@ -15,6 +15,7 @@ module CorrespondenceMarkup
     
     it "compiles text" do
       parse("some text", :text).value.should == "some text"
+      parse("two\nlines", :text).value.should == "two\nlines"
     end
     
     it "compiles number" do
