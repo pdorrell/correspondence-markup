@@ -20,7 +20,7 @@ module CorrespondenceMarkup
       otherItem.class == Item && otherItem.id == @id && otherItem.text == @text
     end
     
-    def to_html
+    def to_html(options={})
       "<span data-id=\"#{@id}\">#{CGI.escape_html(@text)}</span>"
     end
   end
@@ -41,7 +41,7 @@ module CorrespondenceMarkup
       otherNonItem.class == NonItem && otherNonItem.text == @text
     end
     
-    def to_html
+    def to_html(options={})
       CGI.escape_html(@text)
     end
   end
@@ -58,8 +58,8 @@ module CorrespondenceMarkup
       otherStructure.class == Structure && otherStructure.content == @content
     end
     
-    def to_html
-      "<div class=\"structure\">\n  " + @content.map(&:to_html).join("") + "\n</div>\n"
+    def to_html(options={})
+      "<div class=\"structure\">\n  " + @content.map{|x| x.to_html(options)}.join("") + "\n</div>\n"
     end
     
   end
@@ -75,9 +75,9 @@ module CorrespondenceMarkup
       otherStructureGroup.class == StructureGroup && otherStructureGroup.structures == @structures
     end
 
-    def to_html
+    def to_html(options={})
       "<div class=\"structure-group\">\n  " + 
-        @structures.map(&:to_html).join("").chomp("\n").gsub("\n", "\n  ") + 
+        @structures.map{|x| x.to_html(options)}.join("").chomp("\n").gsub("\n", "\n  ") + 
         "\n</div>\n"
     end
   end
