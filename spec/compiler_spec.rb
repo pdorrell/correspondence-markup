@@ -32,7 +32,13 @@ module CorrespondenceMarkup
     
     it "compiles with backslash quoting" do
       parse("a\\[23\\] = b \\\\ c", :text).value.should == "a[23] = b \\ c"
+      parse("a\\[23\\] = b \\\\ c", :non_item).value.should == NonItem.new("a[23] = b \\ c")
+      parse("[31 a\\[23\\] = c]", :item).value.should == Item.new(31, "a[23] = c")
     end  
+    
+    it "compiles with backslash quoting, matching forward only (no overlaps)" do
+      parse("\\[\\\\\\\\\\]", :text).value.should == "[\\\\]"
+    end
     
     it "compiles structure" do
       parse("[1 an item] in between stuff [2 a second item]", :structure).value.should == 
