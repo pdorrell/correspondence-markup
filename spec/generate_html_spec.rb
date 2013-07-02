@@ -9,7 +9,6 @@ module CorrespondenceMarkup
 
   describe "generating HMTL" do
     
-
     it "generates HTML for an item" do
       item = Item.new(21, "the text with &lt;")
       item.to_html.should == output_file_contents("item.generated.html")
@@ -20,7 +19,17 @@ module CorrespondenceMarkup
       nonItem.to_html.should == output_file_contents("nonItem.generated.html")
     end
     
-
+    it "inserts br element with br: option" do
+      nonItem = NonItem.new("two\nlines")
+      nonItem.to_html.should == "two\nlines"
+      nonItem.to_html(br: true).should == "two<br/>lines"
+      structureGroup = StructureGroup.new([Structure.new([NonItem.new("a\nb")])])
+      structureGroup.to_html.should == "<div class=\"structure-group\">\n" + 
+        "  <div class=\"structure\">\n    a\n  b\n  </div>\n</div>\n"
+      structureGroup.to_html(br: true).should == "<div class=\"structure-group\">\n" + 
+        "  <div class=\"structure\">\n    a<br/>b\n  </div>\n</div>\n"
+    end
+    
     it "generates HTML for a structure" do
       structure = Structure.new([Item.new(1, "Hello"), 
                                  NonItem.new(", "), 

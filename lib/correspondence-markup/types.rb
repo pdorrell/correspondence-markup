@@ -42,7 +42,11 @@ module CorrespondenceMarkup
     end
     
     def to_html(options={})
-      CGI.escape_html(@text)
+      html = CGI.escape_html(@text)
+      if options[:br]
+        html = html.gsub("\n", "<br/>")
+      end
+      html
     end
   end
   
