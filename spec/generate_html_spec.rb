@@ -51,6 +51,16 @@ module CorrespondenceMarkup
       structure.to_html.should == output_file_contents("structure.generated.html")
     end
     
+    it "generates HTML for a structure with br and/or nbsp option" do
+      structure = Structure.new([Item.new(1, "Good Morning"), 
+                                 NonItem.new(" ,\n"), 
+                                 Item.new(2, " World")])
+      structure.to_html.should == output_file_contents("structure.goodmorning.html")
+      structure.to_html(br: true).should == output_file_contents("structure.goodmorning.br.html")
+      structure.to_html(nbsp: true).should == output_file_contents("structure.goodmorning.nbsp.html")
+      structure.to_html(br: true, nbsp: true).should == output_file_contents("structure.goodmorning.br.nbsp.html")
+    end
+    
     it "generates HTML for a structure group" do
       structure1 = Structure.new([Item.new(1, "Hello"), 
                                  NonItem.new(", "), 
