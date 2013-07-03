@@ -87,7 +87,7 @@ module CorrespondenceMarkup
                                   NonItem.new("!")])
       structureGroup = StructureGroup.new([structure1, structure2])
       structureGroup.to_html.should == output_file_contents("goodMorningBuenasDias.html")
-      #structureGroup.to_html(br: [true, false], nbsp: [true, false]).should == output_file_contents("goodMorningBuenasDias.br.nbsp.html")
+      structureGroup.to_html(br: [true, false], nbsp: [true, false]).should == output_file_contents("goodMorningBuenasDias.br.nbsp.html")
     end
   end
 end
