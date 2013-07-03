@@ -3,8 +3,23 @@ require 'cgi'
 
 module CorrespondenceMarkup
   
+  module Helpers
+    def text_to_html(text, options)
+      html = CGI.escape_html(@text)
+      if options[:br]
+        html = html.gsub("\n", "<br/>")
+      end
+      if options[:nbsp]
+        html = html.gsub(" ", "&nbsp;")
+      end
+      html
+    end
+  end
+  
   # An item is text in a structure with an associated id
   class Item
+    include Helpers
+    
     attr_reader :id, :text
     
     def initialize(id, text)
@@ -21,19 +36,15 @@ module CorrespondenceMarkup
     end
     
     def to_html(options={})
-      text_html = CGI.escape_html(@text)
-      if options[:br]
-        text_html = text_html.gsub("\n", "<br/>")
-      end
-      if options[:nbsp]
-        text_html = text_html.gsub(" ", "&nbsp;")
-      end
+      text_html = text_to_html(@text, options)
       "<span data-id=\"#{@id}\">#{text_html}</span>"
     end
   end
   
   # A non-item is text in a structure that is not an item - it is just text
   class NonItem
+    include Helpers
+    
     attr_reader :text
     
     def initialize(text)
@@ -49,14 +60,7 @@ module CorrespondenceMarkup
     end
     
     def to_html(options={})
-      html = CGI.escape_html(@text)
-      if options[:br]
-        html = html.gsub("\n", "<br/>")
-      end
-      if options[:nbsp]
-        html = html.gsub(" ", "&nbsp;")
-      end
-      html
+      text_to_html(@text, options)
     end
   end
   
