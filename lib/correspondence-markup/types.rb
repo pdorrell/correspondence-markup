@@ -4,6 +4,13 @@ require 'cgi'
 module CorrespondenceMarkup
   
   module Helpers
+    
+    TAGS_AND_TEXT_REGEX = /([<][^>]*[>]?)|([^<]+)/
+    
+    def self.split_tags_and_text(html)
+      html.scan(TAGS_AND_TEXT_REGEX).to_a
+    end
+    
     def text_to_html(text, options)
       html = text
       if options[:escaped]

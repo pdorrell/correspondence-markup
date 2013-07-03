@@ -9,6 +9,15 @@ module CorrespondenceMarkup
 
   describe "generating HMTL" do
     
+    it "splits tags and text in HTML" do
+      Helpers.split_tags_and_text(" no tags").should == [[nil, " no tags"]]
+      Helpers.split_tags_and_text("<tag> something else<another attr=\"value\"> more").should == 
+        [["<tag>", nil], 
+         [nil, " something else"], 
+         ["<another attr=\"value\">", nil], 
+         [nil, " more"]]
+    end
+    
     it "generates HTML for an item" do
       item = Item.new(21, "the text with &lt;")
       item.to_html.should == output_file_contents("item.html")
@@ -37,6 +46,13 @@ module CorrespondenceMarkup
       nonItem.to_html(nbsp: true).should == "&nbsp;&nbsp;two\nlines&nbsp;&nbsp;with&nbsp;spaces"
       nonItem.to_html(nbsp: true, br: true).should == "&nbsp;&nbsp;two<br/>lines&nbsp;&nbsp;with&nbsp;spaces"
     end
+    
+    it "nbsp option does not replace spaces inside HTML tags" do
+      nonItem = NonItem.new("<span class=\"myClass\">hello word</span>")
+      nonItem.to_html.should == "<span class=\"myClass\">hello word</span>"
+   #   nonItem.to_html(nbsp:true).should == "<span class=\"myClass\">hello&nbsp;word</span>"
+    end
+    
     
     it "item outputs spaces as nbsp with nbsp: option" do
       item = Item.new(3, " text with\nspaces ")
