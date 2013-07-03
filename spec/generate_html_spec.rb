@@ -11,12 +11,12 @@ module CorrespondenceMarkup
     
     it "generates HTML for an item" do
       item = Item.new(21, "the text with &lt;")
-      item.to_html.should == output_file_contents("item.generated.html")
+      item.to_html.should == output_file_contents("item.html")
     end
     
     it "generates HTML for a non-item" do
       nonItem = NonItem.new("some text with &lt;")
-      nonItem.to_html.should == output_file_contents("nonItem.generated.html")
+      nonItem.to_html.should == output_file_contents("nonItem.html")
     end
     
     it "inserts br element with br: option" do
@@ -48,7 +48,7 @@ module CorrespondenceMarkup
       structure = Structure.new([Item.new(1, "Hello"), 
                                  NonItem.new(", "), 
                                  Item.new(2, "World")])
-      structure.to_html.should == output_file_contents("structure.generated.html")
+      structure.to_html.should == output_file_contents("structure.html")
     end
     
     it "generates HTML for a structure with br and/or nbsp option" do
@@ -72,7 +72,7 @@ module CorrespondenceMarkup
                                   Item.new(2, "Mundo"), 
                                   NonItem.new("!")])
       structureGroup = StructureGroup.new([structure1, structure2])
-      structureGroup.to_html.should == output_file_contents("structureGroup.generated.html")
+      structureGroup.to_html.should == output_file_contents("structureGroup.html")
     end
     
     it "generates HTML for a structure group with br/nbsp in first structure" do
