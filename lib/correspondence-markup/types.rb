@@ -5,6 +5,7 @@ module CorrespondenceMarkup
   
   module Helpers
     
+    # Either 1: a tag enclosed in "<" & ">", possibly missing the ">", or, 2: text outside a tag
     TAGS_AND_TEXT_REGEX = /([<][^>]*[>]?)|([^<]+)/
     
     def self.split_tags_and_text(html)
@@ -20,7 +21,10 @@ module CorrespondenceMarkup
         html = html.gsub("\n", "<br/>")
       end
       if options[:nbsp]
-        html = html.gsub(" ", "&nbsp;")
+        tags_and_text = Helpers.split_tags_and_text(html)
+        html = tags_and_text.map do |tag_or_text| 
+          if tag_or_text[0] then tag_or_text[0] else tag_or_text[1].gsub(" ", "&nbsp;") end
+        end.join("")
       end
       html
     end

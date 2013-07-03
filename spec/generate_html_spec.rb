@@ -16,6 +16,12 @@ module CorrespondenceMarkup
          [nil, " something else"], 
          ["<another attr=\"value\">", nil], 
          [nil, " more"]]
+      Helpers.split_tags_and_text("not tag<tag><2nd tag> and <unfinished").should == 
+        [[nil, "not tag"], 
+         ["<tag>", nil], 
+         ["<2nd tag>", nil], 
+         [nil, " and "], 
+         ["<unfinished", nil]]
     end
     
     it "generates HTML for an item" do
