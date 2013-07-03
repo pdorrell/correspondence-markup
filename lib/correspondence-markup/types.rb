@@ -46,6 +46,9 @@ module CorrespondenceMarkup
       if options[:br]
         html = html.gsub("\n", "<br/>")
       end
+      if options[:nbsp]
+        html = html.gsub(" ", "&nbsp;")
+      end
       html
     end
   end
