@@ -94,7 +94,6 @@ module CorrespondenceMarkup
     end
 
     def to_html(options={})
-      puts "StructureGroup.to_html, options = #{options.inspect}"
       numStructures = structures.length
       structureOptions = Array.new(numStructures)
       for i in 0...numStructures do
@@ -102,20 +101,16 @@ module CorrespondenceMarkup
       end
       for key in options.keys do
         value = options[key]
-        puts " key = #{key.inspect}, value = #{value.inspect}"
         if value.kind_of? Array
           for i in 0...([value.length, numStructures].min) do
-            puts "   setting structureOptions[#{i}][#{key.inspect}] to #{value[i].inspect}"
             structureOptions[i][key] = value[i]
           end
         else
           for i in 0...numStructures do
-            puts "   setting structureOptions[#{i}][#{key.inspect}] to #{value.inspect}"
             structureOptions[i][key] = value
           end
         end
       end
-      puts " structureOptions = #{structureOptions.inspect}"
       structureHtmls = (0...(structures.length)).map{|i| @structures[i].to_html(structureOptions[i])}
       "<div class=\"structure-group\">\n  " + 
         structureHtmls.join("").chomp("\n").gsub("\n", "\n  ") + 
