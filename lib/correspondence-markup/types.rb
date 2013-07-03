@@ -5,7 +5,10 @@ module CorrespondenceMarkup
   
   module Helpers
     def text_to_html(text, options)
-      html = CGI.escape_html(@text)
+      html = text
+      if options[:escaped]
+        html = CGI.escape_html(html)
+      end
       if options[:br]
         html = html.gsub("\n", "<br/>")
       end

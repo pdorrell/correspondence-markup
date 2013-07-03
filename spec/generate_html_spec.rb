@@ -12,11 +12,13 @@ module CorrespondenceMarkup
     it "generates HTML for an item" do
       item = Item.new(21, "the text with &lt;")
       item.to_html.should == output_file_contents("item.html")
+      item.to_html(escaped: true).should == output_file_contents("item.escaped.html")
     end
     
     it "generates HTML for a non-item" do
       nonItem = NonItem.new("some text with &lt;")
       nonItem.to_html.should == output_file_contents("nonItem.html")
+      nonItem.to_html(escaped: true).should == output_file_contents("nonItem.escaped.html")
     end
     
     it "inserts br element with br: option" do
