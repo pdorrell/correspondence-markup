@@ -30,9 +30,18 @@ module CorrespondenceMarkup
         "  <div class=\"structure\">\n    a<br/>b\n  </div>\n</div>\n"
     end
     
-    it "outputs spaces as nbsp with nbsp: option" do
+    it "non-item outputs spaces as nbsp with nbsp: option" do
       nonItem = NonItem.new("  two\nlines  with spaces")
       nonItem.to_html(nbsp: true).should == "&nbsp;&nbsp;two\nlines&nbsp;&nbsp;with&nbsp;spaces"
+      nonItem.to_html(nbsp: true, br: true).should == "&nbsp;&nbsp;two<br/>lines&nbsp;&nbsp;with&nbsp;spaces"
+    end
+    
+    it "item outputs spaces as nbsp with nbsp: option" do
+      item = Item.new(3, " text with\nspaces ")
+      item.to_html.should == "<span data-id=\"3\"> text with\nspaces </span>"
+      item.to_html(br: true).should == "<span data-id=\"3\"> text with<br/>spaces </span>"
+      item.to_html(nbsp: true).should == "<span data-id=\"3\">&nbsp;text&nbsp;with\nspaces&nbsp;</span>"
+      item.to_html(nbsp: true, br: true).should == "<span data-id=\"3\">&nbsp;text&nbsp;with<br/>spaces&nbsp;</span>"
     end     
     
     it "generates HTML for a structure" do

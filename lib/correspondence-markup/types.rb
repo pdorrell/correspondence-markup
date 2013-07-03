@@ -21,7 +21,14 @@ module CorrespondenceMarkup
     end
     
     def to_html(options={})
-      "<span data-id=\"#{@id}\">#{CGI.escape_html(@text)}</span>"
+      text_html = CGI.escape_html(@text)
+      if options[:br]
+        text_html = text_html.gsub("\n", "<br/>")
+      end
+      if options[:nbsp]
+        text_html = text_html.gsub(" ", "&nbsp;")
+      end
+      "<span data-id=\"#{@id}\">#{text_html}</span>"
     end
   end
   
