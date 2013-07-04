@@ -85,18 +85,17 @@ describe "markup language grammar" do
   
   it "parses structure from text & items ..." do
     should_parse(:structure, ["", 
-                              "[1 Hello]", 
-                              "[1 Hello][2 world]", 
-                              " [1 Hello]", 
-                              "non-item text", 
-                              "[1 Hello] [2 World].", 
-                              "non-item [1 item 1] [2 item 2] the end"])
+                              "[[1 Hello]]", 
+                              "[[1 Hello][2 world]]", 
+                              "[ [1 Hello]]", 
+                              "[ non-item text]", 
+                              "[[1 Hello] [2 World].]", 
+                              "[ non-item [1 item 1] [2 item 2] the end]"])
     should_not_parse(:structure, ["[", 
                                   "]", 
-                                  "[]", 
-                                  "1 Hello] [2 world", 
-                                  "[1 Hello", 
-                                  "[1 Hello]]", 
+                                  "[[1 Hello] [2 world]", 
+                                  "[[1 Hello]", 
+                                  "[[1 Hello]]]", 
                                   "[1 Hello]  [2 world", 
                                   ])
   end
@@ -108,7 +107,7 @@ describe "markup language grammar" do
                                     "[[1 Hello] [2 world]] [[1 Hola] [2 Mundo]]", 
                                     " [[1 Hello] [2 world]] [[1 Hola] [2 Mundo]] "
                                    ])
-    should_not_parse(:structure_group, ["[", "[[]", "[[]][[", "[[]]]", "[[]]"])
+    should_not_parse(:structure_group, ["[", "[[]", "[[]][[", "[[]]]", "[[[]]]"])
                                         
   end
   
@@ -120,10 +119,10 @@ describe "markup language grammar" do
                                         [[[4 item]] ]
                                       }])
     should_parse(:structure_groups, [ %{
-              [ [[1 Hello] in between stuff [2 world]]
-                [[1 Hola]  [2 mundo]] ]
-              [ [[3 3] [4 +] [5 4] [6 =] [7 7]]
-                [[3 three] [4 and] [5 four] [6 makes] [7 seven]] ]
+              [ [[[1 Hello] in between stuff [2 world]]]
+                [[[1 Hola]  [2 mundo]]] ]
+              [ [[[3 3] [4 +] [5 4] [6 =] [7 7]]]
+                [[[3 three] [4 and] [5 four] [6 makes] [7 seven]]] ]
              }])
   end
   

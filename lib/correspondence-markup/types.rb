@@ -99,18 +99,18 @@ module CorrespondenceMarkup
   
   # A structure, containing a sequence of items and non-items
   class Structure
-    attr_reader :content
+    attr_reader :item_groups
     
-    def initialize(content)
-      @content = content
+    def initialize(item_groups)
+      @item_groups = item_groups
     end
 
     def ==(otherStructure)
-      otherStructure.class == Structure && otherStructure.content == @content
+      otherStructure.class == Structure && otherStructure.item_groups == @item_groups
     end
     
     def to_html(options={})
-      "<div class=\"structure\">\n  " + @content.map{|x| x.to_html(options)}.join("") + "\n</div>\n"
+      "<div class=\"structure\">\n  " + @itemGroups.map{|x| x.to_html(options)}.join("") + "\n</div>\n"
     end
     
   end

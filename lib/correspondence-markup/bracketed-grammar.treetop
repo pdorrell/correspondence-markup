@@ -24,10 +24,11 @@ grammar CorrespondenceMarkupLanguage
   end
 
   rule structure
-    components:(item / non_item)*
+    s itemGroups:("[" item_group "]" s)*
     { 
       def value
-        CorrespondenceMarkup::Structure.new(components.elements.map &:value)
+        itemGroupObjects = itemGroups.elements.map {|e| e.item_group.value}
+        CorrespondenceMarkup::Structure.new(itemGroupObjects)
       end
     }
   end
