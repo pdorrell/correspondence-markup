@@ -78,6 +78,25 @@ module CorrespondenceMarkup
     end
   end
   
+  # A group of items & non-items that will form part of a structure
+  class ItemGroup
+    attr_reader :id, :content
+    
+    def initialize(id, content)
+      @id = id
+      @content = content
+    end
+
+    def ==(otherItemGroup)
+      otherItemGroup.class == ItemGroup && otherItemGroup.id == @id && otherItemGroup.content == @content
+    end
+    
+    def to_html(options={})
+      "<div class=\"item-group\" data-group-id=\"#{@id}\">\n  " + 
+        @content.map{|x| x.to_html(options)}.join("") + "\n</div>\n"
+    end
+  end
+  
   # A structure, containing a sequence of items and non-items
   class Structure
     attr_reader :content

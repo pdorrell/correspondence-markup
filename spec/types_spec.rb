@@ -37,6 +37,24 @@ module CorrespondenceMarkup
         
     end
     
+    describe "ItemGroup type" do
+      it "item group has id and content attribute" do
+        itemGroup = ItemGroup.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
+        itemGroup.id.should == "A"
+        itemGroup.content.should == [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]
+      end
+      
+      it "itemGroup is equal to a itemGroup with the same id and content" do
+        itemGroup = ItemGroup.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
+        itemGroup.should_not == "something else"
+        itemGroup.should == ItemGroup.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
+        itemGroup.should_not == ItemGroup.new("B", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
+        itemGroup.should_not == ItemGroup.new("A", [Item.new(1, "hello"), NonItem.new("space"), Item.new(2, "world")])
+        itemGroup.should_not == ItemGroup.new("A", [Item.new(1, "hello"), NonItem.new(" ")])        
+        itemGroup.should_not == ItemGroup.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(3, "world")])
+      end
+    end
+    
     describe "Structure type" do
       it "structure has content attribute" do
         structure = Structure.new([Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
