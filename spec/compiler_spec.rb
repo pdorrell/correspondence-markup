@@ -18,12 +18,14 @@ module CorrespondenceMarkup
       parse("two\nlines", :text).value.should == "two\nlines"
     end
     
-    it "compiles number" do
-      parse("234", :number).value.should == 234
+    it "compiles item_id" do
+      parse("234", :item_id).value.should == "234"
+      parse("A234", :item_id).value.should == "A234"
     end
     
     it "compiles item" do
-      parse("[31 text]", :item).value.should == Item.new(31, "text")
+      parse("[31 text]", :item).value.should == Item.new("31", "text")
+      parse("[B31 text]", :item).value.should == Item.new("B31", "text")
     end
     
     it "compiles non-item" do
@@ -33,7 +35,7 @@ module CorrespondenceMarkup
     it "compiles with backslash quoting" do
       parse("a\\[23\\] = b \\\\ c", :text).value.should == "a[23] = b \\ c"
       parse("a\\[23\\] = b \\\\ c", :non_item).value.should == NonItem.new("a[23] = b \\ c")
-      parse("[31 a\\[23\\] = c]", :item).value.should == Item.new(31, "a[23] = c")
+      parse("[31 a\\[23\\] = c]", :item).value.should == Item.new("31", "a[23] = c")
     end  
     
     it "compiles with backslash quoting, matching forward only (no overlaps)" do
@@ -42,29 +44,29 @@ module CorrespondenceMarkup
     
     it "compiles item group" do
       parse("[1 an item] in between stuff [2 a second item]", :item_group).value.should == 
-        ItemGroup.new("", [Item.new(1, "an item"), NonItem.new(" in between stuff "), 
-                           Item.new(2, "a second item")])
+        ItemGroup.new("", [Item.new("1", "an item"), NonItem.new(" in between stuff "), 
+                           Item.new("2", "a second item")])
       parse("A [1 an item] in between stuff [2 a second item]", :item_group).value.should == 
-        ItemGroup.new("A", [Item.new(1, "an item"), NonItem.new(" in between stuff "), 
-                            Item.new(2, "a second item")])
+        ItemGroup.new("A", [Item.new("1", "an item"), NonItem.new(" in between stuff "), 
+                            Item.new("2", "a second item")])
     end
     
     it "compiles structure" do
       structureNode = parse("[[1 an item] in between stuff [2 a second item]]", :structure)
       structureNode.value.should == 
-        Structure.new([ItemGroup.new("", [Item.new(1, "an item"), NonItem.new(" in between stuff "), 
-                                          Item.new(2, "a second item")])])
+        Structure.new([ItemGroup.new("", [Item.new("1", "an item"), NonItem.new(" in between stuff "), 
+                                          Item.new("2", "a second item")])])
     end
     
     it "compiles structure group" do
       expectedStructureGroup = 
         StructureGroup.new([
                             Structure.new([ItemGroup.new("", 
-                                                         [Item.new(1, "Hello"), NonItem.new(" in between stuff "), 
-                                                          Item.new(2, "world")])]), 
+                                                         [Item.new("1", "Hello"), NonItem.new(" in between stuff "), 
+                                                          Item.new("2", "world")])]), 
                             Structure.new([ItemGroup.new("", 
-                                                         [Item.new(1, "Hola"), NonItem.new("  "), 
-                                                          Item.new(2, "mundo")])])
+                                                         [Item.new("1", "Hola"), NonItem.new("  "), 
+                                                          Item.new("2", "mundo")])])
                            ]);
       parse(" [[[1 Hello] in between stuff [2 world]]] [[[1 Hola]  [2 mundo]]] ", 
             :structure_group).value.should == expectedStructureGroup
@@ -79,22 +81,22 @@ module CorrespondenceMarkup
       expectedStructureGroups = 
         [StructureGroup.new([
                             Structure.new([ItemGroup.new("", 
-                                                         [Item.new(1, "Hello"), NonItem.new(" in between stuff "), 
-                                                          Item.new(2, "world")])]), 
+                                                         [Item.new("1", "Hello"), NonItem.new(" in between stuff "), 
+                                                          Item.new("2", "world")])]), 
                             Structure.new([ItemGroup.new("", 
-                                                         [Item.new(1, "Hola"), NonItem.new("  "), 
-                                                          Item.new(2, "mundo")])])
+                                                         [Item.new("1", "Hola"), NonItem.new("  "), 
+                                                          Item.new("2", "mundo")])])
                             ]), 
          StructureGroup.new([
                              Structure.new([ItemGroup.new("", 
-                                                          [Item.new(3, "3"), NonItem.new(" "), Item.new(4, "+"), 
-                                                           NonItem.new(" "), Item.new(5, "4"), NonItem.new(" "), 
-                                                           Item.new(6, "="), NonItem.new(" "), Item.new(7, "7")])]), 
+                                                          [Item.new("3", "3"), NonItem.new(" "), Item.new("4", "+"), 
+                                                           NonItem.new(" "), Item.new("5", "4"), NonItem.new(" "), 
+                                                           Item.new("6", "="), NonItem.new(" "), Item.new("7", "7")])]), 
                              Structure.new([ItemGroup.new("", 
-                                                          [Item.new(3, "three"), NonItem.new(" "), Item.new(4, "and"), 
-                                                           NonItem.new(" "), Item.new(5, "four"), NonItem.new(" "), 
-                                                           Item.new(6, "makes"), NonItem.new(" "), 
-                                                           Item.new(7, "seven")])])
+                                                          [Item.new("3", "three"), NonItem.new(" "), Item.new("4", "and"), 
+                                                           NonItem.new(" "), Item.new("5", "four"), NonItem.new(" "), 
+                                                           Item.new("6", "makes"), NonItem.new(" "), 
+                                                           Item.new("7", "seven")])])
                             ])]
       
       parse(%{

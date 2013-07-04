@@ -50,10 +50,11 @@ describe "markup language grammar" do
   end    
   
   it "parses number with one or more decimal digits only" do
-    should_parse(:number, ["45", "5", "6677", "99999988"])
-    should_not_parse(:number, ["", "-45", "6 7", "jim"])
-    should_partly_parse(:number, [["45n", "45"], 
-                                  ["89 234", "89"]])
+    should_parse(:item_id, ["45", "5", "6677", "99999988", "A31", "AB31"])
+    should_not_parse(:item_id, ["", "-45", "6 7", "jim", "A"])
+    should_partly_parse(:item_id, [["45n", "45"], 
+                                   ["89 234", "89"], 
+                                   ["A31 [", "A31"]])
   end
   
   it "parses item from [<number><whitespace><whatever>]" do

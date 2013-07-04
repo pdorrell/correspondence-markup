@@ -52,7 +52,7 @@ grammar CorrespondenceMarkupLanguage
   end
 
   rule item
-    "[" id:number S text:text "]"
+    "[" id:item_id S text:text "]"
     { 
       def value
         CorrespondenceMarkup::Item.new(id.value, text.value)
@@ -69,11 +69,11 @@ grammar CorrespondenceMarkupLanguage
     }
   end
 
-  rule number
-    [0-9]+
+  rule item_id
+    [A-Z]* [0-9]+
     { 
       def value
-        text_value.to_i
+        text_value
       end
     }
   end
