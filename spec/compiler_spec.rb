@@ -47,15 +47,15 @@ module CorrespondenceMarkup
         ItemGroup.new("", [Item.new("1", "an item"), NonItem.new(" in between stuff "), 
                            Item.new("2", "a second item")])
       parse("A [1 an item] in between stuff [2 a second item]", :item_group).value.should == 
-        ItemGroup.new("A", [Item.new("1", "an item"), NonItem.new(" in between stuff "), 
-                            Item.new("2", "a second item")])
+        ItemGroup.new("A", [Item.new("A1", "an item"), NonItem.new(" in between stuff "), 
+                            Item.new("A2", "a second item")])
     end
     
     it "compiles structure" do
-      structureNode = parse("[[1 an item] in between stuff [2 a second item]]", :structure)
+      structureNode = parse("[A [1 an item] in between stuff [2 a second item]]", :structure)
       structureNode.value.should == 
-        Structure.new([ItemGroup.new("", [Item.new("1", "an item"), NonItem.new(" in between stuff "), 
-                                          Item.new("2", "a second item")])])
+        Structure.new([ItemGroup.new("A", [Item.new("A1", "an item"), NonItem.new(" in between stuff "), 
+                                          Item.new("A2", "a second item")])])
     end
     
     it "compiles structure group" do

@@ -37,7 +37,9 @@ grammar CorrespondenceMarkupLanguage
     id:(([A-Z]+ S) / s) components:(item / non_item)*
     { 
       def value
-        CorrespondenceMarkup::ItemGroup.new(id.text_value.rstrip, components.elements.map(&:value))
+        group_id = id.text_value.rstrip
+        componentObjects = components.elements.map {|e| e.value(group_id)}
+        CorrespondenceMarkup::ItemGroup.new(group_id, componentObjects)
       end
     }
   end
@@ -45,7 +47,7 @@ grammar CorrespondenceMarkupLanguage
   rule non_item
     text:text
     { 
-      def value
+      def value(group_id = "")
         CorrespondenceMarkup::NonItem.new(text.value)
       end
     }
@@ -54,8 +56,8 @@ grammar CorrespondenceMarkupLanguage
   rule item
     "[" id:item_id S text:text "]"
     { 
-      def value
-        CorrespondenceMarkup::Item.new(id.value, text.value)
+      def value(group_id = "")
+        CorrespondenceMarkup::Item.new(group_id + id.value, text.value)
       end
     }
   end

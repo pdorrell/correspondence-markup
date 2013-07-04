@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name              = "correspondence-markup"
-  spec.version           = "0.0.5"
+  spec.version           = "0.1.0"
   spec.platform          = Gem::Platform::RUBY
   spec.authors           = ["Philip Dorrell"]
   spec.email             = ["http://thinkinghard.com/email.html"]
