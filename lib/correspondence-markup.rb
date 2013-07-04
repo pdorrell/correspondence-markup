@@ -11,7 +11,11 @@ module CorrespondenceMarkup
     end
     
     def compile_structure_groups(markup)
-      @parser.parse(markup, root: :structure_groups).value
+      syntax_tree = @parser.parse(markup, root: :structure_groups)
+      if(syntax_tree.nil?)
+        raise Exception, "Parse error: #{@parser.failure_reason}"
+      end
+      syntax_tree.value
     end
   end
   
