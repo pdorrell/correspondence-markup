@@ -1,26 +1,26 @@
 (
  {spanish
-  [[1 Isla Cristina] [2 es] [3 un] [4 municipio] [5 español] [6 situado] [7 en] [8 la] [9 costa] [10 occidental]]
-  [[11 de] [12 la] [13 provincia] [14 de] [15 Huelva], [16 Andalucía], [17 a unos] [19 7] [20 km] [21 de]]
-  [[22 la] [23 frontera] [24 portuguesa] [25 y] [26 encuadrado en] [28 la] [29 comarca] [30 de] [31 la] [32 Costa] [33 Occidental.]]
+  [A [1 Isla Cristina] [2 es] [3 un] [4 municipio] [5 español] [6 situado] [7 en] [8 la] [9 costa] [10 occidental]]
+  [B [1 de] [2 la] [3 provincia] [4 de] [5 Huelva], [6 Andalucía], [7 a unos] [8 7] [9 km] [10 de]]
+  [C [1 la] [2 frontera] [3 portuguesa] [4 y] [5 encuadrado en] [6 la] [7 comarca] [8 de] [9 la] [10 Costa] [11 Occidental.]]
  }
 
  {english
-  [[1 Isla Cristina] [2 is] [3 a] [5 Spanish] [4 municipality] [6 located] [7 in] [8 the] [10 west] [9 coast]]
-  [[11 of] [12 the] [13 province] [14 of] [15 Huelva], [16 Andalusia], [17 about] [19 7] [20 km] [21 from]]
-  [[22 the] [24 Portuguese] [23 border] [25 and] [26 surrounded by] [28 the] [33 West] [32 Coast] [29 region].]
+  [A [1 Isla Cristina] [2 is] [3 a] [5 Spanish] [4 municipality] [6 located] [7 in] [8 the] [10 west] [9 coast]]
+  [B [1 of] [2 the] [3 province] [4 of] [5 Huelva], [6 Andalusia], [7 about] [8 7] [9 km] [10 from]]
+  [C [1 the] [3 Portuguese] [2 border] [4 and] [5 surrounded by] [6 the] [11 West] [30 Coast] [7 region].]
  }
 )
 
 (
  {spanish
-  [[1 A] [2 primeros] [3 de] [4 2012] [5 contaba con] [6 una] [7 población]]
-  [[8 cercana a los] [9 22.000] [10 habitantes].]
+  [A [1 A] [2 primeros] [3 de] [4 2012] [5 contaba con] [6 una] [7 población]]
+  [B [1 cercana a los] [2 22.000] [3 habitantes].]
  }
 
  {english
-  [[1 At] [2 the beginning] [3 of] [4 2012] [5 it had] [6 a] [7 population]]
-  [[8 of about] [9 22,000] [10 inhabitants].]
+  [A [1 At] [2 the beginning] [3 of] [4 2012] [5 it had] [6 a] [7 population]]
+  [B [1 of about] [2 22,000] [3 inhabitants].]
  }
 )
 
@@ -37,17 +37,17 @@
 
 (
  {spanish
-  [[1 Sus] [2 orígenes] [3 se remontan  a] [4 la] [5 fundación] [6 de] [7 una] [8 colonia] [9 pesquera] [10 por]]
-  [[11 catalanes] [12 y] [13 valencianos] [14 tras] [15 el] [16 terremoto] [17 de Lisboa] [18 de] [19 1755],]
-  [[20 que] [21 creció] [22 hasta] [23 obtener] [24 su] [25 propio] [26 ayuntamiento] [27 en] [28 1833] [29 y]]
-  [[30 absorber] [31 después] [30 al] [32 antiguo] [33 municipio] [34 de] [35 La Redondela] [36 en] [37 1887].]
+  [A [1 Sus] [2 orígenes] [3 se remontan  a] [4 la] [5 fundación] [6 de] [7 una] [8 colonia] [9 pesquera] [10 por]]
+  [B [1 catalanes] [2 y] [3 valencianos] [4 tras] [5 el] [6 terremoto] [7 de Lisboa] [8 de] [9 1755],]
+  [C [1 que] [2 creció] [3 hasta] [4 obtener] [5 su] [6 propio] [7 ayuntamiento] [8 en] [9 1833] [10 y]]
+  [D [1 absorber] [2 después] [1 al] [3 antiguo] [4 municipio] [5 de] [6 La Redondela] [7 en] [8 1887].]
  }
 
  {english
-  [[1 Its] [2 origins] [3 date back to] [4 the] [5 foundation] [6 of] [7 a] [9 fishing] [8 colony] [10 by]]
-  [[11 Catalonians] [12 and] [13 Valencians] [14 after] [15 the] [17 Lisbon] [16 earthquake] [18 of] [19 1755],]
-  [[20 which] [21 grew] [22 to] [23 have] [24 its] [25 own] [26 municipality] [27 in] [28 1833] [29 and]]
-  [[31 later] [30 absorbed the] [32 old] [33 town] [34 of] [35 La Redondela] [36 in] [37 1887].]
+  [A [1 Its] [2 origins] [3 date back to] [4 the] [5 foundation] [6 of] [7 a] [9 fishing] [8 colony] [10 by]]
+  [B [1 Catalonians] [2 and] [3 Valencians] [4 after] [5 the] [7 Lisbon] [6 earthquake] [8 of] [9 1755],]
+  [C [1 which] [2 grew] [3 to] [4 have] [5 its] [6 own] [7 municipality] [8 in] [9 1833] [10 and]]
+  [D [2 later] [1 absorbed the] [3 old] [4 town] [5 of] [6 La Redondela] [7 in] [8 1887].]
  }
 )
 
