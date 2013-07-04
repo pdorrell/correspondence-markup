@@ -74,11 +74,11 @@ module CorrespondenceMarkup
                                                          [Item.new("1", "Hola"), NonItem.new("  "), 
                                                           Item.new("2", "mundo")])])
                            ]);
-      parse(" [[[1 Hello] in between stuff [2 world]]] [[[1 Hola]  [2 mundo]]] ", 
+      parse(" {[[1 Hello] in between stuff [2 world]]} {[[1 Hola]  [2 mundo]]} ", 
             :structure_group).value.should == expectedStructureGroup
-      parse("[ [[1 Hello] in between stuff [2 world]]][[[1 Hola]  [2 mundo]] ]", 
+      parse("{ [[1 Hello] in between stuff [2 world]]}{[[1 Hola]  [2 mundo]] }", 
             :structure_group).value.should == expectedStructureGroup
-      parse("[[[1 Hello] in between stuff [2 world]]][[[1 Hola]  [2 mundo]]]",
+      parse("{[[1 Hello] in between stuff [2 world]]}{[[1 Hola]  [2 mundo]]}",
             :structure_group).value.should == expectedStructureGroup
         
     end
@@ -106,10 +106,10 @@ module CorrespondenceMarkup
                             ])]
       
       parse(%{
-              [ [[[1 Hello] in between stuff [2 world]]]
-                [[[1 Hola]  [2 mundo]]] ]
-              [ [[[3 3] [4 +] [5 4] [6 =] [7 7]]]
-                [[[3 three] [4 and] [5 four] [6 makes] [7 seven]]] ]
+              ( {[[1 Hello] in between stuff [2 world]]}
+                {[[1 Hola]  [2 mundo]]} )
+              ( {[[3 3] [4 +] [5 4] [6 =] [7 7]]}
+                {[[3 three] [4 and] [5 four] [6 makes] [7 seven]]} )
              }, :structure_groups).value.should == expectedStructureGroups
                              
     end

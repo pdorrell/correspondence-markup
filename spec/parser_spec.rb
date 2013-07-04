@@ -102,29 +102,44 @@ describe "markup language grammar" do
   end
   
   it "parses structure group from from { structure } ..." do
-    should_parse(:structure_group, ["", "[]", "[[[1 x]]]", "[[]]", 
-                                    " [[A [1 Hello]] [B [1 world]]] [[A [1 Hola]] [B [2 Mundo]] ]", 
-                                    "[[A [1 Hello]] [B [1 world]]][[A [1 Hola]] [B [2 Mundo]]]"
+    should_parse(:structure_group, ["", "{}", "{[[1 x]]}", "{[]}", 
+                                    " {[A [1 Hello]] [B [1 world]]} {[A [1 Hola]] [B [2 Mundo]] }", 
+                                    "{[A [1 Hello]] [B [1 world]]}{[A [1 Hola]] [B [2 Mundo]]}"
                                    ])
-    should_not_parse(:structure_group, ["[", "[[]", "[[]][[", "[[]]]", "[[[]]]"])
+    should_not_parse(:structure_group, ["[", "{[]", "{[]}{[", "[[]]}", "{[[]]}"])
                                         
   end
   
-  it "parses structure groups from [ structure ... ] ..." do
-    should_parse(:structure_groups, ["[]", "[[[]]]", 
-                                    " [[[A [1 Hello]] [B [1 world]]] [[A [1 Hola]] [B [2 Mundo]] ]]" +
-                                    " [[[A [1 Goodbye]] [B [1 friends]]] [[A [1 Ciao]] [B [2 amigos]] ]]"
+  it "parses structure groups from ( structure ... ) ..." do
+    should_parse(:structure_groups, ["()", "({[]})", 
+                                     " ({[A [1 Hello]] [B [1 world]]} {[A [1 Hola]] [B [2 Mundo]] })" +
+                                     " ({[A [1 Goodbye]] [B [1 friends]]} {[A [1 Ciao]] [B [2 amigos]] })"
                                     ])
     should_parse(:structure_groups, [%{
-                                       [
-                                        [[1 hello] [2 world]] [[1 hola] [2 mundo]]]
-                                        [[[4 item]] ]
+                                       (
+                                        {
+                                         [A [1 hello] [2 world]]
+                                        }
+                                        {
+                                         [A [1 hola] [2 mundo]]
+                                        }
+                                       )
+                                       (
+                                        {
+                                         [B [1 One] [2 more]]
+                                         [A [1 item]]
+                                        }
+                                        {
+                                         [B [1 A singular] [2 additional]]
+                                         [A [1 thing]]
+                                        }
+                                       )
                                       }])
     should_parse(:structure_groups, [ %{
-              [ [[[1 Hello] in between stuff [2 world]]]
-                [[[1 Hola]  [2 mundo]]] ]
-              [ [[[3 3] [4 +] [5 4] [6 =] [7 7]]]
-                [[[3 three] [4 and] [5 four] [6 makes] [7 seven]]] ]
+              ( {[[1 Hello] in between stuff [2 world]]}
+                {[[1 Hola]  [2 mundo]]} )
+              ( {[[3 3] [4 +] [5 4] [6 =] [7 7]]}
+                {[[3 three] [4 and] [5 four] [6 makes] [7 seven]]} )
              }])
   end
   
