@@ -110,7 +110,10 @@ module CorrespondenceMarkup
     end
     
     def to_html(options={})
-      "<div class=\"structure\">\n  " + @itemGroups.map{|x| x.to_html(options)}.join("") + "\n</div>\n"
+      itemGroupHtmls = @item_groups.map{|x| x.to_html(options)}
+      "<div class=\"structure\">\n  " + 
+        itemGroupHtmls.join("").chomp("\n").gsub("\n", "\n  ") +
+        "\n</div>\n"
     end
     
   end
