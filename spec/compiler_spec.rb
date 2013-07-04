@@ -19,8 +19,8 @@ module CorrespondenceMarkup
     end
     
     it "compiles item_id" do
-      parse("234", :item_id).value.should == "234"
-      parse("A234", :item_id).value.should == "A234"
+      parse("234", :item_id).text_value.should == "234"
+      parse("A234", :item_id).text_value.should == "A234"
     end
     
     it "compiles item" do

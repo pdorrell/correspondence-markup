@@ -49,6 +49,11 @@ describe "markup language grammar" do
                              [" hello  ", " "]])
   end    
   
+  it "parses structure class" do
+    should_parse(:structure_class, ["english", "ruby", "us-english", "", "english2"])
+    should_not_parse(:structure_class, ["55", "us english", "2english"])
+  end
+  
   it "parses item id with optional upper-case alphabetic and one or more decimal digits" do
     should_parse(:item_id, ["45", "5", "6677", "99999988", "A31", "AB31"])
     should_not_parse(:item_id, ["", "-45", "6 7", "jim", "A"])
@@ -84,9 +89,10 @@ describe "markup language grammar" do
                                "A [1 Hello] [2 world]"])
   end  
   
-  it "parses structure from text & items ..." do
+  it "parses structure from optional style + item groups ..." do
     should_parse(:structure, ["", "[]", 
                               "[[1 Hello]]", 
+                              "english [A [1 Hello]]", 
                               "[A [1 Hello]][B [1 world]]", 
                               "[A [1 Hello]]", 
                               "[A non-item text][B [2 item]]", 

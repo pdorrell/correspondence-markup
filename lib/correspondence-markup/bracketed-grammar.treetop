@@ -24,7 +24,7 @@ grammar CorrespondenceMarkupLanguage
   end
 
   rule structure
-    s itemGroups:("[" item_group "]" s)*
+    class:structure_class s itemGroups:("[" item_group "]" s)*
     { 
       def value
         itemGroupObjects = itemGroups.elements.map {|e| e.item_group.value}
@@ -57,7 +57,7 @@ grammar CorrespondenceMarkupLanguage
     "[" id:item_id S text:text "]"
     { 
       def value(group_id = "")
-        item_id = id.value
+        item_id = id.text_value
         if !item_id.match(/[A-Z]/)
           item_id = group_id + item_id
         end
@@ -77,11 +77,10 @@ grammar CorrespondenceMarkupLanguage
 
   rule item_id
     [A-Z]* [0-9]+
-    { 
-      def value
-        text_value
-      end
-    }
+  end
+  
+  rule structure_class
+    ([a-zA-Z] [a-zA-Z0-9_-]*)?
   end
 
   rule s
