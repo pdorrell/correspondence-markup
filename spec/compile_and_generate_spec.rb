@@ -10,6 +10,7 @@ module CorrespondenceMarkup
     end
     
     it "compiles structure groups and generates HTML" do
+      pending("compile structure groups with item groups")
       structure_groups_markup = input_file_contents("structureGroups.corrml")
       structure_groups = @compiler.compile_structure_groups(structure_groups_markup)
       structure_groups_html = structure_groups.map(&:to_html).join "\n"

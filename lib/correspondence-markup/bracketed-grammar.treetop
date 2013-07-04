@@ -32,6 +32,10 @@ grammar CorrespondenceMarkupLanguage
     }
   end
   
+  rule item_group
+    item_group_id:(([A-Z]+ S) / s) components:(item / non_item)*
+  end
+  
   rule non_item
     text:text
     { 
