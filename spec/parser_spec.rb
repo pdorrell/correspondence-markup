@@ -116,6 +116,12 @@ describe "markup language grammar" do
                                         
   end
   
+  it "parses structure group description" do
+    should_parse(:structure_group, ["#Description of this group\n{[[1 x]]}"])
+    should_not_parse(:structure_group, ["Description of this group\n{[[1 x]]}", 
+                                        "#Description of this group{[[1 x]]}"])
+  end
+  
   it "parses structure groups from ( structure ... ) ..." do
     should_parse(:structure_groups, ["()", "({[]})", 
                                      " ({[A [1 Hello]] [B [1 world]]} {[A [1 Hola]] [B [2 Mundo]] })" +

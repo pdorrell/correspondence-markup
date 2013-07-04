@@ -14,13 +14,17 @@ grammar CorrespondenceMarkupLanguage
   end
 
   rule structure_group
-    s structures:("{" structure "}" s)*
+    s description:structure_group_description? s structures:("{" structure "}" s)*
     { 
       def value
         structureObjects = structures.elements.map {|e| e.structure.value}
         CorrespondenceMarkup::StructureGroup.new(structureObjects)
       end
     }
+  end
+  
+  rule structure_group_description
+    "#" s [^{\n]* "\n"
   end
 
   rule structure
@@ -33,6 +37,10 @@ grammar CorrespondenceMarkupLanguage
     }
   end
   
+  rule structure_class
+    ([a-zA-Z] [a-zA-Z0-9_-]*)?
+  end
+
   rule item_group
     id:(([A-Z]+ S) / s) components:(item / non_item)*
     { 
@@ -79,10 +87,6 @@ grammar CorrespondenceMarkupLanguage
     [A-Z]* [0-9]+
   end
   
-  rule structure_class
-    ([a-zA-Z] [a-zA-Z0-9_-]*)?
-  end
-
   rule s
     [\s\n\r\t]*
   end
