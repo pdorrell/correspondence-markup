@@ -1,10 +1,13 @@
+#output(x)=[<span class="output-marker">=></span> <span class="output">]x[</span>]
+#printed(x)=[<span class="output">]x[</span>]
+
 (Assignment
  {ruby
   [[1 x] [2 =] [3 3]]
   [[4 x] [5 =] [6 4]]
   [[7 x] [8 =] [9 x] [10 +] [11 1]]
   [[12 puts] [13 x]
-<span class="output-marker">=></span> <span class="output">[14 5]</span>]
+#output([14 5])]
  }
 
  {english
@@ -12,7 +15,7 @@
   [[5 Set the value of] [4 the variable <b>x</b>] [5 to be] [6 <b>4</b>] (over-writing the previous value of <b>3</b>)]
   [[8 Set the new value of] [7 the variable <b>x</b>] [8 to be] [9 the current value of <b>x</b>] [10 plus] [11 <b>1</b>]
    (so the new value of  <b>x</b> will be <b>4 + 1 = 5</b>)]
-  [[12 Print out] [13 the value of the variable <b>x</b>] (prints out <span class="output">[14 5]</span>)]]
+  [[12 Print out] [13 the value of the variable <b>x</b>] (prints out #printed([14 5]))]
  }
 )
 
@@ -22,13 +25,13 @@
   [   [4 return] [5 x][6 *][7 x]]
   [[1 end]]
   [[8 puts] [9 square]([10 5])
-<span class="output-marker">=></span> <span class="output">[11 25]</span>]
+#output([11 25])]
  }
 
  {english
   [[1 Define] [2 <b>square</b>] [1 to be a function that takes] [3 one argument <b>x</b>] and
    [4 returns the value of] [5 <b>x</b>] [6 multiplied by] [7 itself].]
-  [[8 Print out] the value of the [9 <b>square</b>] of [10 <b>5</b>] (prints out <span class="output">[11 25]</span>).]]
+  [[8 Print out] the value of the [9 <b>square</b>] of [10 <b>5</b>] (prints out #printed([11 25]))]
  }
 )
 
@@ -42,7 +45,7 @@
   [    [13 sum]]
   [[1 end]]
   [[14 puts] [15 triangle]([16 6])
-<span class="output-marker">=></span> <span class="output">[17 21]</span>]
+#output([17 21])]
  }
 
  {english
@@ -53,7 +56,7 @@
   [[13 Then return the value of <b>sum</b>.] (The last expression in a Ruby function is returned
    if there is no explicit <b>return</b> statement.)]
   [[14 Print out] the value of the function [15 <b>triangle</b>] applied to [16 <b>6</b>] 
-   (prints out <span class="output">[17 21]</span> = 1 + 2 + 3 + 4 + 5 + 6).]
+    (prints out #printed([17 21]) = 1 + 2 + 3 + 4 + 5 + 6).]
  }
 )
 
