@@ -49,7 +49,7 @@ describe "markup language grammar" do
                              [" hello  ", " "]])
   end    
   
-  it "parses number with one or more decimal digits only" do
+  it "parses item id with optional upper-case alphabetic and one or more decimal digits" do
     should_parse(:item_id, ["45", "5", "6677", "99999988", "A31", "AB31"])
     should_not_parse(:item_id, ["", "-45", "6 7", "jim", "A"])
     should_partly_parse(:item_id, [["45n", "45"], 
@@ -57,7 +57,7 @@ describe "markup language grammar" do
                                    ["A31 [", "A31"]])
   end
   
-  it "parses item from [<number><whitespace><whatever>]" do
+  it "parses item from [<item id><whitespace><whatever>]" do
     should_parse(:item, ["[34 item text]", "[56 99]"])
     should_not_parse(:item, ["34 item text]", 
                              "[item text]", 
@@ -87,10 +87,10 @@ describe "markup language grammar" do
   it "parses structure from text & items ..." do
     should_parse(:structure, ["", 
                               "[[1 Hello]]", 
-                              "[[1 Hello][2 world]]", 
-                              "[ [1 Hello]]", 
-                              "[ non-item text]", 
-                              "[[1 Hello] [2 World].]", 
+                              "[A [1 Hello]][B [1 world]]", 
+                              "[A [1 Hello]]", 
+                              "[A non-item text]", 
+                              "[A [1 Hello]][B[2 World].]", 
                               "[ non-item [1 item 1] [2 item 2] the end]"])
     should_not_parse(:structure, ["[", 
                                   "]", 
@@ -101,11 +101,11 @@ describe "markup language grammar" do
                                   ])
   end
   
-  it "parses structure group from from structure ..." do
-    should_parse(:structure_group, ["", "[]", "[[1 x]]", 
-                                    "[[1 Hello] [2 world]]", 
-                                    "[[1 Hello] [2 world]][[1 Hola] [2 Mundo]]", 
-                                    "[[1 Hello] [2 world]] [[1 Hola] [2 Mundo]]", 
+  it "parses structure group from from { structure } ..." do
+    should_parse(:structure_group, ["", "[]}", "[[1 x]]", 
+                                    " [A [1 Hello] [2 world]] [B [", 
+                                    " [A [1 Hello] [2 world]][[1 Hola] [2 Mundo]] ", 
+                                    " [[1 Hello] [2 world]] [[1 Hola] [2 Mundo]] ", 
                                     " [[1 Hello] [2 world]] [[1 Hola] [2 Mundo]] "
                                    ])
     should_not_parse(:structure_group, ["[", "[[]", "[[]][[", "[[]]]", "[[[]]]"])
