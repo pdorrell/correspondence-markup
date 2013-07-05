@@ -28,11 +28,11 @@ grammar CorrespondenceMarkupLanguage
   end
 
   rule structure
-    class:structure_class s itemGroups:("[" item_group "]" s)*
+    structure_class s itemGroups:("[" item_group "]" s)*
     { 
       def value
         itemGroupObjects = itemGroups.elements.map {|e| e.item_group.value}
-        CorrespondenceMarkup::Structure.new(itemGroupObjects)
+        CorrespondenceMarkup::Structure.new(structure_class.text_value, itemGroupObjects)
       end
     }
   end

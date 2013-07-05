@@ -1,15 +1,15 @@
 
 (
- {
+ {english
   [A:[1 Hello] [2 world].]
  }
- {
+ {spanish
   [A:[1 Hola] [2 mundo].]
  }
 )
 
 (
- {
+ {spanish
   [B:[0 ¿][1 Qual] [2 prefieres][0 ?] [3 Me] [4 gusta] [5 el] [6 verde][7 .]]
  }
  {
