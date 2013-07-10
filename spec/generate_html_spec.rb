@@ -25,7 +25,7 @@ module CorrespondenceMarkup
     end
     
     it "generates HTML for an item" do
-      item = Item.new(21, "the text with &lt;")
+      item = Item.new("3,21", "the text with &lt;")
       item.to_html.should == output_file_contents("item.html")
       item.to_html(escaped: true).should == output_file_contents("item.escaped.html")
     end
