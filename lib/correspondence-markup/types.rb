@@ -99,15 +99,18 @@ module CorrespondenceMarkup
   
   # A structure, containing a sequence of items and non-items
   class Structure
-    attr_reader :type, :item_groups
+    attr_reader :type, :description, :item_groups
     
-    def initialize(type, item_groups)
+    def initialize(type, description, item_groups)
       @type = type
+      @description = description
       @item_groups = item_groups
     end
 
     def ==(otherStructure)
-      otherStructure.class == Structure && otherStructure.type == @type && otherStructure.item_groups == @item_groups
+      otherStructure.class == Structure && otherStructure.type == @type  &&
+        otherStructure.description == description &&
+        otherStructure.item_groups == @item_groups
     end
     
     def css_class_names

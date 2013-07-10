@@ -58,33 +58,39 @@ module CorrespondenceMarkup
     describe "Structure type" do
       it "structure has type and item_groups attribute" do
         structure = Structure.new("english", 
+                                  "English", 
                                   [ItemGroup.new("D", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])])
         structure.type.should == "english"
+        structure.description.should == "English"
         structure.item_groups.should == [ItemGroup.new("D", [Item.new(1, "hello"), 
                                                              NonItem.new(" "), Item.new(2, "world")])]
       end
       
       it "structure is equal to a structure with the same item_groups" do
-        structure = Structure.new("english", 
+        structure = Structure.new("english", "English", 
                                   [ItemGroup.new("D", 
                                                  [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])])
         structure.should_not == "something else"
-        structure.should_not == Structure.new("spanish", 
+        structure.should_not == Structure.new("english", "Spanish", 
                                               [ItemGroup.new("D", 
                                                              [Item.new(1, "hello"), NonItem.new(" "), 
                                                               Item.new(2, "world")])])
-        structure.should == Structure.new("english", 
-                                          [ItemGroup.new("D", 
+        structure.should_not == Structure.new("spanish", "English", 
+                                              [ItemGroup.new("D", 
+                                                             [Item.new(1, "hello"), NonItem.new(" "), 
+                                                              Item.new(2, "world")])])
+         structure.should == Structure.new("english", "English", 
+                                           [ItemGroup.new("D", 
                                                          [Item.new(1, "hello"), NonItem.new(" "), 
                                                           Item.new(2, "world")])])
-        structure.should_not == Structure.new("english", 
+        structure.should_not == Structure.new("english", "English", 
                                               [ItemGroup.new("D", 
                                                              [Item.new(1, "hello"), NonItem.new("space"), 
                                                               Item.new(2, "world")])])
-        structure.should_not == Structure.new("english", 
+        structure.should_not == Structure.new("english", "English", 
                                               [ItemGroup.new("D", 
                                                              [Item.new(1, "hello"), NonItem.new(" ")])])
-        structure.should_not == Structure.new("english", 
+        structure.should_not == Structure.new("english", "English", 
                                               [ItemGroup.new("D", 
                                                              [Item.new(1, "hello"), NonItem.new(" "), 
                                                               Item.new(3, "world")])])
@@ -94,22 +100,30 @@ module CorrespondenceMarkup
     describe "StructureGroup type" do
       it "structure group has structures attribute" do
         structureGroup = 
-          StructureGroup.new([Structure.new("english", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
-                              Structure.new("spanish", [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
+          StructureGroup.new([Structure.new("english", "English", 
+                                            [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
+                              Structure.new("spanish", "Spanish", 
+                                            [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
         structureGroup.structures[1].should == 
-          Structure.new("spanish", [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])
+          Structure.new("spanish", "Spanish", [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])
       end
       
       it "structure groups are equal if their content is equal" do
         structureGroup = 
-          StructureGroup.new([Structure.new("english", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
-                              Structure.new("spanish", [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
+          StructureGroup.new([Structure.new("english", "English", 
+                                            [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
+                              Structure.new("spanish", "Spanish", 
+                                            [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
         identicalGroup = 
-          StructureGroup.new([Structure.new("english", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
-                              Structure.new("spanish", [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
+          StructureGroup.new([Structure.new("english", "English",
+                                            [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
+                              Structure.new("spanish", "Spanish", 
+                                            [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
         notQuiteTheSameGroup = 
-          StructureGroup.new([Structure.new("english", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
-                              Structure.new("spanish", [Item.new(1, "Holla"), NonItem.new(" "), Item.new(2, "mundo")])])
+          StructureGroup.new([Structure.new("english", "English", 
+                                            [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
+                              Structure.new("spanish", "Spanish", 
+                                            [Item.new(1, "Holla"), NonItem.new(" "), Item.new(2, "mundo")])])
         structureGroup.should == structureGroup
         structureGroup.should == identicalGroup
         structureGroup.should_not == "something else"

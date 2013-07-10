@@ -32,7 +32,9 @@ grammar CorrespondenceMarkupLanguage
     { 
       def value
         itemGroupObjects = itemGroups.elements.map {|e| e.item_group.value}
-        CorrespondenceMarkup::Structure.new(structure_annotation.structure_class.text_value, itemGroupObjects)
+        class_name, description = structure_annotation.value
+        CorrespondenceMarkup::Structure.new(class_name, description, 
+                                            itemGroupObjects)
       end
     }
   end
@@ -42,7 +44,17 @@ grammar CorrespondenceMarkupLanguage
   end
 
   rule structure_annotation
-    structure_class (":" s description:[^\n]* "\n")?
+    structure_class description_section:(":" s description:[^\n]* "\n")?
+    {
+      def value
+        class_name = structure_class.text_value
+        description = nil
+        if description_section.elements
+          description = description_section.description.text_value
+        end
+        [class_name, description]
+      end
+    }
   end
 
   rule item_group

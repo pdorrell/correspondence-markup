@@ -67,34 +67,36 @@ module CorrespondenceMarkup
     it "compiles structure" do
       structureNode = parse("[A:[1 an item] in between stuff [2 a second item]]", :structure)
       structureNode.value.should == 
-        Structure.new("", [ItemGroup.new("A", [Item.new("A1", "an item"), NonItem.new(" in between stuff "), 
-                                               Item.new("A2", "a second item")])])
+        Structure.new("", nil, 
+                      [ItemGroup.new("A", [Item.new("A1", "an item"), NonItem.new(" in between stuff "), 
+                                           Item.new("A2", "a second item")])])
     end
     
     it "compiles structure with CSS class" do
-      structureNode = parse("english [A:[1 an item] in between stuff [2 a second item]]", :structure)
+      structureNode = parse("english: English\n [A:[1 an item] in between stuff [2 a second item]]", :structure)
       structureNode.value.should == 
-        Structure.new("english", [ItemGroup.new("A", [Item.new("A1", "an item"), NonItem.new(" in between stuff "), 
-                                                      Item.new("A2", "a second item")])])
+        Structure.new("english", "English", 
+                      [ItemGroup.new("A", [Item.new("A1", "an item"), NonItem.new(" in between stuff "), 
+                                           Item.new("A2", "a second item")])])
     end
     
     it "compiles structure group" do
       expectedStructureGroup = 
         StructureGroup.new([
-                            Structure.new("english", 
+                            Structure.new("english", "English", 
                                           [ItemGroup.new("", 
                                                          [Item.new("1", "Hello"), NonItem.new(" in between stuff "), 
                                                           Item.new("2", "world")])]), 
-                            Structure.new("spanish", 
+                            Structure.new("spanish", "Spanish", 
                                           [ItemGroup.new("", 
                                                          [Item.new("1", "Hola"), NonItem.new("  "), 
                                                           Item.new("2", "mundo")])])
                            ]);
-      parse(" {english [[1 Hello] in between stuff [2 world]]} {spanish [[1 Hola]  [2 mundo]]} ", 
+      parse(" {english: English\n [[1 Hello] in between stuff [2 world]]} {spanish: Spanish\n [[1 Hola]  [2 mundo]]} ", 
             :structure_group).value.should == expectedStructureGroup
-      parse("{english [[1 Hello] in between stuff [2 world]]}{spanish [[1 Hola]  [2 mundo]] }", 
+      parse("{english:  English\n [[1 Hello] in between stuff [2 world]]}{spanish: Spanish\n [[1 Hola]  [2 mundo]] }", 
             :structure_group).value.should == expectedStructureGroup
-      parse("{english [[1 Hello] in between stuff [2 world]]}{spanish [[1 Hola]  [2 mundo]]}",
+      parse("{english: English\n [[1 Hello] in between stuff [2 world]]}{spanish: Spanish\n [[1 Hola]  [2 mundo]]}",
             :structure_group).value.should == expectedStructureGroup
         
     end
@@ -102,22 +104,22 @@ module CorrespondenceMarkup
     it "compiles structure groups" do
       expectedStructureGroups = 
         [StructureGroup.new([
-                            Structure.new("english", 
+                            Structure.new("english", "English", 
                                           [ItemGroup.new("", 
                                                          [Item.new("1", "Hello"), NonItem.new(" in between stuff "), 
                                                           Item.new("2", "world")])]), 
-                            Structure.new("spanish", 
+                            Structure.new("spanish", nil, 
                                           [ItemGroup.new("", 
                                                          [Item.new("1", "Hola"), NonItem.new("  "), 
                                                           Item.new("2", "mundo")])])
                             ]), 
          StructureGroup.new([
-                             Structure.new("equation", 
+                             Structure.new("equation", "Mathematical Equation", 
                                            [ItemGroup.new("", 
                                                           [Item.new("3", "3"), NonItem.new(" "), Item.new("4", "+"), 
                                                            NonItem.new(" "), Item.new("5", "4"), NonItem.new(" "), 
                                                            Item.new("6", "="), NonItem.new(" "), Item.new("7", "7")])]), 
-                             Structure.new("english", 
+                             Structure.new("english", "English", 
                                            [ItemGroup.new("", 
                                                           [Item.new("3", "three"), NonItem.new(" "), Item.new("4", "and"), 
                                                            NonItem.new(" "), Item.new("5", "four"), NonItem.new(" "), 
@@ -126,10 +128,13 @@ module CorrespondenceMarkup
                             ])]
       
       parse(%{
-              ( {english [[1 Hello] in between stuff [2 world]]}
+              ( {english: English
+                 [[1 Hello] in between stuff [2 world]]}
                 {spanish [[1 Hola]  [2 mundo]]} )
-              ( {equation [[3 3] [4 +] [5 4] [6 =] [7 7]]}
-                {english [[3 three] [4 and] [5 four] [6 makes] [7 seven]]} )
+              ( {equation: Mathematical Equation
+                 [[3 3] [4 +] [5 4] [6 =] [7 7]]}
+                {english: English
+                 [[3 three] [4 and] [5 four] [6 makes] [7 seven]]} )
              }, :structure_groups).value.should == expectedStructureGroups
                              
     end
