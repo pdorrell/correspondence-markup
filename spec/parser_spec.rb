@@ -62,6 +62,12 @@ describe "markup language grammar" do
                                    ["A31 [", "A31"]])
   end
   
+  it "parses item ids separated by commas" do
+    should_parse(:item_ids, ["45", "B9", "1,2", "B1,A3"])
+    should_not_parse(:item_ids, ["", "1, 2"])
+    should_partly_parse(:item_ids, [["1,2n", "1,2"]]) 
+  end
+  
   it "parses item from [<item id><whitespace><whatever>]" do
     should_parse(:item, ["[34 item text]", "[56 99]"])
     should_not_parse(:item, ["34 item text]", 

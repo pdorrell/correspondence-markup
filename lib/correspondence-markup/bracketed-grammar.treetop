@@ -82,6 +82,10 @@ grammar CorrespondenceMarkupLanguage
       end
     }
   end
+  
+  rule item_ids
+    item_id ("," item_id)*
+  end
 
   rule item_id
     [A-Z]* [0-9]+
