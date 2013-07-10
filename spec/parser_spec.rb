@@ -54,6 +54,11 @@ describe "markup language grammar" do
     should_not_parse(:structure_class, ["55", "us english", "2english"])
   end
   
+  it "parses structure annotation" do
+    should_parse(:structure_annotation, ["english", "english: English\n", 
+                                         "ruby", "ruby: Ruby Programming Language\n", ":An equation\n"])
+  end
+  
   it "parses item id with optional upper-case alphabetic and one or more decimal digits" do
     should_parse(:item_id, ["45", "5", "6677", "99999988", "A31", "AB31"])
     should_not_parse(:item_id, ["", "-45", "6 7", "jim", "A"])
