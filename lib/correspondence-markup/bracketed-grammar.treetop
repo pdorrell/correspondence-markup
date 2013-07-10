@@ -65,11 +65,9 @@ grammar CorrespondenceMarkupLanguage
     "[" id:item_ids S text:text "]"
     { 
       def value(group_id = "")
-        item_id = id.text_value
-        if !item_id.match(/[A-Z]/)
-          item_id = group_id + item_id
-        end
-        CorrespondenceMarkup::Item.new(item_id, text.value)
+        item_ids = id.text_value.split(",")
+        item_ids = item_ids.map { |item_id| item_id.match(/[A-Z]/) ? item_id : group_id + item_id}
+        CorrespondenceMarkup::Item.new(item_ids.join(","), text.value)
       end
     }
   end

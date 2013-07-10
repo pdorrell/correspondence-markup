@@ -57,6 +57,13 @@ module CorrespondenceMarkup
                             Item.new("B2", "a second item")])
     end
     
+    it "parses item group with multiple IDs, adding group IDs as required" do
+      parse("A:[1,B3,2 an item] in between stuff [B2,4,5 a second item]", :item_group).value.should == 
+        ItemGroup.new("A", [Item.new("A1,B3,A2", "an item"), NonItem.new(" in between stuff "), 
+                            Item.new("B2,A4,A5", "a second item")])
+    end
+      
+    
     it "compiles structure" do
       structureNode = parse("[A:[1 an item] in between stuff [2 a second item]]", :structure)
       structureNode.value.should == 
