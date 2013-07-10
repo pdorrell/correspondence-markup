@@ -44,10 +44,12 @@ module CorrespondenceMarkup
                                                          [ItemGroup.new("A", [NonItem.new("a\nb")])])])
       structureGroup.to_html.should == "<div class=\"structure-group\">\n" + 
         "  <div class=\"structure english-structure\">\n" + 
+        "    <div class=\"language\">English</div>\n" + 
         "    <div class=\"item-group\" data-group-id=\"A\">\n" +
         "      a\n    b\n    </div>\n  </div>\n</div>\n"
       structureGroup.to_html(br: true).should == "<div class=\"structure-group\">\n" + 
         "  <div class=\"structure english-structure\">\n" + 
+        "    <div class=\"language\">English</div>\n" + 
         "    <div class=\"item-group\" data-group-id=\"A\">\n" +
         "      a<br/>b\n    </div>\n  </div>\n</div>\n"
     end
@@ -74,7 +76,7 @@ module CorrespondenceMarkup
     end     
     
     it "generates HTML for a structure" do
-      structure = Structure.new("", nil, 
+      structure = Structure.new("", "English", 
                                 [ItemGroup.new("A", [Item.new(1, "Hello"), 
                                                      NonItem.new(", "), 
                                                      Item.new(2, "World")])])

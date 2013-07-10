@@ -124,6 +124,7 @@ module CorrespondenceMarkup
     def to_html(options={})
       itemGroupHtmls = @item_groups.map{|x| x.to_html(options)}
       "<div class=\"#{css_class_names}\">\n  " + 
+        (@description ? "<div class=\"language\">#{@description}</div>\n  " : "") +
         itemGroupHtmls.join("").chomp("\n").gsub("\n", "\n  ") +
         "\n</div>\n"
     end
