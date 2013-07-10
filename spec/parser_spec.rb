@@ -69,7 +69,7 @@ describe "markup language grammar" do
   end
   
   it "parses item from [<item id><whitespace><whatever>]" do
-    should_parse(:item, ["[34 item text]", "[56 99]"])
+    should_parse(:item, ["[34 item text]", "[56 99]", "[A2 anything]", "[A2,4 with multiple ids]"])
     should_not_parse(:item, ["34 item text]", 
                              "[item text]", 
                              "[34 item", 

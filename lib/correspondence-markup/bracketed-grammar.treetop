@@ -62,7 +62,7 @@ grammar CorrespondenceMarkupLanguage
   end
 
   rule item
-    "[" id:item_id S text:text "]"
+    "[" id:item_ids S text:text "]"
     { 
       def value(group_id = "")
         item_id = id.text_value
