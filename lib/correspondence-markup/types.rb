@@ -1,9 +1,13 @@
 
 require 'cgi'
 
+# Module containing the Ruby classes that define the nodes of the AST 
+# created when parsing Correspondence-Markup language according to the
+# grammar defined by *bracketed-grammar.treetop*.
+# Each node class knows how to output itself as HTML as defined by the
+# method *to_html*.
 module CorrespondenceMarkup
 
-  
   # Helper functions used when generating HTML
   module Helpers
     
@@ -11,7 +15,8 @@ module CorrespondenceMarkup
     TAGS_AND_TEXT_REGEX = /([<][^>]*[>]?)|([^<]+)/
     
     # Split some HTML source into tags and plain text not in tags
-    # (so that the two can be processed differently, e.g. transforming text nodes somehow)
+    # (so that the two can be processed differently, e.g. applying a transformation to text content
+    # where you don't want the transformation to apply to the internals of a directly-coded HTML tag)
     def self.split_tags_and_text(html)
       html.scan(TAGS_AND_TEXT_REGEX).to_a
     end
