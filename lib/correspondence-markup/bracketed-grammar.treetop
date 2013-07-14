@@ -31,6 +31,7 @@ grammar CorrespondenceMarkupLanguage
   rule structure_groups
     s groups:("(" structure_group ")" s)*
     {
+      # Return an array of StructureGroup object
       def value
         groups.elements.map {|e| e.structure_group.value}
       end
@@ -42,6 +43,7 @@ grammar CorrespondenceMarkupLanguage
   rule structure_group
     s description:structure_group_description? s structures:("{" structure "}" s)*
     { 
+      # Return a StructureGroup
       def value
         structureObjects = structures.elements.map {|e| e.structure.value}
         CorrespondenceMarkup::StructureGroup.new(structureObjects)
@@ -65,6 +67,7 @@ grammar CorrespondenceMarkupLanguage
   rule structure
     structure_annotation s itemGroups:("[" item_group "]" s)*
     { 
+      # Return a Structure
       def value
         itemGroupObjects = itemGroups.elements.map {|e| e.item_group.value}
         class_name, description = structure_annotation.value
@@ -83,6 +86,7 @@ grammar CorrespondenceMarkupLanguage
   rule structure_annotation
     structure_class description_section:(":" s description:[^\n]* "\n")?
     {
+      # Return an array of two strings for the type and the description
       def value
         class_name = structure_class.text_value
         description = nil
@@ -103,6 +107,7 @@ grammar CorrespondenceMarkupLanguage
   rule item_group
     optional_id:(id:[A-Z]* ":")? components:(item / non_item)*
     { 
+      # Return an ItemGroup
       def value
         group_id = optional_id.elements ? optional_id.elements[0].text_value : ""
         componentObjects = components.elements.map {|e| e.value(group_id)}
@@ -119,6 +124,8 @@ grammar CorrespondenceMarkupLanguage
   rule non_item
     text:text
     { 
+      # Given the item group ID (as a default prefix for the item IDs, which is ignored for non-items), 
+      # return a NonItem.
       def value(group_id = "")
         CorrespondenceMarkup::NonItem.new(text.value)
       end
@@ -139,6 +146,7 @@ grammar CorrespondenceMarkupLanguage
   rule item
     "[" id:item_ids S text:text "]"
     { 
+      # Given the item group ID (as a default prefix for the item IDs), return an Item
       def value(group_id = "")
         item_ids = id.text_value.split(",")
         item_ids = item_ids.map { |item_id| item_id.match(/[A-Z]/) ? item_id : group_id + item_id}
@@ -153,6 +161,7 @@ grammar CorrespondenceMarkupLanguage
   rule text
     (("\\" .) / (![\[\]\\] .))+
     { 
+      # Return the text, de-quoting any backslash-quoted characters.
       def value
         text_value.gsub(/\\(.)/, '\1')
       end
