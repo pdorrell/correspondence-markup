@@ -1,9 +1,33 @@
 require "correspondence-markup/types"
 
+# Grammar for a markup language which can be compiled into HTML format
+# required by correspondence.js
+
+# General note on bracketing of sequences - different components are enclosed
+# by different types of bracket, in particular:
+#
+# * item: "[]"
+# * item-group: "[]"
+# * structure: "{}"
+# * structure group: "()"
+#
+# However, in anticipation of a UI where the user may choose the granularity
+# at which to edit components of particular content, the parsing of brackets
+# is handled by the parent component, e.g. the "{}" bracketing of structures
+# is specified in the grammar rule for structure_group.
+# For example, if a user is editing a structure definition in a UI text area, 
+# there should be no necessity for the user to enter the enclosing "{}" brackets, 
+# because the UI text area implicitly encloses the definition that the user is editing.
+
 grammar CorrespondenceMarkupLanguage
 
+  # Include the Module containing Ruby classes representing the AST nodes
   include CorrespondenceMarkup
 
+  # This rule defines a sequence of structure groups.
+  # Individual structure groups are independent of each other
+  # (although typically they will be a sequence of structure groups
+  # where each structure group has structures in the same sequence of languages).
   rule structure_groups
     s groups:("(" structure_group ")" s)*
     {
@@ -13,6 +37,8 @@ grammar CorrespondenceMarkupLanguage
     }
   end
 
+  # A structure group is a group of structures where each structure represents
+  # the same information in a different "language".
   rule structure_group
     s description:structure_group_description? s structures:("{" structure "}" s)*
     { 
@@ -23,10 +49,19 @@ grammar CorrespondenceMarkupLanguage
     }
   end
   
+  # Optional lengthy description of a particular structure group. 
+  # (Intended to be displayed as the title of the structure group
+  # describing the information presented in the structure group.)
   rule structure_group_description
     "#" s [^{\n]* "\n"
   end
 
+  # A structure is one of two or more structures in a structure group
+  # (although the grammar does not impose any count restriction, in anticipation
+  # of application user's editing and saving incomplete content).
+  # A structure has a "type" (short language description intended to map to a CSS class), 
+  # a "description" (longer but still concise language description for display to the reader)
+  # and a sequence of "item groups".
   rule structure
     structure_annotation s itemGroups:("[" item_group "]" s)*
     { 
@@ -38,11 +73,13 @@ grammar CorrespondenceMarkupLanguage
       end
     }
   end
-  
+
+  # Structure class (for the structure's "type"), with rules similar to those of a CSS class identifier.
   rule structure_class
     ([a-zA-Z] [a-zA-Z0-9_-]*)?
   end
 
+  # Structure annotation contains the "type" and the "description" (both optional)
   rule structure_annotation
     structure_class description_section:(":" s description:[^\n]* "\n")?
     {
@@ -57,6 +94,12 @@ grammar CorrespondenceMarkupLanguage
     }
   end
 
+  # An item group is a sub-structure of a structure which contains a sequence of items and "non-items".
+  # An item group has an upper-case alphabetic ID (which should be unique within a structure, 
+  # and which should be the ID of an item-group in the first structure of a structure group, but
+  # neither of these rules is required by the grammar).
+  # The item group ID is used as a default prefix for any item IDs that do not start with 
+  # alphabetic characters (so a full item ID is always alphabetic followed by something else).
   rule item_group
     optional_id:(id:[A-Z]* ":")? components:(item / non_item)*
     { 
@@ -68,6 +111,11 @@ grammar CorrespondenceMarkupLanguage
     }
   end
   
+  # A "non-item" is textual content in an item group that is not part of an actual item.
+  # In effect this is text which is either not translatable to content in other structures
+  # in the same structure group, or, it is considered unimportant to identify its translation.
+  # For example, in the second case, punctuation in sentences, where translation is reasonably obvious, and we
+  # wish to highlight the translations of the actual words.
   rule non_item
     text:text
     { 
@@ -77,6 +125,17 @@ grammar CorrespondenceMarkupLanguage
     }
   end
 
+  # An item is textual content with an ID, where different items in the same structure group
+  # with the same ID are considered to be related to each other.
+  # Typically, items with the same ID in the same structure are considered to be part of the
+  # "same item", and items with the same ID in different structures are considered to be
+  # translations of each other.
+  # Item IDs consists of an upper-case alphabetic prefix followed by a numeric ID.
+  # Any item ID that lacks an alphabetic prefix will have the item group ID of the containing
+  # item group added as a prefix to its ID.
+  # (This reflects the assumption that an item usually relates to items in item groups in other
+  # structures with the same item group ID, but occasionally an item relates to an item in
+  # some other item group in another structure.)
   rule item
     "[" id:item_ids S text:text "]"
     { 
@@ -88,6 +147,9 @@ grammar CorrespondenceMarkupLanguage
     }
   end
 
+  # Text is the textual component of both items and non-items.
+  # Text is delimited by "]", "[" and (at the beginning of items) whitespace.
+  # Text can include backslash-quoted characters, for example to include any of the delimiter characters.
   rule text
     (("\\" .) / (![\[\]\\] .))+
     { 
@@ -97,18 +159,25 @@ grammar CorrespondenceMarkupLanguage
     }
   end
   
+  # Items can actually have multiple IDs, in which case they are separated by commas
+  # (and no whitespace). If there are multiple IDs, the convention of applying the
+  # item group ID as a default prefix is applied individually to each ID.
+  # So, for example, "2,A2,3" in item group B would be expanded to "B2,A2,B3".
   rule item_ids
     item_id ("," item_id)*
   end
 
+  # An item ID - optional upper-case alphabetic prefix, followed by a numeric ID.
   rule item_id
     [A-Z]* [0-9]+
   end
   
+  # Rule for optional whitespace
   rule s
     [\s\n\r\t]*
   end
 
+  # Rule for mandatory whitespace
   rule S
     [\s\n\r\t]+
   end
