@@ -14,18 +14,21 @@ module CorrespondenceMarkup
     # Either 1: a tag enclosed in "<" & ">", possibly missing the ">", or, 2: text outside a tag
     TAGS_AND_TEXT_REGEX = /([<][^>]*[>]?)|([^<]+)/
     
-    # Split some HTML source into tags and plain text not in tags
-    # (so that the two can be processed differently, e.g. applying a transformation to text content
-    # where you don't want the transformation to apply to the internals of a directly-coded HTML tag)
+    # Split some HTML source into tags and plain text not in tags.
+    # (For example, so that the two can be processed differently, e.g. applying a transformation to text content
+    # where you don't want the transformation to apply to the internals of directly-coded HTML tags.)
     def self.split_tags_and_text(html)
       html.scan(TAGS_AND_TEXT_REGEX).to_a
     end
     
     # Convert text content into HTML according to various true/false options.
     # Note: the text may contain HTML tags
-    # * escaped: if true, HTML-escape the text
-    # * br: if true, convert end-of-line characters to <br/> tags
-    # * nbsp: if true, convert all spaces in the text that is not in tags into &nbsp;
+    # * :escaped - if true, HTML-escape the text
+    # * :br - if true, convert end-of-line characters to <br/> tags
+    # * :nbsp - if true, convert all spaces in the text that is not in tags into &nbsp;
+    # Of these options, *:escaped* only makes sense if you _don't_ want to include additional HTML
+    # markup in the content; *:br* and *:nbsp* make sense for programming languages but not for 
+    # natural languages.
     def text_to_html(text, options)
       html = text
       if options[:escaped]
@@ -44,22 +47,29 @@ module CorrespondenceMarkup
     end
   end
   
-  # An item is text in a structure with an associated id
+  # An Item is text in a structure with an associated ID.
   # Typically if would be a word in a sentence. Items are to 
   # be related to other items in other structures in the same
-  # structure group that have the same ID (also to other items
-  # in the same structure with the same ID).
+  # structure group that have the same ID.
+  # When two or more items in the same structure have the same ID, 
+  # they are considered to be parts of the same item.
+  # (For example, in "I let it go", we might want to identify "let" and "go" as a single item, 
+  # because they are part of an English phrasal verb "let go", 
+  # and its meaning is not quite the sum of the meanings of those two component words.)
   class Item
     
     include Helpers
     
-    # The ID, which identifies the item (possibly not uniquely) within a given structure
+    # The ID, which identifies the item (possibly not uniquely) within a given structure.
+    # An ID can be a comma-separated string of multiple IDs (this is relevant for partial
+    # matching, and should only be used when there are more than two structures in a group
+    # and one of the structures has less granularity than other structures in that group).
     attr_reader :id
     
-    # The text of the item
+    # The text of the item.
     attr_reader :text
 
-    # Initialize from ID and text
+    # Initialize from ID and text.
     def initialize(id, text)
       @id = id
       @text = text
@@ -71,6 +81,7 @@ module CorrespondenceMarkup
     end
     
     # An item is equal to another item with the same ID and text
+    # (equality is only used for testing)
     def ==(otherItem)
       otherItem.class == Item && otherItem.id == @id && otherItem.text == @text
     end
@@ -102,6 +113,7 @@ module CorrespondenceMarkup
     end
     
     # A non-item is equal to another non-item with the same text
+    # (equality is only used for testing)
     def ==(otherNonItem)
       otherNonItem.class == NonItem && otherNonItem.text == @text
     end
@@ -112,14 +124,15 @@ module CorrespondenceMarkup
     end
   end
   
-  # A group of items & non-items that will form part of a structure
-  # Typically an item group is one line of items (words), or maybe
+  # A group of items & non-items that will form part of a structure.
+  # Typically an item group is one line of items (i.e. words) and non-items, or maybe
   # two or three lines which naturally group together within the
-  # overall structure.
+  # overall structure (and which cannot be separated because they
+  # translate to a single line in one of the other structures in the
+  # same structure group).
   # Item groups with the same ID in different structures in the same
-  # structure group related to each other, and may be shown next
+  # structure group are related to each other, and may be shown next
   # to each other in the UI when the "Interleave" option is chosen.
-  # (An "item group" could also be regarded as a "sub-structure".)
   class ItemGroup
     
     # The ID which is unique in the structure. It identifies the 
@@ -137,6 +150,7 @@ module CorrespondenceMarkup
     end
 
     # An item group is equal to another item group with the same IDs and the same content
+    # (equality is only used for testing)
     def ==(otherItemGroup)
       otherItemGroup.class == ItemGroup && otherItemGroup.id == @id && otherItemGroup.content == @content
     end
@@ -174,6 +188,7 @@ module CorrespondenceMarkup
     end
 
     # A structure is equal to another structure with the same type, description and item groups
+    # (equality is only used for testing)
     def ==(otherStructure)
       otherStructure.class == Structure && otherStructure.type == @type  &&
         otherStructure.description == description &&
@@ -206,10 +221,10 @@ module CorrespondenceMarkup
   end
 
   # A structure group is a group of structures. Different structures in one structure group
-  # all represent the same information, but in different "languages". Items different
+  # all represent the same information, but in different "languages". Items in different
   # structures with the same item ID are shown in the UI as being translations of each other.
-  # (Items with the same ID in the same structure are also show as related, and are presumed
-  # to be separated components of a single virtual item.)
+  # (Items with the same ID in the same structure are also shown as related, and are presumed
+  # to be different parts of a single virtual item.)
   class StructureGroup
     
     # The array of structures
@@ -221,6 +236,7 @@ module CorrespondenceMarkup
     end
 
     # A structure group is equal to another structure group that has the same structures
+    # (equality is only used for testing)
     def ==(otherStructureGroup)
       otherStructureGroup.class == StructureGroup && otherStructureGroup.structures == @structures
     end

@@ -1,9 +1,9 @@
 require "correspondence-markup/types"
 
-# Grammar for a markup language which can be compiled into HTML format
+# Grammar for a markup language which can be compiled into the HTML format
 # required by correspondence.js
 
-# General note on bracketing of sequences - different components are enclosed
+# General note on bracketing of sequences: different components are enclosed
 # by different types of bracket, in particular:
 #
 # * item: "[]"
@@ -15,23 +15,30 @@ require "correspondence-markup/types"
 # at which to edit components of particular content, the parsing of brackets
 # is handled by the parent component, e.g. the "{}" bracketing of structures
 # is specified in the grammar rule for structure_group.
-# For example, if a user is editing a structure definition in a UI text area, 
+# The motivation for this is: if a user is editing a structure definition in a UI text area, 
 # there should be no necessity for the user to enter the enclosing "{}" brackets, 
 # because the UI text area implicitly encloses the definition that the user is editing.
+# So the software would want to parse the definition of a structure without the {}.
+# (And if the user was editing each item group in a separate text field, then
+# similarly the user would not want to include the outer "[]" brackets in each
+# item group definition.)
 
 grammar CorrespondenceMarkupLanguage
 
   # Include the Module containing Ruby classes representing the AST nodes
   include CorrespondenceMarkup
 
-  # This rule defines a sequence of structure groups.
+  # This rule defines a sequence of structure groups (intended to be displayed on one web page).
   # Individual structure groups are independent of each other
-  # (although typically they will be a sequence of structure groups
-  # where each structure group has structures in the same sequence of languages).
+  # (although typically a sequence of structure groups
+  # where each structure group has structures with the same sequence of languages, 
+  # e.g. three structure groups of two structures each with languages 
+  # spanish/english, spanish/english, spanish/english, representing the
+  # translations of three verses of a song).
   rule structure_groups
     s groups:("(" structure_group ")" s)*
     {
-      # Return an array of StructureGroup object
+      # Return an array of StructureGroup's
       def value
         groups.elements.map {|e| e.structure_group.value}
       end
@@ -60,10 +67,10 @@ grammar CorrespondenceMarkupLanguage
 
   # A structure is one of two or more structures in a structure group
   # (although the grammar does not impose any count restriction, in anticipation
-  # of application user's editing and saving incomplete content).
+  # of application users editing and saving incomplete content).
   # A structure has a "type" (short language description intended to map to a CSS class), 
-  # a "description" (longer but still concise language description for display to the reader)
-  # and a sequence of "item groups".
+  # a "description" (longer but still concise language description for display to the reader), 
+  # and contains a sequence of "item groups".
   rule structure
     structure_annotation s itemGroups:("[" item_group "]" s)*
     { 
@@ -119,8 +126,8 @@ grammar CorrespondenceMarkupLanguage
   # A "non-item" is textual content in an item group that is not part of an actual item.
   # In effect this is text which is either not translatable to content in other structures
   # in the same structure group, or, it is considered unimportant to identify its translation.
-  # For example, in the second case, punctuation in sentences, where translation is reasonably obvious, and we
-  # wish to highlight the translations of the actual words.
+  # For example, in the second case, punctuation in sentences, where the translation is reasonably 
+  # obvious, and we wish to highlight only the translations of the actual words.
   rule non_item
     text:text
     { 
@@ -137,7 +144,7 @@ grammar CorrespondenceMarkupLanguage
   # Typically, items with the same ID in the same structure are considered to be part of the
   # "same item", and items with the same ID in different structures are considered to be
   # translations of each other.
-  # Item IDs consists of an upper-case alphabetic prefix followed by a numeric ID.
+  # An item ID consists of an upper-case alphabetic prefix followed by a numeric ID.
   # Any item ID that lacks an alphabetic prefix will have the item group ID of the containing
   # item group added as a prefix to its ID.
   # (This reflects the assumption that an item usually relates to items in item groups in other
@@ -168,7 +175,7 @@ grammar CorrespondenceMarkupLanguage
     }
   end
   
-  # Items can actually have multiple IDs, in which case they are separated by commas
+  # Items can have multiple IDs, in which case they are separated by commas
   # (and no whitespace). If there are multiple IDs, the convention of applying the
   # item group ID as a default prefix is applied individually to each ID.
   # So, for example, "2,A2,3" in item group B would be expanded to "B2,A2,B3".
