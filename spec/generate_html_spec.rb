@@ -40,7 +40,8 @@ module CorrespondenceMarkup
       nonItem = NonItem.new("two\nlines")
       nonItem.to_html.should == "two\nlines"
       nonItem.to_html(br: true).should == "two<br/>lines"
-      structureGroup = StructureGroup.new([Structure.new("english", "English", 
+      structureGroup = StructureGroup.new(nil, 
+                                          [Structure.new("english", "English", 
                                                          [ItemGroup.new("A", [NonItem.new("a\nb")])])])
       structureGroup.to_html.should == "<div class=\"structure-group\">\n" + 
         "  <div class=\"structure english-structure\">\n" + 
@@ -105,7 +106,7 @@ module CorrespondenceMarkup
                                                       NonItem.new(", "), 
                                                       Item.new(2, "Mundo"), 
                                                       NonItem.new("!")])])
-      structureGroup = StructureGroup.new([structure1, structure2])
+      structureGroup = StructureGroup.new("Description of the group", [structure1, structure2])
       structureGroup.to_html.should == output_file_contents("structureGroup.html")
     end
     
@@ -119,7 +120,7 @@ module CorrespondenceMarkup
                                                                NonItem.new(", \n"), 
                                                                Item.new(2, "Mundo"), 
                                                                NonItem.new("!")])])
-      structureGroup = StructureGroup.new([structure1, structure2])
+      structureGroup = StructureGroup.new(nil, [structure1, structure2])
       structureGroup.to_html.should == output_file_contents("goodMorningBuenasDias.html")
       structureGroup.to_html(br: [true, false], nbsp: [true, false]).should == output_file_contents("goodMorningBuenasDias.br.nbsp.html")
     end

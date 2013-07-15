@@ -227,18 +227,24 @@ module CorrespondenceMarkup
   # to be different parts of a single virtual item.)
   class StructureGroup
     
+    # Optional description
+    attr_reader :description
+    
     # The array of structures
     attr_reader :structures
     
     # Initialize from the structures
-    def initialize(structures)
+    def initialize(description, structures)
+      @description = description
       @structures = structures
     end
 
     # A structure group is equal to another structure group that has the same structures
     # (equality is only used for testing)
     def ==(otherStructureGroup)
-      otherStructureGroup.class == StructureGroup && otherStructureGroup.structures == @structures
+      otherStructureGroup.class == StructureGroup && 
+        otherStructureGroup.description == @description &&
+        otherStructureGroup.structures == @structures
     end
 
     # Convert to HTML as a *<div>* of CSS class "structure-group" that contains the HTML
@@ -265,6 +271,7 @@ module CorrespondenceMarkup
       end
       structureHtmls = (0...(structures.length)).map{|i| @structures[i].to_html(structureOptions[i])}
       "<div class=\"structure-group\">\n  " + 
+        (@description ? "<div class=\"description\">#{@description}</div>\n  " : "") +
         structureHtmls.join("").chomp("\n").gsub("\n", "\n  ") + 
         "\n</div>\n"
     end

@@ -82,7 +82,7 @@ module CorrespondenceMarkup
     
     it "compiles structure group" do
       expectedStructureGroup = 
-        StructureGroup.new([
+        StructureGroup.new("example", [
                             Structure.new("english", "English", 
                                           [ItemGroup.new("", 
                                                          [Item.new("1", "Hello"), NonItem.new(" in between stuff "), 
@@ -92,29 +92,29 @@ module CorrespondenceMarkup
                                                          [Item.new("1", "Hola"), NonItem.new("  "), 
                                                           Item.new("2", "mundo")])])
                            ]);
-      parse(" {english: English\n [[1 Hello] in between stuff [2 world]]} {spanish: Spanish\n [[1 Hola]  [2 mundo]]} ", 
+      parse("#example\n{english: English\n [[1 Hello] in between stuff [2 world]]} {spanish: Spanish\n [[1 Hola]  [2 mundo]]} ", 
             :structure_group).value.should == expectedStructureGroup
-      parse("{english:  English\n [[1 Hello] in between stuff [2 world]]}{spanish: Spanish\n [[1 Hola]  [2 mundo]] }", 
+      parse("#example\n {english:  English\n [[1 Hello] in between stuff [2 world]]}{spanish: Spanish\n [[1 Hola]  [2 mundo]] }", 
             :structure_group).value.should == expectedStructureGroup
-      parse("{english: English\n [[1 Hello] in between stuff [2 world]]}{spanish: Spanish\n [[1 Hola]  [2 mundo]]}",
+      parse("#example\n{english: English\n [[1 Hello] in between stuff [2 world]]}{spanish: Spanish\n [[1 Hola]  [2 mundo]]}",
             :structure_group).value.should == expectedStructureGroup
         
     end
     
     it "compiles structure groups" do
       expectedStructureGroups = 
-        [StructureGroup.new([
-                            Structure.new("english", "English", 
-                                          [ItemGroup.new("", 
-                                                         [Item.new("1", "Hello"), NonItem.new(" in between stuff "), 
-                                                          Item.new("2", "world")])]), 
-                            Structure.new("spanish", nil, 
-                                          [ItemGroup.new("", 
-                                                         [Item.new("1", "Hola"), NonItem.new("  "), 
-                                                          Item.new("2", "mundo")])])
+        [StructureGroup.new(nil, 
+                            [Structure.new("english", "English", 
+                                           [ItemGroup.new("", 
+                                                          [Item.new("1", "Hello"), NonItem.new(" in between stuff "), 
+                                                           Item.new("2", "world")])]), 
+                             Structure.new("spanish", nil, 
+                                           [ItemGroup.new("", 
+                                                          [Item.new("1", "Hola"), NonItem.new("  "), 
+                                                           Item.new("2", "mundo")])])
                             ]), 
-         StructureGroup.new([
-                             Structure.new("equation", "Mathematical Equation", 
+         StructureGroup.new(nil, 
+                            [Structure.new("equation", "Mathematical Equation", 
                                            [ItemGroup.new("", 
                                                           [Item.new("3", "3"), NonItem.new(" "), Item.new("4", "+"), 
                                                            NonItem.new(" "), Item.new("5", "4"), NonItem.new(" "), 

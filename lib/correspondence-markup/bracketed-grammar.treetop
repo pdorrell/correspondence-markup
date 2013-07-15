@@ -53,7 +53,8 @@ grammar CorrespondenceMarkupLanguage
       # Return a StructureGroup
       def value
         structureObjects = structures.elements.map {|e| e.structure.value}
-        CorrespondenceMarkup::StructureGroup.new(structureObjects)
+        description_value = description.elements ? description.elements[2].text_value : nil
+        CorrespondenceMarkup::StructureGroup.new(description_value, structureObjects)
       end
     }
   end
@@ -62,7 +63,12 @@ grammar CorrespondenceMarkupLanguage
   # (Intended to be displayed as the title of the structure group
   # describing the information presented in the structure group.)
   rule structure_group_description
-    "#" s [^{\n]* "\n"
+    "#" s text:([^{\n]*) "\n"
+    {
+      def value
+        elements[2].text_value
+      end
+    }
   end
 
   # A structure is one of two or more structures in a structure group
