@@ -48,21 +48,21 @@ grammar CorrespondenceMarkupLanguage
   # A translation is a group of blocks where each block represents
   # the same information in a different "language".
   rule translation
-    s description:translation_description? s blocks:("{" block "}" s)*
+    s title:translation_title? s blocks:("{" block "}" s)*
     { 
       # Return a Translation
       def value
         blockObjects = blocks.elements.map {|e| e.block.value}
-        description_value = description.elements ? description.elements[2].text_value : nil
-        CorrespondenceMarkup::Translation.new(description_value, blockObjects)
+        title_value = title.elements ? title.elements[2].text_value : nil
+        CorrespondenceMarkup::Translation.new(title_value, blockObjects)
       end
     }
   end
   
-  # Optional lengthy description of a particular translation. 
+  # Optional lengthy title of a particular translation. 
   # (Intended to be displayed as the title of the translation
   # describing the information presented in the translation.)
-  rule translation_description
+  rule translation_title
     "#" s text:([^{\n]*) "\n"
     {
       def value
@@ -83,30 +83,30 @@ grammar CorrespondenceMarkupLanguage
       # Return a Block
       def value
         lineObjects = lines.elements.map {|e| e.line.value}
-        class_name, description = block_annotation.value
-        CorrespondenceMarkup::Block.new(class_name, description, 
+        language_id, language_title = block_annotation.value
+        CorrespondenceMarkup::Block.new(language_id, language_title, 
                                         lineObjects)
       end
     }
   end
 
-  # Block class (for the block's "type"), with rules similar to those of a CSS class identifier.
-  rule block_class
+  # Block class (for the block's language id), with rules similar to those of a CSS class identifier.
+  rule block_language_id
     ([a-zA-Z] [a-zA-Z0-9_-]*)?
   end
 
-  # Block annotation contains the "type" and the "description" (both optional)
+  # Block annotation contains the language id and the language title (both optional, but strongly recommended)
   rule block_annotation
-    block_class description_section:(":" s description:[^\n]* "\n")?
+    block_language_id language_title_section:(":" s language_title:[^\n]* "\n")?
     {
-      # Return an array of two strings for the type and the description
+      # Return an array of two strings for the language id and the language title
       def value
-        class_name = block_class.text_value
-        description = nil
-        if description_section.elements
-          description = description_section.description.text_value
+        language_id = block_language_id.text_value
+        language_title = nil
+        if language_title_section.elements
+          language_title = language_title_section.language_title.text_value
         end
-        [class_name, description]
+        [language_id, language_title]
       end
     }
   end

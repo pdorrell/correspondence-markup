@@ -60,8 +60,8 @@ module CorrespondenceMarkup
         block = Block.new("english", 
                           "English", 
                           [Line.new("D", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])])
-        block.type.should == "english"
-        block.description.should == "English"
+        block.languageId.should == "english"
+        block.languageTitle.should == "English"
         block.lines.should == [Line.new("D", [Item.new(1, "hello"), 
                                               NonItem.new(" "), Item.new(2, "world")])]
       end
@@ -98,14 +98,14 @@ module CorrespondenceMarkup
     end
     
     describe "Translation type" do
-      it "translation has description and blocks attributes" do
+      it "translation has title and blocks attributes" do
         translation = 
           Translation.new("Saying hello", 
                           [Block.new("english", "English", 
                                      [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
                            Block.new("spanish", "Spanish", 
                                      [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
-        translation.description.should == "Saying hello"
+        translation.title.should == "Saying hello"
         translation.blocks[1].should == 
           Block.new("spanish", "Spanish", [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])
       end

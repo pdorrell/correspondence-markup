@@ -106,7 +106,7 @@ module CorrespondenceMarkup
                                          NonItem.new(", "), 
                                          Item.new(2, "Mundo"), 
                                          NonItem.new("!")])])
-      translation = Translation.new("Description of the translation", [block1, block2])
+      translation = Translation.new("Title of the translation", [block1, block2])
       translation.to_html.should == output_file_contents("translation.html")
     end
     

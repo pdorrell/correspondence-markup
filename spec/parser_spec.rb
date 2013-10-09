@@ -129,7 +129,7 @@ describe "markup language grammar" do
                                         
   end
   
-  it "parses translation description" do
+  it "parses translation title" do
     should_parse(:translation, ["#Description of this translation\n{[[1 x]]}"])
     should_not_parse(:translation, ["Description of this translation\n{[[1 x]]}", 
                                     "#Description of this translation{[[1 x]]}"])

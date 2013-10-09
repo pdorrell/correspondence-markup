@@ -168,30 +168,30 @@ module CorrespondenceMarkup
   # A block will be one of two or more in a "translation".
   class Block
     
-    # A short alphanumeric name for the type, typically reflecting the "language" of a block
+    # A short alphanumeric ID for the language of a block
     # where different blocks in a translation are different language versions of the same information.
     # It is used to determine a CSS class of the block. E.g. "english". (It can be nil.)
-    attr_reader :type
+    attr_reader :languageId
     
-    # A textual description of the type which will be displayed in the UI. E.g. "English".
+    # A textual description of the language which will be displayed in the UI. E.g. "English".
     # Ideally it should be relatively concise. Can be nil.
-    attr_reader :description
+    attr_reader :languageTitle
     
     # The array of lines that make up the content of the block.
     attr_reader :lines
     
     # Initialize from type, description and lines
-    def initialize(type, description, lines)
-      @type = type
-      @description = description
+    def initialize(languageId, languageTitle, lines)
+      @languageId = languageId
+      @languageTitle = languageTitle
       @lines = lines
     end
 
     # A block is equal to another block with the same type, description and lines
     # (equality is only used for testing)
     def ==(otherBlock)
-      otherBlock.class == Block && otherBlock.type == @type  &&
-        otherBlock.description == description &&
+      otherBlock.class == Block && otherBlock.languageId == @languageId  &&
+        otherBlock.languageTitle == languageTitle &&
         otherBlock.lines == @lines
     end
     
@@ -201,8 +201,8 @@ module CorrespondenceMarkup
     # (The "-block" suffix is used to reduce the chance of accidental CSS class name collisions.)
     def css_class_names
       class_names = "block"
-      if @type != "" and @type != nil
-        class_names = "block #{@type}-block"
+      if @languageId != "" and @languageId != nil
+        class_names = "block #{@languageId}-block"
       end
       class_names
     end
@@ -213,7 +213,7 @@ module CorrespondenceMarkup
     def to_html(options={})
       lineHtmls = @lines.map{|x| x.to_html(options)}
       "<div class=\"#{css_class_names}\">\n  " + 
-        (@description ? "<div class=\"language\">#{@description}</div>\n  " : "") +
+        (@languageTitle ? "<div class=\"language\">#{@languageTitle}</div>\n  " : "") +
         lineHtmls.join("").chomp("\n").gsub("\n", "\n  ") +
         "\n</div>\n"
     end
@@ -227,15 +227,15 @@ module CorrespondenceMarkup
   # to be different parts of a single virtual item.)
   class Translation
     
-    # Optional description
-    attr_reader :description
+    # Optional title
+    attr_reader :title
     
     # The array of blocks
     attr_reader :blocks
     
     # Initialize from the blocks
-    def initialize(description, blocks)
-      @description = description
+    def initialize(title, blocks)
+      @title = title
       @blocks = blocks
     end
 
@@ -243,7 +243,7 @@ module CorrespondenceMarkup
     # (equality is only used for testing)
     def ==(otherTranslation)
       otherTranslation.class == Translation && 
-        otherTranslation.description == @description &&
+        otherTranslation.title == @title &&
         otherTranslation.blocks == @blocks
     end
 
@@ -271,7 +271,7 @@ module CorrespondenceMarkup
       end
       blockHtmls = (0...(blocks.length)).map{|i| @blocks[i].to_html(blockOptions[i])}
       "<div class=\"translation\">\n  " + 
-        (@description ? "<div class=\"description\">#{@description}</div>\n  " : "") +
+        (@title ? "<div class=\"title\">#{@title}</div>\n  " : "") +
         blockHtmls.join("").chomp("\n").gsub("\n", "\n  ") + 
         "\n</div>\n"
     end
