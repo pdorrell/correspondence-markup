@@ -122,9 +122,9 @@ grammar CorrespondenceMarkupLanguage
     { 
       # Return a Line
       def value
-        group_id = optional_id.elements ? optional_id.elements[0].text_value : ""
-        componentObjects = components.elements.map {|e| e.value(group_id)}
-        CorrespondenceMarkup::Line.new(group_id, componentObjects)
+        line_id = optional_id.elements ? optional_id.elements[0].text_value : ""
+        componentObjects = components.elements.map {|e| e.value(line_id)}
+        CorrespondenceMarkup::Line.new(line_id, componentObjects)
       end
     }
   end
@@ -139,7 +139,7 @@ grammar CorrespondenceMarkupLanguage
     { 
       # Given the line ID (as a default prefix for the item IDs, which is ignored for non-items), 
       # return a NonItem.
-      def value(group_id = "")
+      def value(line_id = "")
         CorrespondenceMarkup::NonItem.new(text.value)
       end
     }
@@ -160,9 +160,9 @@ grammar CorrespondenceMarkupLanguage
     "[" id:item_ids S text:text "]"
     { 
       # Given the line ID (as a default prefix for the item IDs), return an Item
-      def value(group_id = "")
+      def value(line_id = "")
         item_ids = id.text_value.split(",")
-        item_ids = item_ids.map { |item_id| item_id.match(/[A-Z]/) ? item_id : group_id + item_id}
+        item_ids = item_ids.map { |item_id| item_id.match(/[A-Z]/) ? item_id : line_id + item_id}
         CorrespondenceMarkup::Item.new(item_ids.join(","), text.value)
       end
     }
