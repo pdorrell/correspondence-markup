@@ -62,8 +62,8 @@ module CorrespondenceMarkup
     
     # The ID, which identifies the item (possibly not uniquely) within a given structure.
     # An ID can be a comma-separated string of multiple IDs (this is relevant for partial
-    # matching, and should only be used when there are more than two structures in a group
-    # and one of the structures has less granularity than other structures in that group).
+    # matching, and should only be used when there are more than two structures in a translation
+    # and one of the structures has less granularity than other structures in that translation).
     attr_reader :id
     
     # The text of the item.
@@ -124,7 +124,7 @@ module CorrespondenceMarkup
     end
   end
   
-  # A group of items & non-items that will form part of a structure.
+  # A line is a sequence of items & non-items that will form part of a structure.
   # Typically a line is one line of items (i.e. words) and non-items, or maybe
   # two or three lines which naturally group together within the
   # overall structure (and which cannot be separated because they
@@ -169,7 +169,7 @@ module CorrespondenceMarkup
   class Structure
     
     # A short alphanumeric name for the type, typically reflecting the "language" of a structure
-    # where different structures in a group are different language versions of the same information.
+    # where different structures in a translation are different language versions of the same information.
     # It is used to determine a CSS class of the structure. E.g. "english". (It can be nil.)
     attr_reader :type
     

@@ -130,9 +130,9 @@ describe "markup language grammar" do
   end
   
   it "parses translation description" do
-    should_parse(:translation, ["#Description of this group\n{[[1 x]]}"])
-    should_not_parse(:translation, ["Description of this group\n{[[1 x]]}", 
-                                        "#Description of this group{[[1 x]]}"])
+    should_parse(:translation, ["#Description of this translation\n{[[1 x]]}"])
+    should_not_parse(:translation, ["Description of this translation\n{[[1 x]]}", 
+                                        "#Description of this translation{[[1 x]]}"])
   end
   
   it "parses translations from ( structure ... ) ..." do

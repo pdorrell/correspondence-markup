@@ -36,11 +36,11 @@ grammar CorrespondenceMarkupLanguage
   # spanish/english, spanish/english, spanish/english, representing the
   # translations of three verses of a song).
   rule translations
-    s groups:("(" translation ")" s)*
+    s translations:("(" translation ")" s)*
     {
       # Return an array of Translation's
       def value
-        groups.elements.map {|e| e.translation.value}
+        translations.elements.map {|e| e.translation.value}
       end
     }
   end
