@@ -56,17 +56,17 @@ module CorrespondenceMarkup
     end
     
     describe "Structure type" do
-      it "structure has type and item_groups attribute" do
+      it "structure has type and lines attribute" do
         structure = Structure.new("english", 
                                   "English", 
                                   [Line.new("D", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])])
         structure.type.should == "english"
         structure.description.should == "English"
-        structure.item_groups.should == [Line.new("D", [Item.new(1, "hello"), 
+        structure.lines.should == [Line.new("D", [Item.new(1, "hello"), 
                                                              NonItem.new(" "), Item.new(2, "world")])]
       end
       
-      it "structure is equal to a structure with the same item_groups" do
+      it "structure is equal to a structure with the same lines" do
         structure = Structure.new("english", "English", 
                                   [Line.new("D", 
                                                  [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])])

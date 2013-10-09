@@ -96,7 +96,7 @@ describe "markup language grammar" do
   end
   
   it "parses item group" do
-    should_parse(:item_group, ["[1 Hello] [2 world]", "", 
+    should_parse(:line, ["[1 Hello] [2 world]", "", 
                                "A: [1 Hello] [2 world]"])
   end  
   

@@ -178,13 +178,13 @@ module CorrespondenceMarkup
     attr_reader :description
     
     # The array of lines that make up the content of the structure.
-    attr_reader :item_groups
+    attr_reader :lines
     
     # Initialize from type, description and lines
-    def initialize(type, description, item_groups)
+    def initialize(type, description, lines)
       @type = type
       @description = description
-      @item_groups = item_groups
+      @lines = lines
     end
 
     # A structure is equal to another structure with the same type, description and lines
@@ -192,7 +192,7 @@ module CorrespondenceMarkup
     def ==(otherStructure)
       otherStructure.class == Structure && otherStructure.type == @type  &&
         otherStructure.description == description &&
-        otherStructure.item_groups == @item_groups
+        otherStructure.lines == @lines
     end
     
     # From the type, determine the CSS class names to be used in the *<div>* element created
@@ -211,7 +211,7 @@ module CorrespondenceMarkup
     # Include a *<div>* of CSS class "language" (if the description is given)
     # Include HTML for the lines, converted according to the options for Helpers::text_to_html).
     def to_html(options={})
-      lineHtmls = @item_groups.map{|x| x.to_html(options)}
+      lineHtmls = @lines.map{|x| x.to_html(options)}
       "<div class=\"#{css_class_names}\">\n  " + 
         (@description ? "<div class=\"language\">#{@description}</div>\n  " : "") +
         lineHtmls.join("").chomp("\n").gsub("\n", "\n  ") +
