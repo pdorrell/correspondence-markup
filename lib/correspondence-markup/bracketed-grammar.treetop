@@ -78,11 +78,11 @@ grammar CorrespondenceMarkupLanguage
   # a "description" (longer but still concise language description for display to the reader), 
   # and contains a sequence of "item groups".
   rule structure
-    structure_annotation s itemGroups:("[" item_group "]" s)*
+    structure_annotation s itemGroups:("[" line "]" s)*
     { 
       # Return a Structure
       def value
-        itemGroupObjects = itemGroups.elements.map {|e| e.item_group.value}
+        itemGroupObjects = itemGroups.elements.map {|e| e.line.value}
         class_name, description = structure_annotation.value
         CorrespondenceMarkup::Structure.new(class_name, description, 
                                             itemGroupObjects)
@@ -117,7 +117,7 @@ grammar CorrespondenceMarkupLanguage
   # neither of these rules is required by the grammar).
   # The item group ID is used as a default prefix for any item IDs that do not start with 
   # alphabetic characters (so a full item ID is always alphabetic followed by something else).
-  rule item_group
+  rule line
     optional_id:(id:[A-Z]* ":")? components:(item / non_item)*
     { 
       # Return an ItemGroup
