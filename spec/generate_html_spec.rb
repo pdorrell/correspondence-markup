@@ -43,12 +43,12 @@ module CorrespondenceMarkup
       structureGroup = StructureGroup.new(nil, 
                                           [Structure.new("english", "English", 
                                                          [ItemGroup.new("A", [NonItem.new("a\nb")])])])
-      structureGroup.to_html.should == "<div class=\"structure-group\">\n" + 
+      structureGroup.to_html.should == "<div class=\"translation\">\n" + 
         "  <div class=\"structure english-structure\">\n" + 
         "    <div class=\"language\">English</div>\n" + 
         "    <div class=\"item-group\" data-group-id=\"A\">\n" +
         "      a\n    b\n    </div>\n  </div>\n</div>\n"
-      structureGroup.to_html(br: true).should == "<div class=\"structure-group\">\n" + 
+      structureGroup.to_html(br: true).should == "<div class=\"translation\">\n" + 
         "  <div class=\"structure english-structure\">\n" + 
         "    <div class=\"language\">English</div>\n" + 
         "    <div class=\"item-group\" data-group-id=\"A\">\n" +

@@ -247,7 +247,7 @@ module CorrespondenceMarkup
         otherStructureGroup.structures == @structures
     end
 
-    # Convert to HTML as a *<div>* of CSS class "structure-group" that contains the HTML
+    # Convert to HTML as a *<div>* of CSS class "translation" that contains the HTML
     # outputs from the structures.
     # Options for Helpers::text_to_html can be provided as single true/false value, or, as arrays
     # of values, in which case the individual values are mapped to the corresponding structures.
@@ -270,7 +270,7 @@ module CorrespondenceMarkup
         end
       end
       structureHtmls = (0...(structures.length)).map{|i| @structures[i].to_html(structureOptions[i])}
-      "<div class=\"structure-group\">\n  " + 
+      "<div class=\"translation\">\n  " + 
         (@description ? "<div class=\"description\">#{@description}</div>\n  " : "") +
         structureHtmls.join("").chomp("\n").gsub("\n", "\n  ") + 
         "\n</div>\n"
