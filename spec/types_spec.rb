@@ -117,26 +117,26 @@ module CorrespondenceMarkup
                                             [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
                               Structure.new("spanish", "Spanish", 
                                             [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
-        identicalGroup = 
+        identicalTranslation = 
           Translation.new("Hello", 
                              [Structure.new("english", "English",
                                             [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
                               Structure.new("spanish", "Spanish", 
                                             [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
-        notQuiteTheSameGroup = 
+        notQuiteTheSameTranslation = 
           Translation.new("Hello", 
                              [Structure.new("english", "English", 
                                             [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
                               Structure.new("spanish", "Spanish", 
                                             [Item.new(1, "Holla"), NonItem.new(" "), Item.new(2, "mundo")])])
-        differentlyDescribedGroup = 
+        differentlyDescribedTranslation = 
           Translation.new("goodbye", 
                              translation.structures)
         translation.should == translation
-        translation.should == identicalGroup
+        translation.should == identicalTranslation
         translation.should_not == "something else"
-        translation.should_not == notQuiteTheSameGroup
-        translation.should_not == differentlyDescribedGroup.should_not
+        translation.should_not == notQuiteTheSameTranslation
+        translation.should_not == differentlyDescribedTranslation.should_not
       end
     end
     
