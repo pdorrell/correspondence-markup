@@ -155,11 +155,11 @@ module CorrespondenceMarkup
       otherItemGroup.class == ItemGroup && otherItemGroup.id == @id && otherItemGroup.content == @content
     end
     
-    # Convert to HTML as a *<div>* tag with class *item-group*, *data-group-id* attribute
+    # Convert to HTML as a *<div>* tag with class *line*, *data-group-id* attribute
     # equal to the ID, and containing the HTML output for the content items and non-items
     # (with those converted according to the options for Helpers::text_to_html).
     def to_html(options={})
-      "<div class=\"item-group\" data-group-id=\"#{@id}\">\n  " + 
+      "<div class=\"line\" data-group-id=\"#{@id}\">\n  " + 
         @content.map{|x| x.to_html(options)}.join("") + "\n</div>\n"
     end
   end
