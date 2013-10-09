@@ -8,7 +8,7 @@ module CorrespondenceMarkup
       @parser = CorrespondenceMarkupLanguageParser.new
     end
     
-    def parse(string, root = :structure_group)
+    def parse(string, root = :translation)
       #puts "parsing #{string.inspect} ..."
       @parser.parse(string, root: root)
     end
@@ -93,11 +93,11 @@ module CorrespondenceMarkup
                                                           Item.new("2", "mundo")])])
                            ]);
       parse("#example\n{english: English\n [[1 Hello] in between stuff [2 world]]} {spanish: Spanish\n [[1 Hola]  [2 mundo]]} ", 
-            :structure_group).value.should == expectedTranslation
+            :translation).value.should == expectedTranslation
       parse("#example\n {english:  English\n [[1 Hello] in between stuff [2 world]]}{spanish: Spanish\n [[1 Hola]  [2 mundo]] }", 
-            :structure_group).value.should == expectedTranslation
+            :translation).value.should == expectedTranslation
       parse("#example\n{english: English\n [[1 Hello] in between stuff [2 world]]}{spanish: Spanish\n [[1 Hola]  [2 mundo]]}",
-            :structure_group).value.should == expectedTranslation
+            :translation).value.should == expectedTranslation
         
     end
     
@@ -135,7 +135,7 @@ module CorrespondenceMarkup
                  [[3 3] [4 +] [5 4] [6 =] [7 7]]}
                 {english: English
                  [[3 three] [4 and] [5 four] [6 makes] [7 seven]]} )
-             }, :structure_groups).value.should == expectedTranslations
+             }, :translations).value.should == expectedTranslations
                              
     end
     

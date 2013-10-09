@@ -121,26 +121,26 @@ describe "markup language grammar" do
   end
   
   it "parses structure group from from { structure } ..." do
-    should_parse(:structure_group, ["", "{}", "{[[1 x]]}", "{[]}", 
+    should_parse(:translation, ["", "{}", "{[[1 x]]}", "{[]}", 
                                     " {[A: [1 Hello]] [B: [1 world]]} {[A: [1 Hola]] [B: [2 Mundo]] }", 
                                     "{[A: [1 Hello]] [B: [1 world]]}{[A: [1 Hola]] [B: [2 Mundo]]}"
                                    ])
-    should_not_parse(:structure_group, ["[", "{[]", "{[]}{[", "[[]]}", "{[[]]}"])
+    should_not_parse(:translation, ["[", "{[]", "{[]}{[", "[[]]}", "{[[]]}"])
                                         
   end
   
   it "parses structure group description" do
-    should_parse(:structure_group, ["#Description of this group\n{[[1 x]]}"])
-    should_not_parse(:structure_group, ["Description of this group\n{[[1 x]]}", 
+    should_parse(:translation, ["#Description of this group\n{[[1 x]]}"])
+    should_not_parse(:translation, ["Description of this group\n{[[1 x]]}", 
                                         "#Description of this group{[[1 x]]}"])
   end
   
   it "parses structure groups from ( structure ... ) ..." do
-    should_parse(:structure_groups, ["()", "({[]})", 
+    should_parse(:translations, ["()", "({[]})", 
                                      " ({[A: [1 Hello]] [B: [1 world]]} {[A: [1 Hola]] [B: [2 Mundo]] })" +
                                      " ({[A: [1 Goodbye]] [B: [1 friends]]} {[A: [1 Ciao]] [B: [2 amigos]] })"
                                     ])
-    should_parse(:structure_groups, [%{
+    should_parse(:translations, [%{
                                        (
                                         {
                                          [A: [1 hello] [2 world]]
@@ -160,7 +160,7 @@ describe "markup language grammar" do
                                         }
                                        )
                                       }])
-    should_parse(:structure_groups, [ %{
+    should_parse(:translations, [ %{
               ( {[[1 Hello] in between stuff [2 world]]}
                 {[[1 Hola]  [2 mundo]]} )
               ( {[[3 3] [4 +] [5 4] [6 =] [7 7]]}

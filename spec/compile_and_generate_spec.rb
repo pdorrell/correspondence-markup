@@ -10,10 +10,10 @@ module CorrespondenceMarkup
     end
     
     it "compiles structure groups and generates HTML" do
-      structure_groups_markup = input_file_contents("translations.corrml")
-      structure_groups = @compiler.compile_structure_groups(structure_groups_markup)
-      structure_groups_html = structure_groups.map(&:to_html).join "\n"
-      structure_groups_html.should == output_file_contents("translations.compiled.html")
+      translations_markup = input_file_contents("translations.corrml")
+      translations = @compiler.compile_translations(translations_markup)
+      translations_html = translations.map(&:to_html).join "\n"
+      translations_html.should == output_file_contents("translations.compiled.html")
     end
   end
 end

@@ -17,8 +17,8 @@ module CorrespondenceMarkup
     
     # Compile source code into an array of Translation objects, 
     # throwing an exception if there is a parse error.
-    def compile_structure_groups(markup)
-      syntax_tree = @parser.parse(markup, root: :structure_groups)
+    def compile_translations(markup)
+      syntax_tree = @parser.parse(markup, root: :translations)
       if(syntax_tree.nil?)
         raise Exception, "Parse error: #{@parser.failure_reason}"
       end
