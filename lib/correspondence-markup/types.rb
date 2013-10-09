@@ -200,9 +200,9 @@ module CorrespondenceMarkup
     # e.g. if the type is "english",  then "structure english-structure".
     # (The "-structure" suffix is used to reduce the chance of accidental CSS class name collisions.)
     def css_class_names
-      class_names = "structure"
+      class_names = "block"
       if @type != "" and @type != nil
-        class_names = "structure #{@type}-structure"
+        class_names = "block #{@type}-block"
       end
       class_names
     end
