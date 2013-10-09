@@ -120,11 +120,11 @@ grammar CorrespondenceMarkupLanguage
   rule line
     optional_id:(id:[A-Z]* ":")? components:(item / non_item)*
     { 
-      # Return an ItemGroup
+      # Return a Line
       def value
         group_id = optional_id.elements ? optional_id.elements[0].text_value : ""
         componentObjects = components.elements.map {|e| e.value(group_id)}
-        CorrespondenceMarkup::ItemGroup.new(group_id, componentObjects)
+        CorrespondenceMarkup::Line.new(group_id, componentObjects)
       end
     }
   end
