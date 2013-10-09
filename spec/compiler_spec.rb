@@ -42,7 +42,7 @@ module CorrespondenceMarkup
       parse("\\[\\\\\\\\\\]", :text).value.should == "[\\\\]"
     end
     
-    it "compiles item group" do
+    it "compiles line" do
       parse("[1 an item] in between stuff [2 a second item]", :line).value.should == 
         Line.new("", [Item.new("1", "an item"), NonItem.new(" in between stuff "), 
                            Item.new("2", "a second item")])
@@ -57,7 +57,7 @@ module CorrespondenceMarkup
                             Item.new("B2", "a second item")])
     end
     
-    it "parses item group with multiple IDs, adding group IDs as required" do
+    it "parses line with multiple IDs, adding group IDs as required" do
       parse("A:[1,B3,2 an item] in between stuff [B2,4,5 a second item]", :line).value.should == 
         Line.new("A", [Item.new("A1,B3,A2", "an item"), NonItem.new(" in between stuff "), 
                             Item.new("B2,A4,A5", "a second item")])

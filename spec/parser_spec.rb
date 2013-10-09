@@ -95,12 +95,12 @@ describe "markup language grammar" do
     should_parse(:non_item, ["\\[ \\\\ \\]"])
   end
   
-  it "parses item group" do
+  it "parses line" do
     should_parse(:line, ["[1 Hello] [2 world]", "", 
                                "A: [1 Hello] [2 world]"])
   end  
   
-  it "parses structure from optional style + item groups ..." do
+  it "parses structure from optional style + lines ..." do
     should_parse(:structure, ["", "[]", 
                               "[[1 Hello]]", 
                               "english [A: [1 Hello]]", 
