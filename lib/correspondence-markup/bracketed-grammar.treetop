@@ -7,14 +7,14 @@ require "correspondence-markup/types"
 # by different types of bracket, in particular:
 #
 # * item: "[]"
-# * item-group: "[]"
+# * line: "[]"
 # * structure: "{}"
-# * structure group: "()"
+# * translation: "()"
 #
 # However, in anticipation of a UI where the user may choose the granularity
 # at which to edit components of particular content, the parsing of brackets
 # is handled by the parent component, e.g. the "{}" bracketing of structures
-# is specified in the grammar rule for structure_group.
+# is specified in the grammar rule for translation.
 # The motivation for this is: if a user is editing a structure definition in a UI text area, 
 # there should be no necessity for the user to enter the enclosing "{}" brackets, 
 # because the UI text area implicitly encloses the definition that the user is editing.
@@ -28,27 +28,27 @@ grammar CorrespondenceMarkupLanguage
   # Include the Module containing Ruby classes representing the AST nodes
   include CorrespondenceMarkup
 
-  # This rule defines a sequence of structure groups (intended to be displayed on one web page).
-  # Individual structure groups are independent of each other
-  # (although typically a sequence of structure groups
-  # where each structure group has structures with the same sequence of languages, 
-  # e.g. three structure groups of two structures each with languages 
+  # This rule defines a sequence of translations (intended to be displayed on one web page).
+  # Individual translations are independent of each other
+  # (although typically a sequence of translations
+  # where each translation has structures with the same sequence of languages, 
+  # e.g. three translations of two structures each with languages 
   # spanish/english, spanish/english, spanish/english, representing the
   # translations of three verses of a song).
-  rule structure_groups
-    s groups:("(" structure_group ")" s)*
+  rule translations
+    s groups:("(" translation ")" s)*
     {
       # Return an array of StructureGroup's
       def value
-        groups.elements.map {|e| e.structure_group.value}
+        groups.elements.map {|e| e.translation.value}
       end
     }
   end
 
-  # A structure group is a group of structures where each structure represents
+  # A translation is a group of structures where each structure represents
   # the same information in a different "language".
-  rule structure_group
-    s description:structure_group_description? s structures:("{" structure "}" s)*
+  rule translation
+    s description:translation_description? s structures:("{" structure "}" s)*
     { 
       # Return a StructureGroup
       def value
@@ -59,10 +59,10 @@ grammar CorrespondenceMarkupLanguage
     }
   end
   
-  # Optional lengthy description of a particular structure group. 
-  # (Intended to be displayed as the title of the structure group
-  # describing the information presented in the structure group.)
-  rule structure_group_description
+  # Optional lengthy description of a particular translation. 
+  # (Intended to be displayed as the title of the translation
+  # describing the information presented in the translation.)
+  rule translation_description
     "#" s text:([^{\n]*) "\n"
     {
       def value
@@ -71,7 +71,7 @@ grammar CorrespondenceMarkupLanguage
     }
   end
 
-  # A structure is one of two or more structures in a structure group
+  # A structure is one of two or more structures in a translation
   # (although the grammar does not impose any count restriction, in anticipation
   # of application users editing and saving incomplete content).
   # A structure has a "type" (short language description intended to map to a CSS class), 
@@ -113,7 +113,7 @@ grammar CorrespondenceMarkupLanguage
 
   # An item group is a sub-structure of a structure which contains a sequence of items and "non-items".
   # An item group has an upper-case alphabetic ID (which should be unique within a structure, 
-  # and which should be the ID of an item-group in the first structure of a structure group, but
+  # and which should be the ID of an line in the first structure of a translation, but
   # neither of these rules is required by the grammar).
   # The item group ID is used as a default prefix for any item IDs that do not start with 
   # alphabetic characters (so a full item ID is always alphabetic followed by something else).
@@ -131,7 +131,7 @@ grammar CorrespondenceMarkupLanguage
   
   # A "non-item" is textual content in an item group that is not part of an actual item.
   # In effect this is text which is either not translatable to content in other structures
-  # in the same structure group, or, it is considered unimportant to identify its translation.
+  # in the same translation, or, it is considered unimportant to identify its translation.
   # For example, in the second case, punctuation in sentences, where the translation is reasonably 
   # obvious, and we wish to highlight only the translations of the actual words.
   rule non_item
@@ -145,7 +145,7 @@ grammar CorrespondenceMarkupLanguage
     }
   end
 
-  # An item is textual content with an ID, where different items in the same structure group
+  # An item is textual content with an ID, where different items in the same translation
   # with the same ID are considered to be related to each other.
   # Typically, items with the same ID in the same structure are considered to be part of the
   # "same item", and items with the same ID in different structures are considered to be
