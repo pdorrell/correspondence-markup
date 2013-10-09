@@ -81,8 +81,8 @@ module CorrespondenceMarkup
     end
     
     it "compiles structure group" do
-      expectedStructureGroup = 
-        StructureGroup.new("example", [
+      expectedTranslation = 
+        Translation.new("example", [
                             Structure.new("english", "English", 
                                           [ItemGroup.new("", 
                                                          [Item.new("1", "Hello"), NonItem.new(" in between stuff "), 
@@ -93,17 +93,17 @@ module CorrespondenceMarkup
                                                           Item.new("2", "mundo")])])
                            ]);
       parse("#example\n{english: English\n [[1 Hello] in between stuff [2 world]]} {spanish: Spanish\n [[1 Hola]  [2 mundo]]} ", 
-            :structure_group).value.should == expectedStructureGroup
+            :structure_group).value.should == expectedTranslation
       parse("#example\n {english:  English\n [[1 Hello] in between stuff [2 world]]}{spanish: Spanish\n [[1 Hola]  [2 mundo]] }", 
-            :structure_group).value.should == expectedStructureGroup
+            :structure_group).value.should == expectedTranslation
       parse("#example\n{english: English\n [[1 Hello] in between stuff [2 world]]}{spanish: Spanish\n [[1 Hola]  [2 mundo]]}",
-            :structure_group).value.should == expectedStructureGroup
+            :structure_group).value.should == expectedTranslation
         
     end
     
     it "compiles structure groups" do
-      expectedStructureGroups = 
-        [StructureGroup.new(nil, 
+      expectedTranslations = 
+        [Translation.new(nil, 
                             [Structure.new("english", "English", 
                                            [ItemGroup.new("", 
                                                           [Item.new("1", "Hello"), NonItem.new(" in between stuff "), 
@@ -113,7 +113,7 @@ module CorrespondenceMarkup
                                                           [Item.new("1", "Hola"), NonItem.new("  "), 
                                                            Item.new("2", "mundo")])])
                             ]), 
-         StructureGroup.new(nil, 
+         Translation.new(nil, 
                             [Structure.new("equation", "Mathematical Equation", 
                                            [ItemGroup.new("", 
                                                           [Item.new("3", "3"), NonItem.new(" "), Item.new("4", "+"), 
@@ -135,7 +135,7 @@ module CorrespondenceMarkup
                  [[3 3] [4 +] [5 4] [6 =] [7 7]]}
                 {english: English
                  [[3 three] [4 and] [5 four] [6 makes] [7 seven]]} )
-             }, :structure_groups).value.should == expectedStructureGroups
+             }, :structure_groups).value.should == expectedTranslations
                              
     end
     

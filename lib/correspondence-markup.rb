@@ -6,7 +6,7 @@ require 'correspondence-markup/bracketed-grammar'
 module CorrespondenceMarkup
   
   # Compiler that parses and compiles correspondence markup source code 
-  # into an array of StructureGroup objects (from which HTML can be
+  # into an array of Translation objects (from which HTML can be
   # generated in the format required by correspondence.js).
   class CorrespondenceMarkupCompiler
     
@@ -15,7 +15,7 @@ module CorrespondenceMarkup
       @parser = CorrespondenceMarkupLanguageParser.new
     end
     
-    # Compile source code into an array of StructureGroup objects, 
+    # Compile source code into an array of Translation objects, 
     # throwing an exception if there is a parse error.
     def compile_structure_groups(markup)
       syntax_tree = @parser.parse(markup, root: :structure_groups)

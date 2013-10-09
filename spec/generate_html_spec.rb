@@ -40,15 +40,15 @@ module CorrespondenceMarkup
       nonItem = NonItem.new("two\nlines")
       nonItem.to_html.should == "two\nlines"
       nonItem.to_html(br: true).should == "two<br/>lines"
-      structureGroup = Translation.new(nil, 
+      translation = Translation.new(nil, 
                                           [Structure.new("english", "English", 
                                                          [ItemGroup.new("A", [NonItem.new("a\nb")])])])
-      structureGroup.to_html.should == "<div class=\"translation\">\n" + 
+      translation.to_html.should == "<div class=\"translation\">\n" + 
         "  <div class=\"block english-block\">\n" + 
         "    <div class=\"language\">English</div>\n" + 
         "    <div class=\"line\" data-line-id=\"A\">\n" +
         "      a\n    b\n    </div>\n  </div>\n</div>\n"
-      structureGroup.to_html(br: true).should == "<div class=\"translation\">\n" + 
+      translation.to_html(br: true).should == "<div class=\"translation\">\n" + 
         "  <div class=\"block english-block\">\n" + 
         "    <div class=\"language\">English</div>\n" + 
         "    <div class=\"line\" data-line-id=\"A\">\n" +
@@ -106,8 +106,8 @@ module CorrespondenceMarkup
                                                       NonItem.new(", "), 
                                                       Item.new(2, "Mundo"), 
                                                       NonItem.new("!")])])
-      structureGroup = Translation.new("Description of the group", [structure1, structure2])
-      structureGroup.to_html.should == output_file_contents("structureGroup.html")
+      translation = Translation.new("Description of the group", [structure1, structure2])
+      translation.to_html.should == output_file_contents("translation.html")
     end
     
     it "generates HTML for a structure group with br/nbsp in first structure" do
@@ -120,9 +120,9 @@ module CorrespondenceMarkup
                                                                NonItem.new(", \n"), 
                                                                Item.new(2, "Mundo"), 
                                                                NonItem.new("!")])])
-      structureGroup = Translation.new(nil, [structure1, structure2])
-      structureGroup.to_html.should == output_file_contents("goodMorningBuenasDias.html")
-      structureGroup.to_html(br: [true, false], nbsp: [true, false]).should == output_file_contents("goodMorningBuenasDias.br.nbsp.html")
+      translation = Translation.new(nil, [structure1, structure2])
+      translation.to_html.should == output_file_contents("goodMorningBuenasDias.html")
+      translation.to_html(br: [true, false], nbsp: [true, false]).should == output_file_contents("goodMorningBuenasDias.br.nbsp.html")
     end
   end
 end

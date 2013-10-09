@@ -97,46 +97,46 @@ module CorrespondenceMarkup
       end
     end
     
-    describe "StructureGroup type" do
+    describe "Translation type" do
       it "structure group has description and structures attributes" do
-        structureGroup = 
-          StructureGroup.new("Saying hello", 
+        translation = 
+          Translation.new("Saying hello", 
                              [Structure.new("english", "English", 
                                             [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
                               Structure.new("spanish", "Spanish", 
                                             [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
-        structureGroup.description.should == "Saying hello"
-        structureGroup.structures[1].should == 
+        translation.description.should == "Saying hello"
+        translation.structures[1].should == 
           Structure.new("spanish", "Spanish", [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])
       end
       
       it "structure groups are equal if their content is equal" do
-        structureGroup = 
-          StructureGroup.new("Hello", 
+        translation = 
+          Translation.new("Hello", 
                              [Structure.new("english", "English", 
                                             [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
                               Structure.new("spanish", "Spanish", 
                                             [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
         identicalGroup = 
-          StructureGroup.new("Hello", 
+          Translation.new("Hello", 
                              [Structure.new("english", "English",
                                             [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
                               Structure.new("spanish", "Spanish", 
                                             [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
         notQuiteTheSameGroup = 
-          StructureGroup.new("Hello", 
+          Translation.new("Hello", 
                              [Structure.new("english", "English", 
                                             [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
                               Structure.new("spanish", "Spanish", 
                                             [Item.new(1, "Holla"), NonItem.new(" "), Item.new(2, "mundo")])])
         differentlyDescribedGroup = 
-          StructureGroup.new("goodbye", 
-                             structureGroup.structures)
-        structureGroup.should == structureGroup
-        structureGroup.should == identicalGroup
-        structureGroup.should_not == "something else"
-        structureGroup.should_not == notQuiteTheSameGroup
-        structureGroup.should_not == differentlyDescribedGroup.should_not
+          Translation.new("goodbye", 
+                             translation.structures)
+        translation.should == translation
+        translation.should == identicalGroup
+        translation.should_not == "something else"
+        translation.should_not == notQuiteTheSameGroup
+        translation.should_not == differentlyDescribedGroup.should_not
       end
     end
     
