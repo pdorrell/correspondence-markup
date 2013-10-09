@@ -120,7 +120,7 @@ describe "markup language grammar" do
                                   ])
   end
   
-  it "parses structure group from from { structure } ..." do
+  it "parses translation from from { structure } ..." do
     should_parse(:translation, ["", "{}", "{[[1 x]]}", "{[]}", 
                                     " {[A: [1 Hello]] [B: [1 world]]} {[A: [1 Hola]] [B: [2 Mundo]] }", 
                                     "{[A: [1 Hello]] [B: [1 world]]}{[A: [1 Hola]] [B: [2 Mundo]]}"
@@ -129,13 +129,13 @@ describe "markup language grammar" do
                                         
   end
   
-  it "parses structure group description" do
+  it "parses translation description" do
     should_parse(:translation, ["#Description of this group\n{[[1 x]]}"])
     should_not_parse(:translation, ["Description of this group\n{[[1 x]]}", 
                                         "#Description of this group{[[1 x]]}"])
   end
   
-  it "parses structure groups from ( structure ... ) ..." do
+  it "parses translations from ( structure ... ) ..." do
     should_parse(:translations, ["()", "({[]})", 
                                      " ({[A: [1 Hello]] [B: [1 world]]} {[A: [1 Hola]] [B: [2 Mundo]] })" +
                                      " ({[A: [1 Goodbye]] [B: [1 friends]]} {[A: [1 Ciao]] [B: [2 amigos]] })"

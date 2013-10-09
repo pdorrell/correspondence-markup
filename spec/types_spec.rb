@@ -98,7 +98,7 @@ module CorrespondenceMarkup
     end
     
     describe "Translation type" do
-      it "structure group has description and structures attributes" do
+      it "translation has description and structures attributes" do
         translation = 
           Translation.new("Saying hello", 
                              [Structure.new("english", "English", 
@@ -110,7 +110,7 @@ module CorrespondenceMarkup
           Structure.new("spanish", "Spanish", [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])
       end
       
-      it "structure groups are equal if their content is equal" do
+      it "translations are equal if their content is equal" do
         translation = 
           Translation.new("Hello", 
                              [Structure.new("english", "English", 

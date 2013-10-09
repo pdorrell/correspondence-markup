@@ -95,7 +95,7 @@ module CorrespondenceMarkup
       structure.to_html(br: true, nbsp: true).should == output_file_contents("structure.goodmorning.br.nbsp.html")
     end
     
-    it "generates HTML for a structure group" do
+    it "generates HTML for a translation" do
       structure1 = Structure.new("", nil, [ItemGroup.new("A", [Item.new(1, "Hello"), 
                                                                NonItem.new(", "), 
                                                                Item.new(2, "World"), 
@@ -110,7 +110,7 @@ module CorrespondenceMarkup
       translation.to_html.should == output_file_contents("translation.html")
     end
     
-    it "generates HTML for a structure group with br/nbsp in first structure" do
+    it "generates HTML for a translation with br/nbsp in first structure" do
       structure1 = Structure.new("", nil, [ItemGroup.new("A", [Item.new(1, "Good Morning"), 
                                                                NonItem.new(" , \n"), 
                                                                Item.new(2, " World"), 

@@ -80,7 +80,7 @@ module CorrespondenceMarkup
                                            Item.new("A2", "a second item")])])
     end
     
-    it "compiles structure group" do
+    it "compiles translation" do
       expectedTranslation = 
         Translation.new("example", [
                             Structure.new("english", "English", 
@@ -101,7 +101,7 @@ module CorrespondenceMarkup
         
     end
     
-    it "compiles structure groups" do
+    it "compiles translations" do
       expectedTranslations = 
         [Translation.new(nil, 
                             [Structure.new("english", "English", 

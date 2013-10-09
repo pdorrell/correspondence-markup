@@ -50,7 +50,7 @@ module CorrespondenceMarkup
   # An Item is text in a structure with an associated ID.
   # Typically if would be a word in a sentence. Items are to 
   # be related to other items in other structures in the same
-  # structure group that have the same ID.
+  # translation that have the same ID.
   # When two or more items in the same structure have the same ID, 
   # they are considered to be parts of the same item.
   # (For example, in "I let it go", we might want to identify "let" and "go" as a single item, 
@@ -129,9 +129,9 @@ module CorrespondenceMarkup
   # two or three lines which naturally group together within the
   # overall structure (and which cannot be separated because they
   # translate to a single line in one of the other structures in the
-  # same structure group).
+  # same translation).
   # Item groups with the same ID in different structures in the same
-  # structure group are related to each other, and may be shown next
+  # translation are related to each other, and may be shown next
   # to each other in the UI when the "Interleave" option is chosen.
   class ItemGroup
     
@@ -165,7 +165,7 @@ module CorrespondenceMarkup
   end
   
   # A structure, containing a sequence of item groups, as well as a type and a description.
-  # A structure will be one of two or more in a "structure group".
+  # A structure will be one of two or more in a "translation".
   class Structure
     
     # A short alphanumeric name for the type, typically reflecting the "language" of a structure
@@ -220,7 +220,7 @@ module CorrespondenceMarkup
     
   end
 
-  # A structure group is a group of structures. Different structures in one structure group
+  # A translation is a group of structures. Different structures in one translation
   # all represent the same information, but in different "languages". Items in different
   # structures with the same item ID are shown in the UI as being translations of each other.
   # (Items with the same ID in the same structure are also shown as related, and are presumed
@@ -239,7 +239,7 @@ module CorrespondenceMarkup
       @structures = structures
     end
 
-    # A structure group is equal to another structure group that has the same structures
+    # A translation is equal to another translation that has the same structures
     # (equality is only used for testing)
     def ==(otherTranslation)
       otherTranslation.class == Translation && 
