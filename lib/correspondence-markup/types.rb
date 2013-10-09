@@ -125,7 +125,7 @@ module CorrespondenceMarkup
   end
   
   # A group of items & non-items that will form part of a structure.
-  # Typically an line is one line of items (i.e. words) and non-items, or maybe
+  # Typically a line is one line of items (i.e. words) and non-items, or maybe
   # two or three lines which naturally group together within the
   # overall structure (and which cannot be separated because they
   # translate to a single line in one of the other structures in the
@@ -149,7 +149,7 @@ module CorrespondenceMarkup
       @content = content
     end
 
-    # An line is equal to another line with the same IDs and the same content
+    # A line is equal to another line with the same IDs and the same content
     # (equality is only used for testing)
     def ==(otherLine)
       otherLine.class == Line && otherLine.id == @id && otherLine.content == @content

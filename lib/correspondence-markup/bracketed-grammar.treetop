@@ -111,9 +111,9 @@ grammar CorrespondenceMarkupLanguage
     }
   end
 
-  # An line is a sub-structure of a structure which contains a sequence of items and "non-items".
-  # An line has an upper-case alphabetic ID (which should be unique within a structure, 
-  # and which should be the ID of an line in the first structure of a translation, but
+  # A line is a sub-structure of a structure which contains a sequence of items and "non-items".
+  # A line has an upper-case alphabetic ID (which should be unique within a structure, 
+  # and which should be the ID of a line in the first structure of a translation, but
   # neither of these rules is required by the grammar).
   # The line ID is used as a default prefix for any item IDs that do not start with 
   # alphabetic characters (so a full item ID is always alphabetic followed by something else).
@@ -129,7 +129,7 @@ grammar CorrespondenceMarkupLanguage
     }
   end
   
-  # A "non-item" is textual content in an line that is not part of an actual item.
+  # A "non-item" is textual content in a line that is not part of an actual item.
   # In effect this is text which is either not translatable to content in other structures
   # in the same translation, or, it is considered unimportant to identify its translation.
   # For example, in the second case, punctuation in sentences, where the translation is reasonably 
