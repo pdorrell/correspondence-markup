@@ -46,12 +46,12 @@ module CorrespondenceMarkup
       structureGroup.to_html.should == "<div class=\"translation\">\n" + 
         "  <div class=\"block english-block\">\n" + 
         "    <div class=\"language\">English</div>\n" + 
-        "    <div class=\"line\" data-group-id=\"A\">\n" +
+        "    <div class=\"line\" data-line-id=\"A\">\n" +
         "      a\n    b\n    </div>\n  </div>\n</div>\n"
       structureGroup.to_html(br: true).should == "<div class=\"translation\">\n" + 
         "  <div class=\"block english-block\">\n" + 
         "    <div class=\"language\">English</div>\n" + 
-        "    <div class=\"line\" data-group-id=\"A\">\n" +
+        "    <div class=\"line\" data-line-id=\"A\">\n" +
         "      a<br/>b\n    </div>\n  </div>\n</div>\n"
     end
     
