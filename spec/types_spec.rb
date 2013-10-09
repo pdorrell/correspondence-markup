@@ -39,19 +39,19 @@ module CorrespondenceMarkup
     
     describe "Line type" do
       it "line has id and content attribute" do
-        itemGroup = Line.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
-        itemGroup.id.should == "A"
-        itemGroup.content.should == [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]
+        line = Line.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
+        line.id.should == "A"
+        line.content.should == [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]
       end
       
-      it "itemGroup is equal to a itemGroup with the same id and content" do
-        itemGroup = Line.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
-        itemGroup.should_not == "something else"
-        itemGroup.should == Line.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
-        itemGroup.should_not == Line.new("B", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
-        itemGroup.should_not == Line.new("A", [Item.new(1, "hello"), NonItem.new("space"), Item.new(2, "world")])
-        itemGroup.should_not == Line.new("A", [Item.new(1, "hello"), NonItem.new(" ")])        
-        itemGroup.should_not == Line.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(3, "world")])
+      it "line is equal to a line with the same id and content" do
+        line = Line.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
+        line.should_not == "something else"
+        line.should == Line.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
+        line.should_not == Line.new("B", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
+        line.should_not == Line.new("A", [Item.new(1, "hello"), NonItem.new("space"), Item.new(2, "world")])
+        line.should_not == Line.new("A", [Item.new(1, "hello"), NonItem.new(" ")])        
+        line.should_not == Line.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(3, "world")])
       end
     end
     

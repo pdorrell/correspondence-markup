@@ -211,10 +211,10 @@ module CorrespondenceMarkup
     # Include a *<div>* of CSS class "language" (if the description is given)
     # Include HTML for the lines, converted according to the options for Helpers::text_to_html).
     def to_html(options={})
-      itemGroupHtmls = @item_groups.map{|x| x.to_html(options)}
+      lineHtmls = @item_groups.map{|x| x.to_html(options)}
       "<div class=\"#{css_class_names}\">\n  " + 
         (@description ? "<div class=\"language\">#{@description}</div>\n  " : "") +
-        itemGroupHtmls.join("").chomp("\n").gsub("\n", "\n  ") +
+        lineHtmls.join("").chomp("\n").gsub("\n", "\n  ") +
         "\n</div>\n"
     end
     

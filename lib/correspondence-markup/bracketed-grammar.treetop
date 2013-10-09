@@ -78,14 +78,14 @@ grammar CorrespondenceMarkupLanguage
   # a "description" (longer but still concise language description for display to the reader), 
   # and contains a sequence of "lines".
   rule structure
-    structure_annotation s itemGroups:("[" line "]" s)*
+    structure_annotation s lines:("[" line "]" s)*
     { 
       # Return a Structure
       def value
-        itemGroupObjects = itemGroups.elements.map {|e| e.line.value}
+        lineObjects = lines.elements.map {|e| e.line.value}
         class_name, description = structure_annotation.value
         CorrespondenceMarkup::Structure.new(class_name, description, 
-                                            itemGroupObjects)
+                                            lineObjects)
       end
     }
   end
