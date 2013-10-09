@@ -85,7 +85,7 @@ grammar CorrespondenceMarkupLanguage
         lineObjects = lines.elements.map {|e| e.line.value}
         class_name, description = block_annotation.value
         CorrespondenceMarkup::Block.new(class_name, description, 
-                                            lineObjects)
+                                        lineObjects)
       end
     }
   end

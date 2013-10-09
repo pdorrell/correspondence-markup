@@ -124,13 +124,13 @@ module CorrespondenceMarkup
     end
   end
   
-  # A line is a sequence of items & non-items that will form part of a block.
+  # A Line is a sequence of items & non-items that will form part of a block.
   # Typically a line is one line of items (i.e. words) and non-items, or maybe
   # two or three lines which naturally group together within the
   # overall block (and which cannot be separated because they
   # translate to a single line in one of the other blocks in the
   # same translation).
-  # lines with the same ID in different blocks in the same
+  # Lines with the same ID in different blocks in the same
   # translation are related to each other, and may be shown next
   # to each other in the UI when the "Interleave" option is chosen.
   class Line
@@ -221,7 +221,7 @@ module CorrespondenceMarkup
   end
 
   # A translation is a group of blocks. Different blocks in one translation
-  # all represent the same information, but in different "languages". Items in different
+  # all represent the same content, but in different "languages". Items in different
   # blocks with the same item ID are shown in the UI as being translations of each other.
   # (Items with the same ID in the same block are also shown as related, and are presumed
   # to be different parts of a single virtual item.)
