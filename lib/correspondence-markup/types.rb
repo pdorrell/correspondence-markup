@@ -133,7 +133,7 @@ module CorrespondenceMarkup
   # lines with the same ID in different structures in the same
   # translation are related to each other, and may be shown next
   # to each other in the UI when the "Interleave" option is chosen.
-  class ItemGroup
+  class Line
     
     # The ID which is unique in the structure. It identifies the 
     # line uniquely within the structure. It also serves as a default
@@ -151,8 +151,8 @@ module CorrespondenceMarkup
 
     # An line is equal to another line with the same IDs and the same content
     # (equality is only used for testing)
-    def ==(otherItemGroup)
-      otherItemGroup.class == ItemGroup && otherItemGroup.id == @id && otherItemGroup.content == @content
+    def ==(otherLine)
+      otherLine.class == Line && otherLine.id == @id && otherLine.content == @content
     end
     
     # Convert to HTML as a *<div>* tag with class *line*, *data-line-id* attribute

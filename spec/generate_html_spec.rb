@@ -42,7 +42,7 @@ module CorrespondenceMarkup
       nonItem.to_html(br: true).should == "two<br/>lines"
       translation = Translation.new(nil, 
                                           [Structure.new("english", "English", 
-                                                         [ItemGroup.new("A", [NonItem.new("a\nb")])])])
+                                                         [Line.new("A", [NonItem.new("a\nb")])])])
       translation.to_html.should == "<div class=\"translation\">\n" + 
         "  <div class=\"block english-block\">\n" + 
         "    <div class=\"language\">English</div>\n" + 
@@ -78,7 +78,7 @@ module CorrespondenceMarkup
     
     it "generates HTML for a structure" do
       structure = Structure.new("", "English", 
-                                [ItemGroup.new("A", [Item.new(1, "Hello"), 
+                                [Line.new("A", [Item.new(1, "Hello"), 
                                                      NonItem.new(", "), 
                                                      Item.new(2, "World")])])
       structure.to_html.should == output_file_contents("structure.html")
@@ -86,7 +86,7 @@ module CorrespondenceMarkup
     
     it "generates HTML for a structure with br and/or nbsp option" do
       structure = Structure.new("", nil, 
-                                [ItemGroup.new("A", [Item.new(1, "Good Morning"), 
+                                [Line.new("A", [Item.new(1, "Good Morning"), 
                                                          NonItem.new(" ,\n"), 
                                                          Item.new(2, " World")])])
       structure.to_html.should == output_file_contents("structure.goodmorning.html")
@@ -96,12 +96,12 @@ module CorrespondenceMarkup
     end
     
     it "generates HTML for a translation" do
-      structure1 = Structure.new("", nil, [ItemGroup.new("A", [Item.new(1, "Hello"), 
+      structure1 = Structure.new("", nil, [Line.new("A", [Item.new(1, "Hello"), 
                                                                NonItem.new(", "), 
                                                                Item.new(2, "World"), 
                                                                NonItem.new("!")])])
       structure2 = Structure.new("spanish", "Spanish",
-                                 [ItemGroup.new("A", [NonItem.new("¡"), 
+                                 [Line.new("A", [NonItem.new("¡"), 
                                                       Item.new(1, "Hola"), 
                                                       NonItem.new(", "), 
                                                       Item.new(2, "Mundo"), 
@@ -111,11 +111,11 @@ module CorrespondenceMarkup
     end
     
     it "generates HTML for a translation with br/nbsp in first structure" do
-      structure1 = Structure.new("", nil, [ItemGroup.new("A", [Item.new(1, "Good Morning"), 
+      structure1 = Structure.new("", nil, [Line.new("A", [Item.new(1, "Good Morning"), 
                                                                NonItem.new(" , \n"), 
                                                                Item.new(2, " World"), 
                                                                NonItem.new("!")])])
-      structure2 = Structure.new("", nil, [ItemGroup.new("A", [NonItem.new("¡"), 
+      structure2 = Structure.new("", nil, [Line.new("A", [NonItem.new("¡"), 
                                                                Item.new(1, "Buenas Dias"), 
                                                                NonItem.new(", \n"), 
                                                                Item.new(2, "Mundo"), 

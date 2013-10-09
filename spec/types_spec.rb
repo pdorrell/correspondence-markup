@@ -37,21 +37,21 @@ module CorrespondenceMarkup
         
     end
     
-    describe "ItemGroup type" do
+    describe "Line type" do
       it "line has id and content attribute" do
-        itemGroup = ItemGroup.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
+        itemGroup = Line.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
         itemGroup.id.should == "A"
         itemGroup.content.should == [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]
       end
       
       it "itemGroup is equal to a itemGroup with the same id and content" do
-        itemGroup = ItemGroup.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
+        itemGroup = Line.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
         itemGroup.should_not == "something else"
-        itemGroup.should == ItemGroup.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
-        itemGroup.should_not == ItemGroup.new("B", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
-        itemGroup.should_not == ItemGroup.new("A", [Item.new(1, "hello"), NonItem.new("space"), Item.new(2, "world")])
-        itemGroup.should_not == ItemGroup.new("A", [Item.new(1, "hello"), NonItem.new(" ")])        
-        itemGroup.should_not == ItemGroup.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(3, "world")])
+        itemGroup.should == Line.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
+        itemGroup.should_not == Line.new("B", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
+        itemGroup.should_not == Line.new("A", [Item.new(1, "hello"), NonItem.new("space"), Item.new(2, "world")])
+        itemGroup.should_not == Line.new("A", [Item.new(1, "hello"), NonItem.new(" ")])        
+        itemGroup.should_not == Line.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(3, "world")])
       end
     end
     
@@ -59,39 +59,39 @@ module CorrespondenceMarkup
       it "structure has type and item_groups attribute" do
         structure = Structure.new("english", 
                                   "English", 
-                                  [ItemGroup.new("D", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])])
+                                  [Line.new("D", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])])
         structure.type.should == "english"
         structure.description.should == "English"
-        structure.item_groups.should == [ItemGroup.new("D", [Item.new(1, "hello"), 
+        structure.item_groups.should == [Line.new("D", [Item.new(1, "hello"), 
                                                              NonItem.new(" "), Item.new(2, "world")])]
       end
       
       it "structure is equal to a structure with the same item_groups" do
         structure = Structure.new("english", "English", 
-                                  [ItemGroup.new("D", 
+                                  [Line.new("D", 
                                                  [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])])
         structure.should_not == "something else"
         structure.should_not == Structure.new("english", "Spanish", 
-                                              [ItemGroup.new("D", 
+                                              [Line.new("D", 
                                                              [Item.new(1, "hello"), NonItem.new(" "), 
                                                               Item.new(2, "world")])])
         structure.should_not == Structure.new("spanish", "English", 
-                                              [ItemGroup.new("D", 
+                                              [Line.new("D", 
                                                              [Item.new(1, "hello"), NonItem.new(" "), 
                                                               Item.new(2, "world")])])
          structure.should == Structure.new("english", "English", 
-                                           [ItemGroup.new("D", 
+                                           [Line.new("D", 
                                                          [Item.new(1, "hello"), NonItem.new(" "), 
                                                           Item.new(2, "world")])])
         structure.should_not == Structure.new("english", "English", 
-                                              [ItemGroup.new("D", 
+                                              [Line.new("D", 
                                                              [Item.new(1, "hello"), NonItem.new("space"), 
                                                               Item.new(2, "world")])])
         structure.should_not == Structure.new("english", "English", 
-                                              [ItemGroup.new("D", 
+                                              [Line.new("D", 
                                                              [Item.new(1, "hello"), NonItem.new(" ")])])
         structure.should_not == Structure.new("english", "English", 
-                                              [ItemGroup.new("D", 
+                                              [Line.new("D", 
                                                              [Item.new(1, "hello"), NonItem.new(" "), 
                                                               Item.new(3, "world")])])
       end
