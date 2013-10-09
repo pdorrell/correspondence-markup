@@ -225,7 +225,7 @@ module CorrespondenceMarkup
   # structures with the same item ID are shown in the UI as being translations of each other.
   # (Items with the same ID in the same structure are also shown as related, and are presumed
   # to be different parts of a single virtual item.)
-  class StructureGroup
+  class Translation
     
     # Optional description
     attr_reader :description
@@ -241,10 +241,10 @@ module CorrespondenceMarkup
 
     # A structure group is equal to another structure group that has the same structures
     # (equality is only used for testing)
-    def ==(otherStructureGroup)
-      otherStructureGroup.class == StructureGroup && 
-        otherStructureGroup.description == @description &&
-        otherStructureGroup.structures == @structures
+    def ==(otherTranslation)
+      otherTranslation.class == Translation && 
+        otherTranslation.description == @description &&
+        otherTranslation.structures == @structures
     end
 
     # Convert to HTML as a *<div>* of CSS class "translation" that contains the HTML

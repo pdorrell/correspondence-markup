@@ -38,7 +38,7 @@ grammar CorrespondenceMarkupLanguage
   rule translations
     s groups:("(" translation ")" s)*
     {
-      # Return an array of StructureGroup's
+      # Return an array of Translation's
       def value
         groups.elements.map {|e| e.translation.value}
       end
@@ -50,11 +50,11 @@ grammar CorrespondenceMarkupLanguage
   rule translation
     s description:translation_description? s structures:("{" structure "}" s)*
     { 
-      # Return a StructureGroup
+      # Return a Translation
       def value
         structureObjects = structures.elements.map {|e| e.structure.value}
         description_value = description.elements ? description.elements[2].text_value : nil
-        CorrespondenceMarkup::StructureGroup.new(description_value, structureObjects)
+        CorrespondenceMarkup::Translation.new(description_value, structureObjects)
       end
     }
   end
