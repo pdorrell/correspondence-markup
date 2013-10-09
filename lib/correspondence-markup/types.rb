@@ -125,18 +125,18 @@ module CorrespondenceMarkup
   end
   
   # A group of items & non-items that will form part of a structure.
-  # Typically an item group is one line of items (i.e. words) and non-items, or maybe
+  # Typically an line is one line of items (i.e. words) and non-items, or maybe
   # two or three lines which naturally group together within the
   # overall structure (and which cannot be separated because they
   # translate to a single line in one of the other structures in the
   # same translation).
-  # Item groups with the same ID in different structures in the same
+  # lines with the same ID in different structures in the same
   # translation are related to each other, and may be shown next
   # to each other in the UI when the "Interleave" option is chosen.
   class ItemGroup
     
     # The ID which is unique in the structure. It identifies the 
-    # item group uniquely within the structure. It also serves as a default
+    # line uniquely within the structure. It also serves as a default
     # prefix when parsing IDs for individual items.
     attr_reader :id
     
@@ -149,7 +149,7 @@ module CorrespondenceMarkup
       @content = content
     end
 
-    # An item group is equal to another item group with the same IDs and the same content
+    # An line is equal to another line with the same IDs and the same content
     # (equality is only used for testing)
     def ==(otherItemGroup)
       otherItemGroup.class == ItemGroup && otherItemGroup.id == @id && otherItemGroup.content == @content
@@ -164,7 +164,7 @@ module CorrespondenceMarkup
     end
   end
   
-  # A structure, containing a sequence of item groups, as well as a type and a description.
+  # A structure, containing a sequence of lines, as well as a type and a description.
   # A structure will be one of two or more in a "translation".
   class Structure
     
@@ -177,17 +177,17 @@ module CorrespondenceMarkup
     # Ideally it should be relatively concise. Can be nil.
     attr_reader :description
     
-    # The array of item groups that make up the content of the structure.
+    # The array of lines that make up the content of the structure.
     attr_reader :item_groups
     
-    # Initialize from type, description and item groups
+    # Initialize from type, description and lines
     def initialize(type, description, item_groups)
       @type = type
       @description = description
       @item_groups = item_groups
     end
 
-    # A structure is equal to another structure with the same type, description and item groups
+    # A structure is equal to another structure with the same type, description and lines
     # (equality is only used for testing)
     def ==(otherStructure)
       otherStructure.class == Structure && otherStructure.type == @type  &&
@@ -209,7 +209,7 @@ module CorrespondenceMarkup
     
     # Convert to HTML as a *<div>* with CSS class determined by *css_class_names*.
     # Include a *<div>* of CSS class "language" (if the description is given)
-    # Include HTML for the item groups, converted according to the options for Helpers::text_to_html).
+    # Include HTML for the lines, converted according to the options for Helpers::text_to_html).
     def to_html(options={})
       itemGroupHtmls = @item_groups.map{|x| x.to_html(options)}
       "<div class=\"#{css_class_names}\">\n  " + 

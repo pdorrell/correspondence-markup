@@ -38,7 +38,7 @@ module CorrespondenceMarkup
     end
     
     describe "ItemGroup type" do
-      it "item group has id and content attribute" do
+      it "line has id and content attribute" do
         itemGroup = ItemGroup.new("A", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])
         itemGroup.id.should == "A"
         itemGroup.content.should == [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]

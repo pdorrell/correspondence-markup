@@ -19,9 +19,9 @@ require "correspondence-markup/types"
 # there should be no necessity for the user to enter the enclosing "{}" brackets, 
 # because the UI text area implicitly encloses the definition that the user is editing.
 # So the software would want to parse the definition of a structure without the {}.
-# (And if the user was editing each item group in a separate text field, then
+# (And if the user was editing each line in a separate text field, then
 # similarly the user would not want to include the outer "[]" brackets in each
-# item group definition.)
+# line definition.)
 
 grammar CorrespondenceMarkupLanguage
 
@@ -76,7 +76,7 @@ grammar CorrespondenceMarkupLanguage
   # of application users editing and saving incomplete content).
   # A structure has a "type" (short language description intended to map to a CSS class), 
   # a "description" (longer but still concise language description for display to the reader), 
-  # and contains a sequence of "item groups".
+  # and contains a sequence of "lines".
   rule structure
     structure_annotation s itemGroups:("[" line "]" s)*
     { 
@@ -111,11 +111,11 @@ grammar CorrespondenceMarkupLanguage
     }
   end
 
-  # An item group is a sub-structure of a structure which contains a sequence of items and "non-items".
-  # An item group has an upper-case alphabetic ID (which should be unique within a structure, 
+  # An line is a sub-structure of a structure which contains a sequence of items and "non-items".
+  # An line has an upper-case alphabetic ID (which should be unique within a structure, 
   # and which should be the ID of an line in the first structure of a translation, but
   # neither of these rules is required by the grammar).
-  # The item group ID is used as a default prefix for any item IDs that do not start with 
+  # The line ID is used as a default prefix for any item IDs that do not start with 
   # alphabetic characters (so a full item ID is always alphabetic followed by something else).
   rule line
     optional_id:(id:[A-Z]* ":")? components:(item / non_item)*
@@ -129,7 +129,7 @@ grammar CorrespondenceMarkupLanguage
     }
   end
   
-  # A "non-item" is textual content in an item group that is not part of an actual item.
+  # A "non-item" is textual content in an line that is not part of an actual item.
   # In effect this is text which is either not translatable to content in other structures
   # in the same translation, or, it is considered unimportant to identify its translation.
   # For example, in the second case, punctuation in sentences, where the translation is reasonably 
@@ -137,7 +137,7 @@ grammar CorrespondenceMarkupLanguage
   rule non_item
     text:text
     { 
-      # Given the item group ID (as a default prefix for the item IDs, which is ignored for non-items), 
+      # Given the line ID (as a default prefix for the item IDs, which is ignored for non-items), 
       # return a NonItem.
       def value(group_id = "")
         CorrespondenceMarkup::NonItem.new(text.value)
@@ -151,15 +151,15 @@ grammar CorrespondenceMarkupLanguage
   # "same item", and items with the same ID in different structures are considered to be
   # translations of each other.
   # An item ID consists of an upper-case alphabetic prefix followed by a numeric ID.
-  # Any item ID that lacks an alphabetic prefix will have the item group ID of the containing
-  # item group added as a prefix to its ID.
-  # (This reflects the assumption that an item usually relates to items in item groups in other
-  # structures with the same item group ID, but occasionally an item relates to an item in
-  # some other item group in another structure.)
+  # Any item ID that lacks an alphabetic prefix will have the line ID of the containing
+  # line added as a prefix to its ID.
+  # (This reflects the assumption that an item usually relates to items in lines in other
+  # structures with the same line ID, but occasionally an item relates to an item in
+  # some other line in another structure.)
   rule item
     "[" id:item_ids S text:text "]"
     { 
-      # Given the item group ID (as a default prefix for the item IDs), return an Item
+      # Given the line ID (as a default prefix for the item IDs), return an Item
       def value(group_id = "")
         item_ids = id.text_value.split(",")
         item_ids = item_ids.map { |item_id| item_id.match(/[A-Z]/) ? item_id : group_id + item_id}
@@ -183,8 +183,8 @@ grammar CorrespondenceMarkupLanguage
   
   # Items can have multiple IDs, in which case they are separated by commas
   # (and no whitespace). If there are multiple IDs, the convention of applying the
-  # item group ID as a default prefix is applied individually to each ID.
-  # So, for example, "2,A2,3" in item group B would be expanded to "B2,A2,B3".
+  # line ID as a default prefix is applied individually to each ID.
+  # So, for example, "2,A2,3" in line B would be expanded to "B2,A2,B3".
   rule item_ids
     item_id ("," item_id)*
   end
