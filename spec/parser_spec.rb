@@ -97,33 +97,33 @@ describe "markup language grammar" do
   
   it "parses line" do
     should_parse(:line, ["[1 Hello] [2 world]", "", 
-                               "A: [1 Hello] [2 world]"])
+                         "A: [1 Hello] [2 world]"])
   end  
   
   it "parses block from optional style + lines ..." do
     should_parse(:block, ["", "[]", 
-                              "[[1 Hello]]", 
-                              "english [A: [1 Hello]]", 
-                              "english: English language\n [A: [1 Hello]]", 
-                              "[A: [1 Hello]][B: [1 world]]", 
-                              "[A: [1 Hello]]", 
-                              "[A: non-item text][B: [2 item]]", 
-                              "[A: [1 Hello]][B[2 World].]", 
-                              "[ non-item [1 item 1] [2 item 2] the end]"])
+                          "[[1 Hello]]", 
+                          "english [A: [1 Hello]]", 
+                          "english: English language\n [A: [1 Hello]]", 
+                          "[A: [1 Hello]][B: [1 world]]", 
+                          "[A: [1 Hello]]", 
+                          "[A: non-item text][B: [2 item]]", 
+                          "[A: [1 Hello]][B[2 World].]", 
+                          "[ non-item [1 item 1] [2 item 2] the end]"])
     should_not_parse(:block, ["[", 
-                                  "]", 
-                                  "[[1 Hello] [2 world]", 
-                                  "english: English language [A: [1 Hello]]", 
-                                  "[[1 Hello]", 
-                                  "[[1 Hello]]]", 
-                                  "[1 Hello]  [2 world", 
-                                  ])
+                              "]", 
+                              "[[1 Hello] [2 world]", 
+                              "english: English language [A: [1 Hello]]", 
+                              "[[1 Hello]", 
+                              "[[1 Hello]]]", 
+                              "[1 Hello]  [2 world", 
+                             ])
   end
   
   it "parses translation from from { block } ..." do
     should_parse(:translation, ["", "{}", "{[[1 x]]}", "{[]}", 
-                                    " {[A: [1 Hello]] [B: [1 world]]} {[A: [1 Hola]] [B: [2 Mundo]] }", 
-                                    "{[A: [1 Hello]] [B: [1 world]]}{[A: [1 Hola]] [B: [2 Mundo]]}"
+                                " {[A: [1 Hello]] [B: [1 world]]} {[A: [1 Hola]] [B: [2 Mundo]] }", 
+                                "{[A: [1 Hello]] [B: [1 world]]}{[A: [1 Hola]] [B: [2 Mundo]]}"
                                    ])
     should_not_parse(:translation, ["[", "{[]", "{[]}{[", "[[]]}", "{[[]]}"])
                                         
@@ -132,14 +132,14 @@ describe "markup language grammar" do
   it "parses translation description" do
     should_parse(:translation, ["#Description of this translation\n{[[1 x]]}"])
     should_not_parse(:translation, ["Description of this translation\n{[[1 x]]}", 
-                                        "#Description of this translation{[[1 x]]}"])
+                                    "#Description of this translation{[[1 x]]}"])
   end
   
   it "parses translations from ( block ... ) ..." do
     should_parse(:translations, ["()", "({[]})", 
-                                     " ({[A: [1 Hello]] [B: [1 world]]} {[A: [1 Hola]] [B: [2 Mundo]] })" +
-                                     " ({[A: [1 Goodbye]] [B: [1 friends]]} {[A: [1 Ciao]] [B: [2 amigos]] })"
-                                    ])
+                                 " ({[A: [1 Hello]] [B: [1 world]]} {[A: [1 Hola]] [B: [2 Mundo]] })" +
+                                 " ({[A: [1 Goodbye]] [B: [1 friends]]} {[A: [1 Ciao]] [B: [2 amigos]] })"
+                                ])
     should_parse(:translations, [%{
                                        (
                                         {

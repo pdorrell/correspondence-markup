@@ -58,42 +58,42 @@ module CorrespondenceMarkup
     describe "Block type" do
       it "block has type and lines attribute" do
         block = Block.new("english", 
-                                  "English", 
-                                  [Line.new("D", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])])
+                          "English", 
+                          [Line.new("D", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])])
         block.type.should == "english"
         block.description.should == "English"
         block.lines.should == [Line.new("D", [Item.new(1, "hello"), 
-                                                             NonItem.new(" "), Item.new(2, "world")])]
+                                              NonItem.new(" "), Item.new(2, "world")])]
       end
       
       it "block is equal to a block with the same lines" do
         block = Block.new("english", "English", 
-                                  [Line.new("D", 
-                                                 [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])])
+                          [Line.new("D", 
+                                    [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])])
         block.should_not == "something else"
         block.should_not == Block.new("english", "Spanish", 
-                                              [Line.new("D", 
-                                                             [Item.new(1, "hello"), NonItem.new(" "), 
-                                                              Item.new(2, "world")])])
+                                      [Line.new("D", 
+                                                [Item.new(1, "hello"), NonItem.new(" "), 
+                                                 Item.new(2, "world")])])
         block.should_not == Block.new("spanish", "English", 
-                                              [Line.new("D", 
-                                                             [Item.new(1, "hello"), NonItem.new(" "), 
-                                                              Item.new(2, "world")])])
+                                      [Line.new("D", 
+                                                [Item.new(1, "hello"), NonItem.new(" "), 
+                                                 Item.new(2, "world")])])
          block.should == Block.new("english", "English", 
-                                           [Line.new("D", 
-                                                         [Item.new(1, "hello"), NonItem.new(" "), 
-                                                          Item.new(2, "world")])])
+                                   [Line.new("D", 
+                                             [Item.new(1, "hello"), NonItem.new(" "), 
+                                              Item.new(2, "world")])])
         block.should_not == Block.new("english", "English", 
-                                              [Line.new("D", 
-                                                             [Item.new(1, "hello"), NonItem.new("space"), 
-                                                              Item.new(2, "world")])])
+                                      [Line.new("D", 
+                                                [Item.new(1, "hello"), NonItem.new("space"), 
+                                                 Item.new(2, "world")])])
         block.should_not == Block.new("english", "English", 
-                                              [Line.new("D", 
-                                                             [Item.new(1, "hello"), NonItem.new(" ")])])
+                                      [Line.new("D", 
+                                                [Item.new(1, "hello"), NonItem.new(" ")])])
         block.should_not == Block.new("english", "English", 
-                                              [Line.new("D", 
-                                                             [Item.new(1, "hello"), NonItem.new(" "), 
-                                                              Item.new(3, "world")])])
+                                      [Line.new("D", 
+                                                [Item.new(1, "hello"), NonItem.new(" "), 
+                                                 Item.new(3, "world")])])
       end
     end
     
@@ -101,10 +101,10 @@ module CorrespondenceMarkup
       it "translation has description and blocks attributes" do
         translation = 
           Translation.new("Saying hello", 
-                             [Block.new("english", "English", 
-                                            [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
-                              Block.new("spanish", "Spanish", 
-                                            [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
+                          [Block.new("english", "English", 
+                                     [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
+                           Block.new("spanish", "Spanish", 
+                                     [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
         translation.description.should == "Saying hello"
         translation.blocks[1].should == 
           Block.new("spanish", "Spanish", [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])
@@ -113,22 +113,22 @@ module CorrespondenceMarkup
       it "translations are equal if their content is equal" do
         translation = 
           Translation.new("Hello", 
-                             [Block.new("english", "English", 
-                                            [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
-                              Block.new("spanish", "Spanish", 
-                                            [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
+                          [Block.new("english", "English", 
+                                     [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
+                           Block.new("spanish", "Spanish", 
+                                     [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
         identicalTranslation = 
           Translation.new("Hello", 
-                             [Block.new("english", "English",
-                                            [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
-                              Block.new("spanish", "Spanish", 
-                                            [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
+                          [Block.new("english", "English",
+                                     [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
+                           Block.new("spanish", "Spanish", 
+                                     [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
         notQuiteTheSameTranslation = 
           Translation.new("Hello", 
-                             [Block.new("english", "English", 
-                                            [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
-                              Block.new("spanish", "Spanish", 
-                                            [Item.new(1, "Holla"), NonItem.new(" "), Item.new(2, "mundo")])])
+                          [Block.new("english", "English", 
+                                     [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
+                           Block.new("spanish", "Spanish", 
+                                     [Item.new(1, "Holla"), NonItem.new(" "), Item.new(2, "mundo")])])
         differentlyDescribedTranslation = 
           Translation.new("goodbye", 
                              translation.blocks)

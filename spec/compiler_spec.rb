@@ -45,22 +45,22 @@ module CorrespondenceMarkup
     it "compiles line" do
       parse("[1 an item] in between stuff [2 a second item]", :line).value.should == 
         Line.new("", [Item.new("1", "an item"), NonItem.new(" in between stuff "), 
-                           Item.new("2", "a second item")])
+                      Item.new("2", "a second item")])
       parse("A:[1 an item] in between stuff [2 a second item]", :line).value.should == 
         Line.new("A", [Item.new("A1", "an item"), NonItem.new(" in between stuff "), 
-                            Item.new("A2", "a second item")])
+                       Item.new("A2", "a second item")])
     end
     
     it "does not add line ID if item id has alphabetic" do
       parse("A:[1 an item] in between stuff [B2 a second item]", :line).value.should == 
         Line.new("A", [Item.new("A1", "an item"), NonItem.new(" in between stuff "), 
-                            Item.new("B2", "a second item")])
+                       Item.new("B2", "a second item")])
     end
     
     it "parses line with multiple IDs, adding line IDs as required" do
       parse("A:[1,B3,2 an item] in between stuff [B2,4,5 a second item]", :line).value.should == 
         Line.new("A", [Item.new("A1,B3,A2", "an item"), NonItem.new(" in between stuff "), 
-                            Item.new("B2,A4,A5", "a second item")])
+                       Item.new("B2,A4,A5", "a second item")])
     end
       
     
@@ -68,30 +68,30 @@ module CorrespondenceMarkup
       blockNode = parse("[A:[1 an item] in between stuff [2 a second item]]", :block)
       blockNode.value.should == 
         Block.new("", nil, 
-                      [Line.new("A", [Item.new("A1", "an item"), NonItem.new(" in between stuff "), 
-                                           Item.new("A2", "a second item")])])
+                  [Line.new("A", [Item.new("A1", "an item"), NonItem.new(" in between stuff "), 
+                                  Item.new("A2", "a second item")])])
     end
     
     it "compiles block with CSS class" do
       blockNode = parse("english: English\n [A:[1 an item] in between stuff [2 a second item]]", :block)
       blockNode.value.should == 
         Block.new("english", "English", 
-                      [Line.new("A", [Item.new("A1", "an item"), NonItem.new(" in between stuff "), 
-                                           Item.new("A2", "a second item")])])
+                  [Line.new("A", [Item.new("A1", "an item"), NonItem.new(" in between stuff "), 
+                                  Item.new("A2", "a second item")])])
     end
     
     it "compiles translation" do
       expectedTranslation = 
         Translation.new("example", [
-                            Block.new("english", "English", 
-                                          [Line.new("", 
-                                                         [Item.new("1", "Hello"), NonItem.new(" in between stuff "), 
-                                                          Item.new("2", "world")])]), 
-                            Block.new("spanish", "Spanish", 
-                                          [Line.new("", 
-                                                         [Item.new("1", "Hola"), NonItem.new("  "), 
-                                                          Item.new("2", "mundo")])])
-                           ]);
+                                    Block.new("english", "English", 
+                                              [Line.new("", 
+                                                        [Item.new("1", "Hello"), NonItem.new(" in between stuff "), 
+                                                         Item.new("2", "world")])]), 
+                                    Block.new("spanish", "Spanish", 
+                                              [Line.new("", 
+                                                        [Item.new("1", "Hola"), NonItem.new("  "), 
+                                                         Item.new("2", "mundo")])])
+                                   ]);
       parse("#example\n{english: English\n [[1 Hello] in between stuff [2 world]]} {spanish: Spanish\n [[1 Hola]  [2 mundo]]} ", 
             :translation).value.should == expectedTranslation
       parse("#example\n {english:  English\n [[1 Hello] in between stuff [2 world]]}{spanish: Spanish\n [[1 Hola]  [2 mundo]] }", 
@@ -104,28 +104,28 @@ module CorrespondenceMarkup
     it "compiles translations" do
       expectedTranslations = 
         [Translation.new(nil, 
-                            [Block.new("english", "English", 
-                                           [Line.new("", 
-                                                          [Item.new("1", "Hello"), NonItem.new(" in between stuff "), 
-                                                           Item.new("2", "world")])]), 
-                             Block.new("spanish", nil, 
-                                           [Line.new("", 
-                                                          [Item.new("1", "Hola"), NonItem.new("  "), 
-                                                           Item.new("2", "mundo")])])
-                            ]), 
+                         [Block.new("english", "English", 
+                                    [Line.new("", 
+                                              [Item.new("1", "Hello"), NonItem.new(" in between stuff "), 
+                                               Item.new("2", "world")])]), 
+                          Block.new("spanish", nil, 
+                                    [Line.new("", 
+                                              [Item.new("1", "Hola"), NonItem.new("  "), 
+                                               Item.new("2", "mundo")])])
+                         ]), 
          Translation.new(nil, 
-                            [Block.new("equation", "Mathematical Equation", 
-                                           [Line.new("", 
-                                                          [Item.new("3", "3"), NonItem.new(" "), Item.new("4", "+"), 
-                                                           NonItem.new(" "), Item.new("5", "4"), NonItem.new(" "), 
-                                                           Item.new("6", "="), NonItem.new(" "), Item.new("7", "7")])]), 
-                             Block.new("english", "English", 
-                                           [Line.new("", 
-                                                          [Item.new("3", "three"), NonItem.new(" "), Item.new("4", "and"), 
-                                                           NonItem.new(" "), Item.new("5", "four"), NonItem.new(" "), 
-                                                           Item.new("6", "makes"), NonItem.new(" "), 
-                                                           Item.new("7", "seven")])])
-                            ])]
+                         [Block.new("equation", "Mathematical Equation", 
+                                    [Line.new("", 
+                                              [Item.new("3", "3"), NonItem.new(" "), Item.new("4", "+"), 
+                                               NonItem.new(" "), Item.new("5", "4"), NonItem.new(" "), 
+                                               Item.new("6", "="), NonItem.new(" "), Item.new("7", "7")])]), 
+                          Block.new("english", "English", 
+                                    [Line.new("", 
+                                              [Item.new("3", "three"), NonItem.new(" "), Item.new("4", "and"), 
+                                               NonItem.new(" "), Item.new("5", "four"), NonItem.new(" "), 
+                                               Item.new("6", "makes"), NonItem.new(" "), 
+                                               Item.new("7", "seven")])])
+                         ])]
       
       parse(%{
               ( {english: English

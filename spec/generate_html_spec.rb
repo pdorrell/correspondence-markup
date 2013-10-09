@@ -41,8 +41,8 @@ module CorrespondenceMarkup
       nonItem.to_html.should == "two\nlines"
       nonItem.to_html(br: true).should == "two<br/>lines"
       translation = Translation.new(nil, 
-                                          [Block.new("english", "English", 
-                                                         [Line.new("A", [NonItem.new("a\nb")])])])
+                                    [Block.new("english", "English", 
+                                               [Line.new("A", [NonItem.new("a\nb")])])])
       translation.to_html.should == "<div class=\"translation\">\n" + 
         "  <div class=\"block english-block\">\n" + 
         "    <div class=\"language\">English</div>\n" + 
@@ -78,17 +78,17 @@ module CorrespondenceMarkup
     
     it "generates HTML for a block" do
       block = Block.new("", "English", 
-                                [Line.new("A", [Item.new(1, "Hello"), 
-                                                     NonItem.new(", "), 
-                                                     Item.new(2, "World")])])
+                        [Line.new("A", [Item.new(1, "Hello"), 
+                                        NonItem.new(", "), 
+                                        Item.new(2, "World")])])
       block.to_html.should == output_file_contents("block.html")
     end
     
     it "generates HTML for a block with br and/or nbsp option" do
       block = Block.new("", nil, 
-                                [Line.new("A", [Item.new(1, "Good Morning"), 
-                                                         NonItem.new(" ,\n"), 
-                                                         Item.new(2, " World")])])
+                        [Line.new("A", [Item.new(1, "Good Morning"), 
+                                        NonItem.new(" ,\n"), 
+                                        Item.new(2, " World")])])
       block.to_html.should == output_file_contents("block.goodmorning.html")
       block.to_html(br: true).should == output_file_contents("block.goodmorning.br.html")
       block.to_html(nbsp: true).should == output_file_contents("block.goodmorning.nbsp.html")
@@ -97,29 +97,29 @@ module CorrespondenceMarkup
     
     it "generates HTML for a translation" do
       block1 = Block.new("", nil, [Line.new("A", [Item.new(1, "Hello"), 
-                                                               NonItem.new(", "), 
-                                                               Item.new(2, "World"), 
-                                                               NonItem.new("!")])])
+                                                  NonItem.new(", "), 
+                                                  Item.new(2, "World"), 
+                                                  NonItem.new("!")])])
       block2 = Block.new("spanish", "Spanish",
-                                 [Line.new("A", [NonItem.new("¡"), 
-                                                      Item.new(1, "Hola"), 
-                                                      NonItem.new(", "), 
-                                                      Item.new(2, "Mundo"), 
-                                                      NonItem.new("!")])])
+                         [Line.new("A", [NonItem.new("¡"), 
+                                         Item.new(1, "Hola"), 
+                                         NonItem.new(", "), 
+                                         Item.new(2, "Mundo"), 
+                                         NonItem.new("!")])])
       translation = Translation.new("Description of the translation", [block1, block2])
       translation.to_html.should == output_file_contents("translation.html")
     end
     
     it "generates HTML for a translation with br/nbsp in first block" do
       block1 = Block.new("", nil, [Line.new("A", [Item.new(1, "Good Morning"), 
-                                                               NonItem.new(" , \n"), 
-                                                               Item.new(2, " World"), 
-                                                               NonItem.new("!")])])
+                                                  NonItem.new(" , \n"), 
+                                                  Item.new(2, " World"), 
+                                                  NonItem.new("!")])])
       block2 = Block.new("", nil, [Line.new("A", [NonItem.new("¡"), 
-                                                               Item.new(1, "Buenas Dias"), 
-                                                               NonItem.new(", \n"), 
-                                                               Item.new(2, "Mundo"), 
-                                                               NonItem.new("!")])])
+                                                  Item.new(1, "Buenas Dias"), 
+                                                  NonItem.new(", \n"), 
+                                                  Item.new(2, "Mundo"), 
+                                                  NonItem.new("!")])])
       translation = Translation.new(nil, [block1, block2])
       translation.to_html.should == output_file_contents("goodMorningBuenasDias.html")
       translation.to_html(br: [true, false], nbsp: [true, false]).should == output_file_contents("goodMorningBuenasDias.br.nbsp.html")
