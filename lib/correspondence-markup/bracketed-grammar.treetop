@@ -74,8 +74,8 @@ grammar CorrespondenceMarkupLanguage
   # A block is one of two or more blocks in a translation
   # (although the grammar does not impose any count restriction, in anticipation
   # of application users editing and saving incomplete content).
-  # A block has a "type" (short language description intended to map to a CSS class), 
-  # a "description" (longer but still concise language description for display to the reader), 
+  # A block has a language ID, which is intended to map to a CSS class (so it has to be a valid CSS class name), 
+  # a "language title" (a longer but still concise description of the language for display to the reader), 
   # and contains a sequence of "lines".
   rule block
     block_annotation s lines:("[" line "]" s)*

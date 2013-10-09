@@ -164,7 +164,7 @@ module CorrespondenceMarkup
     end
   end
   
-  # A block, containing a sequence of lines, as well as a type and a description.
+  # A block, containing a sequence of lines, as well as a language ID and a language title
   # A block will be one of two or more in a "translation".
   class Block
     
@@ -180,14 +180,14 @@ module CorrespondenceMarkup
     # The array of lines that make up the content of the block.
     attr_reader :lines
     
-    # Initialize from type, description and lines
+    # Initialize from language ID, language title and lines
     def initialize(languageId, languageTitle, lines)
       @languageId = languageId
       @languageTitle = languageTitle
       @lines = lines
     end
 
-    # A block is equal to another block with the same type, description and lines
+    # A block is equal to another block with the same language ID, language title and lines
     # (equality is only used for testing)
     def ==(otherBlock)
       otherBlock.class == Block && otherBlock.languageId == @languageId  &&
@@ -208,7 +208,7 @@ module CorrespondenceMarkup
     end
     
     # Convert to HTML as a *<div>* with CSS class determined by *css_class_names*.
-    # Include a *<div>* of CSS class "language" (if the description is given)
+    # Include a *<div>* of CSS class "language" (if the language title is given)
     # Include HTML for the lines, converted according to the options for Helpers::text_to_html).
     def to_html(options={})
       lineHtmls = @lines.map{|x| x.to_html(options)}
