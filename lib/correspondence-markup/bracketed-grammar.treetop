@@ -8,17 +8,17 @@ require "correspondence-markup/types"
 #
 # * item: "[]"
 # * line: "[]"
-# * structure: "{}"
+# * block: "{}"
 # * translation: "()"
 #
 # However, in anticipation of a UI where the user may choose the granularity
 # at which to edit components of particular content, the parsing of brackets
-# is handled by the parent component, e.g. the "{}" bracketing of structures
+# is handled by the parent component, e.g. the "{}" bracketing of blocks
 # is specified in the grammar rule for translation.
-# The motivation for this is: if a user is editing a structure definition in a UI text area, 
+# The motivation for this is: if a user is editing a block definition in a UI text area, 
 # there should be no necessity for the user to enter the enclosing "{}" brackets, 
 # because the UI text area implicitly encloses the definition that the user is editing.
-# So the software would want to parse the definition of a structure without the {}.
+# So the software would want to parse the definition of a block without the {}.
 # (And if the user was editing each line in a separate text field, then
 # similarly the user would not want to include the outer "[]" brackets in each
 # line definition.)
@@ -31,8 +31,8 @@ grammar CorrespondenceMarkupLanguage
   # This rule defines a sequence of translations (intended to be displayed on one web page).
   # Individual translations are independent of each other
   # (although typically a sequence of translations
-  # where each translation has structures with the same sequence of languages, 
-  # e.g. three translations of two structures each with languages 
+  # where each translation has blocks with the same sequence of languages, 
+  # e.g. three translations of two blocks each with languages 
   # spanish/english, spanish/english, spanish/english, representing the
   # translations of three verses of a song).
   rule translations
@@ -45,16 +45,16 @@ grammar CorrespondenceMarkupLanguage
     }
   end
 
-  # A translation is a group of structures where each structure represents
+  # A translation is a group of blocks where each block represents
   # the same information in a different "language".
   rule translation
-    s description:translation_description? s structures:("{" structure "}" s)*
+    s description:translation_description? s blocks:("{" block "}" s)*
     { 
       # Return a Translation
       def value
-        structureObjects = structures.elements.map {|e| e.structure.value}
+        blockObjects = blocks.elements.map {|e| e.block.value}
         description_value = description.elements ? description.elements[2].text_value : nil
-        CorrespondenceMarkup::Translation.new(description_value, structureObjects)
+        CorrespondenceMarkup::Translation.new(description_value, blockObjects)
       end
     }
   end
@@ -71,37 +71,37 @@ grammar CorrespondenceMarkupLanguage
     }
   end
 
-  # A structure is one of two or more structures in a translation
+  # A block is one of two or more blocks in a translation
   # (although the grammar does not impose any count restriction, in anticipation
   # of application users editing and saving incomplete content).
-  # A structure has a "type" (short language description intended to map to a CSS class), 
+  # A block has a "type" (short language description intended to map to a CSS class), 
   # a "description" (longer but still concise language description for display to the reader), 
   # and contains a sequence of "lines".
-  rule structure
-    structure_annotation s lines:("[" line "]" s)*
+  rule block
+    block_annotation s lines:("[" line "]" s)*
     { 
-      # Return a Structure
+      # Return a Block
       def value
         lineObjects = lines.elements.map {|e| e.line.value}
-        class_name, description = structure_annotation.value
-        CorrespondenceMarkup::Structure.new(class_name, description, 
+        class_name, description = block_annotation.value
+        CorrespondenceMarkup::Block.new(class_name, description, 
                                             lineObjects)
       end
     }
   end
 
-  # Structure class (for the structure's "type"), with rules similar to those of a CSS class identifier.
-  rule structure_class
+  # Block class (for the block's "type"), with rules similar to those of a CSS class identifier.
+  rule block_class
     ([a-zA-Z] [a-zA-Z0-9_-]*)?
   end
 
-  # Structure annotation contains the "type" and the "description" (both optional)
-  rule structure_annotation
-    structure_class description_section:(":" s description:[^\n]* "\n")?
+  # Block annotation contains the "type" and the "description" (both optional)
+  rule block_annotation
+    block_class description_section:(":" s description:[^\n]* "\n")?
     {
       # Return an array of two strings for the type and the description
       def value
-        class_name = structure_class.text_value
+        class_name = block_class.text_value
         description = nil
         if description_section.elements
           description = description_section.description.text_value
@@ -111,9 +111,9 @@ grammar CorrespondenceMarkupLanguage
     }
   end
 
-  # A line is a sub-structure of a structure which contains a sequence of items and "non-items".
-  # A line has an upper-case alphabetic ID (which should be unique within a structure, 
-  # and which should be the ID of a line in the first structure of a translation, but
+  # A line is a sub-block of a block which contains a sequence of items and "non-items".
+  # A line has an upper-case alphabetic ID (which should be unique within a block, 
+  # and which should be the ID of a line in the first block of a translation, but
   # neither of these rules is required by the grammar).
   # The line ID is used as a default prefix for any item IDs that do not start with 
   # alphabetic characters (so a full item ID is always alphabetic followed by something else).
@@ -130,7 +130,7 @@ grammar CorrespondenceMarkupLanguage
   end
   
   # A "non-item" is textual content in a line that is not part of an actual item.
-  # In effect this is text which is either not translatable to content in other structures
+  # In effect this is text which is either not translatable to content in other blocks
   # in the same translation, or, it is considered unimportant to identify its translation.
   # For example, in the second case, punctuation in sentences, where the translation is reasonably 
   # obvious, and we wish to highlight only the translations of the actual words.
@@ -147,15 +147,15 @@ grammar CorrespondenceMarkupLanguage
 
   # An item is textual content with an ID, where different items in the same translation
   # with the same ID are considered to be related to each other.
-  # Typically, items with the same ID in the same structure are considered to be part of the
-  # "same item", and items with the same ID in different structures are considered to be
+  # Typically, items with the same ID in the same block are considered to be part of the
+  # "same item", and items with the same ID in different blocks are considered to be
   # translations of each other.
   # An item ID consists of an upper-case alphabetic prefix followed by a numeric ID.
   # Any item ID that lacks an alphabetic prefix will have the line ID of the containing
   # line added as a prefix to its ID.
   # (This reflects the assumption that an item usually relates to items in lines in other
-  # structures with the same line ID, but occasionally an item relates to an item in
-  # some other line in another structure.)
+  # blocks with the same line ID, but occasionally an item relates to an item in
+  # some other line in another block.)
   rule item
     "[" id:item_ids S text:text "]"
     { 

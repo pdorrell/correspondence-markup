@@ -55,42 +55,42 @@ module CorrespondenceMarkup
       end
     end
     
-    describe "Structure type" do
-      it "structure has type and lines attribute" do
-        structure = Structure.new("english", 
+    describe "Block type" do
+      it "block has type and lines attribute" do
+        block = Block.new("english", 
                                   "English", 
                                   [Line.new("D", [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])])
-        structure.type.should == "english"
-        structure.description.should == "English"
-        structure.lines.should == [Line.new("D", [Item.new(1, "hello"), 
+        block.type.should == "english"
+        block.description.should == "English"
+        block.lines.should == [Line.new("D", [Item.new(1, "hello"), 
                                                              NonItem.new(" "), Item.new(2, "world")])]
       end
       
-      it "structure is equal to a structure with the same lines" do
-        structure = Structure.new("english", "English", 
+      it "block is equal to a block with the same lines" do
+        block = Block.new("english", "English", 
                                   [Line.new("D", 
                                                  [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")])])
-        structure.should_not == "something else"
-        structure.should_not == Structure.new("english", "Spanish", 
+        block.should_not == "something else"
+        block.should_not == Block.new("english", "Spanish", 
                                               [Line.new("D", 
                                                              [Item.new(1, "hello"), NonItem.new(" "), 
                                                               Item.new(2, "world")])])
-        structure.should_not == Structure.new("spanish", "English", 
+        block.should_not == Block.new("spanish", "English", 
                                               [Line.new("D", 
                                                              [Item.new(1, "hello"), NonItem.new(" "), 
                                                               Item.new(2, "world")])])
-         structure.should == Structure.new("english", "English", 
+         block.should == Block.new("english", "English", 
                                            [Line.new("D", 
                                                          [Item.new(1, "hello"), NonItem.new(" "), 
                                                           Item.new(2, "world")])])
-        structure.should_not == Structure.new("english", "English", 
+        block.should_not == Block.new("english", "English", 
                                               [Line.new("D", 
                                                              [Item.new(1, "hello"), NonItem.new("space"), 
                                                               Item.new(2, "world")])])
-        structure.should_not == Structure.new("english", "English", 
+        block.should_not == Block.new("english", "English", 
                                               [Line.new("D", 
                                                              [Item.new(1, "hello"), NonItem.new(" ")])])
-        structure.should_not == Structure.new("english", "English", 
+        block.should_not == Block.new("english", "English", 
                                               [Line.new("D", 
                                                              [Item.new(1, "hello"), NonItem.new(" "), 
                                                               Item.new(3, "world")])])
@@ -98,40 +98,40 @@ module CorrespondenceMarkup
     end
     
     describe "Translation type" do
-      it "translation has description and structures attributes" do
+      it "translation has description and blocks attributes" do
         translation = 
           Translation.new("Saying hello", 
-                             [Structure.new("english", "English", 
+                             [Block.new("english", "English", 
                                             [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
-                              Structure.new("spanish", "Spanish", 
+                              Block.new("spanish", "Spanish", 
                                             [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
         translation.description.should == "Saying hello"
-        translation.structures[1].should == 
-          Structure.new("spanish", "Spanish", [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])
+        translation.blocks[1].should == 
+          Block.new("spanish", "Spanish", [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])
       end
       
       it "translations are equal if their content is equal" do
         translation = 
           Translation.new("Hello", 
-                             [Structure.new("english", "English", 
+                             [Block.new("english", "English", 
                                             [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
-                              Structure.new("spanish", "Spanish", 
+                              Block.new("spanish", "Spanish", 
                                             [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
         identicalTranslation = 
           Translation.new("Hello", 
-                             [Structure.new("english", "English",
+                             [Block.new("english", "English",
                                             [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
-                              Structure.new("spanish", "Spanish", 
+                              Block.new("spanish", "Spanish", 
                                             [Item.new(1, "Hola"), NonItem.new(" "), Item.new(2, "mundo")])])
         notQuiteTheSameTranslation = 
           Translation.new("Hello", 
-                             [Structure.new("english", "English", 
+                             [Block.new("english", "English", 
                                             [Item.new(1, "hello"), NonItem.new(" "), Item.new(2, "world")]), 
-                              Structure.new("spanish", "Spanish", 
+                              Block.new("spanish", "Spanish", 
                                             [Item.new(1, "Holla"), NonItem.new(" "), Item.new(2, "mundo")])])
         differentlyDescribedTranslation = 
           Translation.new("goodbye", 
-                             translation.structures)
+                             translation.blocks)
         translation.should == translation
         translation.should == identicalTranslation
         translation.should_not == "something else"

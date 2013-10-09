@@ -49,13 +49,13 @@ describe "markup language grammar" do
                              [" hello  ", " "]])
   end    
   
-  it "parses structure class" do
-    should_parse(:structure_class, ["english", "ruby", "us-english", "", "english2"])
-    should_not_parse(:structure_class, ["55", "us english", "2english"])
+  it "parses block class" do
+    should_parse(:block_class, ["english", "ruby", "us-english", "", "english2"])
+    should_not_parse(:block_class, ["55", "us english", "2english"])
   end
   
-  it "parses structure annotation" do
-    should_parse(:structure_annotation, ["english", "english: English\n", 
+  it "parses block annotation" do
+    should_parse(:block_annotation, ["english", "english: English\n", 
                                          "ruby", "ruby: Ruby Programming Language\n", ":An equation\n"])
   end
   
@@ -100,8 +100,8 @@ describe "markup language grammar" do
                                "A: [1 Hello] [2 world]"])
   end  
   
-  it "parses structure from optional style + lines ..." do
-    should_parse(:structure, ["", "[]", 
+  it "parses block from optional style + lines ..." do
+    should_parse(:block, ["", "[]", 
                               "[[1 Hello]]", 
                               "english [A: [1 Hello]]", 
                               "english: English language\n [A: [1 Hello]]", 
@@ -110,7 +110,7 @@ describe "markup language grammar" do
                               "[A: non-item text][B: [2 item]]", 
                               "[A: [1 Hello]][B[2 World].]", 
                               "[ non-item [1 item 1] [2 item 2] the end]"])
-    should_not_parse(:structure, ["[", 
+    should_not_parse(:block, ["[", 
                                   "]", 
                                   "[[1 Hello] [2 world]", 
                                   "english: English language [A: [1 Hello]]", 
@@ -120,7 +120,7 @@ describe "markup language grammar" do
                                   ])
   end
   
-  it "parses translation from from { structure } ..." do
+  it "parses translation from from { block } ..." do
     should_parse(:translation, ["", "{}", "{[[1 x]]}", "{[]}", 
                                     " {[A: [1 Hello]] [B: [1 world]]} {[A: [1 Hola]] [B: [2 Mundo]] }", 
                                     "{[A: [1 Hello]] [B: [1 world]]}{[A: [1 Hola]] [B: [2 Mundo]]}"
@@ -135,7 +135,7 @@ describe "markup language grammar" do
                                         "#Description of this translation{[[1 x]]}"])
   end
   
-  it "parses translations from ( structure ... ) ..." do
+  it "parses translations from ( block ... ) ..." do
     should_parse(:translations, ["()", "({[]})", 
                                      " ({[A: [1 Hello]] [B: [1 world]]} {[A: [1 Hola]] [B: [2 Mundo]] })" +
                                      " ({[A: [1 Goodbye]] [B: [1 friends]]} {[A: [1 Ciao]] [B: [2 amigos]] })"

@@ -41,7 +41,7 @@ module CorrespondenceMarkup
       nonItem.to_html.should == "two\nlines"
       nonItem.to_html(br: true).should == "two<br/>lines"
       translation = Translation.new(nil, 
-                                          [Structure.new("english", "English", 
+                                          [Block.new("english", "English", 
                                                          [Line.new("A", [NonItem.new("a\nb")])])])
       translation.to_html.should == "<div class=\"translation\">\n" + 
         "  <div class=\"block english-block\">\n" + 
@@ -76,51 +76,51 @@ module CorrespondenceMarkup
       item.to_html(nbsp: true, br: true).should == "<span data-id=\"3\">&nbsp;text&nbsp;with<br/>spaces&nbsp;</span>"
     end     
     
-    it "generates HTML for a structure" do
-      structure = Structure.new("", "English", 
+    it "generates HTML for a block" do
+      block = Block.new("", "English", 
                                 [Line.new("A", [Item.new(1, "Hello"), 
                                                      NonItem.new(", "), 
                                                      Item.new(2, "World")])])
-      structure.to_html.should == output_file_contents("structure.html")
+      block.to_html.should == output_file_contents("block.html")
     end
     
-    it "generates HTML for a structure with br and/or nbsp option" do
-      structure = Structure.new("", nil, 
+    it "generates HTML for a block with br and/or nbsp option" do
+      block = Block.new("", nil, 
                                 [Line.new("A", [Item.new(1, "Good Morning"), 
                                                          NonItem.new(" ,\n"), 
                                                          Item.new(2, " World")])])
-      structure.to_html.should == output_file_contents("structure.goodmorning.html")
-      structure.to_html(br: true).should == output_file_contents("structure.goodmorning.br.html")
-      structure.to_html(nbsp: true).should == output_file_contents("structure.goodmorning.nbsp.html")
-      structure.to_html(br: true, nbsp: true).should == output_file_contents("structure.goodmorning.br.nbsp.html")
+      block.to_html.should == output_file_contents("block.goodmorning.html")
+      block.to_html(br: true).should == output_file_contents("block.goodmorning.br.html")
+      block.to_html(nbsp: true).should == output_file_contents("block.goodmorning.nbsp.html")
+      block.to_html(br: true, nbsp: true).should == output_file_contents("block.goodmorning.br.nbsp.html")
     end
     
     it "generates HTML for a translation" do
-      structure1 = Structure.new("", nil, [Line.new("A", [Item.new(1, "Hello"), 
+      block1 = Block.new("", nil, [Line.new("A", [Item.new(1, "Hello"), 
                                                                NonItem.new(", "), 
                                                                Item.new(2, "World"), 
                                                                NonItem.new("!")])])
-      structure2 = Structure.new("spanish", "Spanish",
+      block2 = Block.new("spanish", "Spanish",
                                  [Line.new("A", [NonItem.new("¡"), 
                                                       Item.new(1, "Hola"), 
                                                       NonItem.new(", "), 
                                                       Item.new(2, "Mundo"), 
                                                       NonItem.new("!")])])
-      translation = Translation.new("Description of the translation", [structure1, structure2])
+      translation = Translation.new("Description of the translation", [block1, block2])
       translation.to_html.should == output_file_contents("translation.html")
     end
     
-    it "generates HTML for a translation with br/nbsp in first structure" do
-      structure1 = Structure.new("", nil, [Line.new("A", [Item.new(1, "Good Morning"), 
+    it "generates HTML for a translation with br/nbsp in first block" do
+      block1 = Block.new("", nil, [Line.new("A", [Item.new(1, "Good Morning"), 
                                                                NonItem.new(" , \n"), 
                                                                Item.new(2, " World"), 
                                                                NonItem.new("!")])])
-      structure2 = Structure.new("", nil, [Line.new("A", [NonItem.new("¡"), 
+      block2 = Block.new("", nil, [Line.new("A", [NonItem.new("¡"), 
                                                                Item.new(1, "Buenas Dias"), 
                                                                NonItem.new(", \n"), 
                                                                Item.new(2, "Mundo"), 
                                                                NonItem.new("!")])])
-      translation = Translation.new(nil, [structure1, structure2])
+      translation = Translation.new(nil, [block1, block2])
       translation.to_html.should == output_file_contents("goodMorningBuenasDias.html")
       translation.to_html(br: [true, false], nbsp: [true, false]).should == output_file_contents("goodMorningBuenasDias.br.nbsp.html")
     end

@@ -47,11 +47,11 @@ module CorrespondenceMarkup
     end
   end
   
-  # An Item is text in a structure with an associated ID.
+  # An Item is text in a block with an associated ID.
   # Typically if would be a word in a sentence. Items are to 
-  # be related to other items in other structures in the same
+  # be related to other items in other blocks in the same
   # translation that have the same ID.
-  # When two or more items in the same structure have the same ID, 
+  # When two or more items in the same block have the same ID, 
   # they are considered to be parts of the same item.
   # (For example, in "I let it go", we might want to identify "let" and "go" as a single item, 
   # because they are part of an English phrasal verb "let go", 
@@ -60,10 +60,10 @@ module CorrespondenceMarkup
     
     include Helpers
     
-    # The ID, which identifies the item (possibly not uniquely) within a given structure.
+    # The ID, which identifies the item (possibly not uniquely) within a given block.
     # An ID can be a comma-separated string of multiple IDs (this is relevant for partial
-    # matching, and should only be used when there are more than two structures in a translation
-    # and one of the structures has less granularity than other structures in that translation).
+    # matching, and should only be used when there are more than two blocks in a translation
+    # and one of the blocks has less granularity than other blocks in that translation).
     attr_reader :id
     
     # The text of the item.
@@ -94,7 +94,7 @@ module CorrespondenceMarkup
     end
   end
   
-  # A non-item is some text in a structure that is not an item - it will
+  # A non-item is some text in a block that is not an item - it will
   # not be related to any other text.
   class NonItem
     include Helpers
@@ -124,19 +124,19 @@ module CorrespondenceMarkup
     end
   end
   
-  # A line is a sequence of items & non-items that will form part of a structure.
+  # A line is a sequence of items & non-items that will form part of a block.
   # Typically a line is one line of items (i.e. words) and non-items, or maybe
   # two or three lines which naturally group together within the
-  # overall structure (and which cannot be separated because they
-  # translate to a single line in one of the other structures in the
+  # overall block (and which cannot be separated because they
+  # translate to a single line in one of the other blocks in the
   # same translation).
-  # lines with the same ID in different structures in the same
+  # lines with the same ID in different blocks in the same
   # translation are related to each other, and may be shown next
   # to each other in the UI when the "Interleave" option is chosen.
   class Line
     
-    # The ID which is unique in the structure. It identifies the 
-    # line uniquely within the structure. It also serves as a default
+    # The ID which is unique in the block. It identifies the 
+    # line uniquely within the block. It also serves as a default
     # prefix when parsing IDs for individual items.
     attr_reader :id
     
@@ -164,20 +164,20 @@ module CorrespondenceMarkup
     end
   end
   
-  # A structure, containing a sequence of lines, as well as a type and a description.
-  # A structure will be one of two or more in a "translation".
-  class Structure
+  # A block, containing a sequence of lines, as well as a type and a description.
+  # A block will be one of two or more in a "translation".
+  class Block
     
-    # A short alphanumeric name for the type, typically reflecting the "language" of a structure
-    # where different structures in a translation are different language versions of the same information.
-    # It is used to determine a CSS class of the structure. E.g. "english". (It can be nil.)
+    # A short alphanumeric name for the type, typically reflecting the "language" of a block
+    # where different blocks in a translation are different language versions of the same information.
+    # It is used to determine a CSS class of the block. E.g. "english". (It can be nil.)
     attr_reader :type
     
     # A textual description of the type which will be displayed in the UI. E.g. "English".
     # Ideally it should be relatively concise. Can be nil.
     attr_reader :description
     
-    # The array of lines that make up the content of the structure.
+    # The array of lines that make up the content of the block.
     attr_reader :lines
     
     # Initialize from type, description and lines
@@ -187,18 +187,18 @@ module CorrespondenceMarkup
       @lines = lines
     end
 
-    # A structure is equal to another structure with the same type, description and lines
+    # A block is equal to another block with the same type, description and lines
     # (equality is only used for testing)
-    def ==(otherStructure)
-      otherStructure.class == Structure && otherStructure.type == @type  &&
-        otherStructure.description == description &&
-        otherStructure.lines == @lines
+    def ==(otherBlock)
+      otherBlock.class == Block && otherBlock.type == @type  &&
+        otherBlock.description == description &&
+        otherBlock.lines == @lines
     end
     
     # From the type, determine the CSS class names to be used in the *<div>* element created
-    # by to_html. If there is no type, then just "structure", otherwise, "structure <type>-structure", 
-    # e.g. if the type is "english",  then "structure english-structure".
-    # (The "-structure" suffix is used to reduce the chance of accidental CSS class name collisions.)
+    # by to_html. If there is no type, then just "block", otherwise, "block <type>-block", 
+    # e.g. if the type is "english",  then "block english-block".
+    # (The "-block" suffix is used to reduce the chance of accidental CSS class name collisions.)
     def css_class_names
       class_names = "block"
       if @type != "" and @type != nil
@@ -220,59 +220,59 @@ module CorrespondenceMarkup
     
   end
 
-  # A translation is a group of structures. Different structures in one translation
+  # A translation is a group of blocks. Different blocks in one translation
   # all represent the same information, but in different "languages". Items in different
-  # structures with the same item ID are shown in the UI as being translations of each other.
-  # (Items with the same ID in the same structure are also shown as related, and are presumed
+  # blocks with the same item ID are shown in the UI as being translations of each other.
+  # (Items with the same ID in the same block are also shown as related, and are presumed
   # to be different parts of a single virtual item.)
   class Translation
     
     # Optional description
     attr_reader :description
     
-    # The array of structures
-    attr_reader :structures
+    # The array of blocks
+    attr_reader :blocks
     
-    # Initialize from the structures
-    def initialize(description, structures)
+    # Initialize from the blocks
+    def initialize(description, blocks)
       @description = description
-      @structures = structures
+      @blocks = blocks
     end
 
-    # A translation is equal to another translation that has the same structures
+    # A translation is equal to another translation that has the same blocks
     # (equality is only used for testing)
     def ==(otherTranslation)
       otherTranslation.class == Translation && 
         otherTranslation.description == @description &&
-        otherTranslation.structures == @structures
+        otherTranslation.blocks == @blocks
     end
 
     # Convert to HTML as a *<div>* of CSS class "translation" that contains the HTML
-    # outputs from the structures.
+    # outputs from the blocks.
     # Options for Helpers::text_to_html can be provided as single true/false value, or, as arrays
-    # of values, in which case the individual values are mapped to the corresponding structures.
+    # of values, in which case the individual values are mapped to the corresponding blocks.
     def to_html(options={})
-      numStructures = structures.length
-      structureOptions = Array.new(numStructures)
-      for i in 0...numStructures do
-        structureOptions[i] = {}
+      numBlocks = blocks.length
+      blockOptions = Array.new(numBlocks)
+      for i in 0...numBlocks do
+        blockOptions[i] = {}
       end
       for key in options.keys do
         value = options[key]
         if value.kind_of? Array
-          for i in 0...([value.length, numStructures].min) do
-            structureOptions[i][key] = value[i]
+          for i in 0...([value.length, numBlocks].min) do
+            blockOptions[i][key] = value[i]
           end
         else
-          for i in 0...numStructures do
-            structureOptions[i][key] = value
+          for i in 0...numBlocks do
+            blockOptions[i][key] = value
           end
         end
       end
-      structureHtmls = (0...(structures.length)).map{|i| @structures[i].to_html(structureOptions[i])}
+      blockHtmls = (0...(blocks.length)).map{|i| @blocks[i].to_html(blockOptions[i])}
       "<div class=\"translation\">\n  " + 
         (@description ? "<div class=\"description\">#{@description}</div>\n  " : "") +
-        structureHtmls.join("").chomp("\n").gsub("\n", "\n  ") + 
+        blockHtmls.join("").chomp("\n").gsub("\n", "\n  ") + 
         "\n</div>\n"
     end
   end

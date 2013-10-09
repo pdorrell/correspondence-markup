@@ -64,18 +64,18 @@ module CorrespondenceMarkup
     end
       
     
-    it "compiles structure" do
-      structureNode = parse("[A:[1 an item] in between stuff [2 a second item]]", :structure)
-      structureNode.value.should == 
-        Structure.new("", nil, 
+    it "compiles block" do
+      blockNode = parse("[A:[1 an item] in between stuff [2 a second item]]", :block)
+      blockNode.value.should == 
+        Block.new("", nil, 
                       [Line.new("A", [Item.new("A1", "an item"), NonItem.new(" in between stuff "), 
                                            Item.new("A2", "a second item")])])
     end
     
-    it "compiles structure with CSS class" do
-      structureNode = parse("english: English\n [A:[1 an item] in between stuff [2 a second item]]", :structure)
-      structureNode.value.should == 
-        Structure.new("english", "English", 
+    it "compiles block with CSS class" do
+      blockNode = parse("english: English\n [A:[1 an item] in between stuff [2 a second item]]", :block)
+      blockNode.value.should == 
+        Block.new("english", "English", 
                       [Line.new("A", [Item.new("A1", "an item"), NonItem.new(" in between stuff "), 
                                            Item.new("A2", "a second item")])])
     end
@@ -83,11 +83,11 @@ module CorrespondenceMarkup
     it "compiles translation" do
       expectedTranslation = 
         Translation.new("example", [
-                            Structure.new("english", "English", 
+                            Block.new("english", "English", 
                                           [Line.new("", 
                                                          [Item.new("1", "Hello"), NonItem.new(" in between stuff "), 
                                                           Item.new("2", "world")])]), 
-                            Structure.new("spanish", "Spanish", 
+                            Block.new("spanish", "Spanish", 
                                           [Line.new("", 
                                                          [Item.new("1", "Hola"), NonItem.new("  "), 
                                                           Item.new("2", "mundo")])])
@@ -104,22 +104,22 @@ module CorrespondenceMarkup
     it "compiles translations" do
       expectedTranslations = 
         [Translation.new(nil, 
-                            [Structure.new("english", "English", 
+                            [Block.new("english", "English", 
                                            [Line.new("", 
                                                           [Item.new("1", "Hello"), NonItem.new(" in between stuff "), 
                                                            Item.new("2", "world")])]), 
-                             Structure.new("spanish", nil, 
+                             Block.new("spanish", nil, 
                                            [Line.new("", 
                                                           [Item.new("1", "Hola"), NonItem.new("  "), 
                                                            Item.new("2", "mundo")])])
                             ]), 
          Translation.new(nil, 
-                            [Structure.new("equation", "Mathematical Equation", 
+                            [Block.new("equation", "Mathematical Equation", 
                                            [Line.new("", 
                                                           [Item.new("3", "3"), NonItem.new(" "), Item.new("4", "+"), 
                                                            NonItem.new(" "), Item.new("5", "4"), NonItem.new(" "), 
                                                            Item.new("6", "="), NonItem.new(" "), Item.new("7", "7")])]), 
-                             Structure.new("english", "English", 
+                             Block.new("english", "English", 
                                            [Line.new("", 
                                                           [Item.new("3", "three"), NonItem.new(" "), Item.new("4", "and"), 
                                                            NonItem.new(" "), Item.new("5", "four"), NonItem.new(" "), 
